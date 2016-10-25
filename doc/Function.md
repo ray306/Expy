@@ -1,0 +1,23 @@
+# Function's overview
+---
+
+- Initiation (Environment Setting)
+- Stimulus
+    - Text
+    - Shape
+    - Picture
+    - Sound
+    - Video
+- Response
+- IO (Read & Record)
+    - Read
+    - Save
+- Other Scaffolds
+    - show
+    - clear
+    - getInput
+    - introdution
+    - restTime
+    - tip
+    - alertAndGo
+    - alertAndQuit
