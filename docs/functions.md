@@ -1,4 +1,4 @@
-# Function's overview
+# Functions
 ---
 
 - Initiation (Environment Setting)
@@ -9,12 +9,17 @@
     - Sound
     - Video
 - Response
+    - Keyboard & Mouse & Joystick
+    - Sound Recorder
 - IO (Read & Record)
     - Read
+        - Setting file
+        - Stimuli file
+        - Directory
     - Save
+        - Experiment Result
 - Other Scaffolds
-    - show
-    - clear
+    - textSlide
     - getInput
     - introdution
     - restTime

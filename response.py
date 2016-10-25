@@ -65,31 +65,11 @@ def waitForEvent(allowedKeys=None):
             
         time.sleep(0.001)
 
-
 # waiting for a response during a limited period and recording it
 # 等待被试按键，超过设定时间自动结束
 # 【参数】 respKeys：容许的按键（可有多个）； outTime：超过这个时间就不再等待，进入下一步
 # 【返回值】按键，反应时 （没有按键会返回None,None）
-def waitForResp(respKeys, outTime):
-    shared.pg.event.clear()
-    startT = shared.pg.time.get_ticks()
-    endT = outTime+startT
-    while True:
-        if shared.pg.time.get_ticks() >= endT:
-            return 'None', 'None'
-        for e in shared.pg.event.get():
-            if e.type == KEYDOWN and e.key in respKeys.keys():
-                respT = shared.pg.time.get_ticks() - startT
-                return respKeys[e.key], respT
-            elif e.type == KEYDOWN and e.key == 27:
-                shared.pg.quit()
-        time.sleep(0.001)
-
-# waiting for a response during a limited period and recording it
-# 等待被试按键，超过设定时间自动结束
-# 【参数】 respKeys：容许的按键（可有多个）； outTime：超过这个时间就不再等待，进入下一步
-# 【返回值】按键，反应时 （没有按键会返回None,None）
-def waitForPress(allowedKeys=None, outTime=None):
+def waitForResponse(allowedKeys=None, outTime=None):
     startT = shared.pg.time.get_ticks()
     endT = outTime+startT
 
@@ -118,8 +98,7 @@ def waitForPress(allowedKeys=None, outTime=None):
                 shared.pg.quit()
             elif k == K_F12:
                 suspend()
-
-            if not keys: # if the allowedKeys hasn't set
+            elif not keys: # if the allowedKeys hasn't set
                 return k, shared.pg.time.get_ticks() - startT
             elif k in keys:
                 if len(keys)>1: 
@@ -129,4 +108,17 @@ def waitForPress(allowedKeys=None, outTime=None):
 
         time.sleep(0.001)
 
-
+# def waitForResp(respKeys, outTime):
+#     shared.pg.event.clear()
+#     startT = shared.pg.time.get_ticks()
+#     endT = outTime+startT
+#     while True:
+#         if shared.pg.time.get_ticks() >= endT:
+#             return 'None', 'None'
+#         for e in shared.pg.event.get():
+#             if e.type == KEYDOWN and e.key in respKeys.keys():
+#                 respT = shared.pg.time.get_ticks() - startT
+#                 return respKeys[e.key], respT
+#             elif e.type == KEYDOWN and e.key == 27:
+#                 shared.pg.quit()
+#         time.sleep(0.001)

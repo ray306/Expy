@@ -26,7 +26,6 @@ def drawFix(size):
     # shared.pg.draw.line(win, fixColor, (shared.winWidth / 2 - length/2, shared.winHeight / 2) , (shared.winWidth / 2 + length/2, shared.winHeight / 2), width=1)
     # shared.pg.draw.line(win, fixColor, (shared.winWidth / 2, shared.winHeight / 2 - length/2) , (shared.winWidth / 2, shared.winHeight / 2 + length/2) , width=1)
 
-
 # draw word at screen center
 # 将text的内容生成并放入缓存 ，只能显示一行
 def drawWord(text,x=0.0, y=0.0):

@@ -17,7 +17,7 @@ def playVideo(video, pauseKey={}, area=None):
 
     video.play()
     while video.get_busy():
-        key,time = waitForPress({}, 100)
+        key,time = waitForResponse({}, 100)
         if key==pauseKey:
             video.pause()
             waitForEvent(pauseKey, 100)

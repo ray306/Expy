@@ -1,10 +1,11 @@
-Document: http://expy.readthedocs.io/en/latest/
-
-===========
 # Overview
-
 Expy is an easy-but-powerful psychology experiment builder. It's designed for psycholinguistic experiment, but also be suitable for other visual or auditory experiments.
 
+[![PyPI Version][pypi-v-image]][pypi-v-link]
+[Document](http://expy.readthedocs.io/en/latest/)
+
+[pypi-v-image]: https://img.shields.io/pypi/v/expy.png
+[pypi-v-link]: https://pypi.python.org/pypi/expy
 ---
 # Native example
 
@@ -55,9 +56,11 @@ So we suggest that your code should have hierarchical structure, as the example 
 def trial(stim):
     drawWord(stim)
     show(1000)
+
 def block(trialList):
     for stim in trialList:
         trial(stim)
+
 def run():
     for trialList in blockList:
         block(trialList)

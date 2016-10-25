@@ -2,25 +2,9 @@ from pygame.locals import *
 
 from expy import shared
 from .stim.draw import *
+from .stim.display import *
 from .io import *
 from .response import *
-
-
-# clear the screen
-# 清空屏幕上的显示
-def clear():
-    shared.win.fill(shared.bgColor)
-    shared.pg.display.flip()
-
-# 将buffer中的内容输出到屏幕，keep the display during a period of time
-# 【参数】 outTime: 停留的时间，cleanScreen: 最后是否清空屏幕
-# 依赖clear()
-def show(outTime=False,cleanScreen=True):
-    shared.pg.display.flip()
-    if outTime:
-        waitForPress({}, outTime)
-        if cleanScreen:
-            clear()
 
 '''Advanced draw class'''
 # display text right now
@@ -113,22 +97,3 @@ def restTime():
         resp = tip('现在实验暂停一会儿，您可以放松一下~\n如果休息好了请按 [空格键] 开始实验。')
         if resp == K_SPACE:
             break
-
-#demo
-def demo():
-    examples = [
-        ('提示:横线上的部分是一个真词, 请按下J', '希腊神话', 0, K_j),
-        ('提示:横线上的部分不是一个真词, 请按下F', '邮电分析', 0, K_f),
-        ('提示:横线上的部分是一个真词, 请按下J', '柔能克刚', 0, K_j),
-        ('提示:横线上的部分不是一个真词, 请按下F', '文托学正', 0, K_f),
-        ('提示:横线上的部分是一个真词, 请按下J', '希腊神话', 1, K_j),
-        ('提示:横线上的部分不是一个真词, 请按下F', '柔能克刚', 1, K_f),
-        ('提示:横线上的部分是一个真词, 请按下J', '邮电分析', 2, K_j),
-        ('提示:横线上的部分不是一个真词, 请按下F', '文托学正', 1, K_f)
-    ]
-    for note,word,pos,resp in examples:
-        shared.win.fill(shared.bgColor)
-        drawText(note, normalFont, 'LU')
-        drawWordWithLine(word, pos) 
-        shared.pg.display.flip()
-        waitForEvent(resp)

@@ -4,11 +4,19 @@ import scipy.io.wavfile
 from expy import shared
 from expy.response import *
 
-# Load a music file, and return data array
+# Load a wav file, and return data array
+# Or load a mp3 file, and return None
 def loadSound(path):
-    sr,sounds = scipy.io.wavfile.read(path)
-    sounds_reshaped = np.require(np.tile(sounds, (2, 1)).T, requirements='C')
-    return sounds_reshaped
+    if path[-3:] in ['wav','WAV']:
+        sr,sounds = scipy.io.wavfile.read(path)
+        sounds_reshaped = np.require(np.tile(sounds, (2, 1)).T, requirements='C')
+        return sounds_reshaped
+    elif path[-3:] in ['mp3','MP3']:
+        shared.pg.mixer.pre_init(frequency=44100,size=-16,channels=1)
+        shared.pg.mixer.music.load(path)
+        return None
+    else:
+        raise ValueError('Unsupported sound format')
 
 # Read a list of music file, and return data array
 # not support mp3 files
@@ -47,14 +55,8 @@ def makeSound(freq, duration):
     shared.pg.mixer.pre_init(sample_rate, -bits, 2)
     return shared.pg.sndarray.make_sound(sound)
 
-# Load a mp3 file 
-def loadMP3(path):
-    shared.pg.mixer.pre_init(frequency=44100,size=-16,channels=1)
-    shared.pg.mixer.music.load(path)
-
 # Play a loaded file or a data array
 def playSound(wav=None):
-    
     if wav is None:
         shared.pg.mixer.music.play()
     else:
@@ -64,6 +66,6 @@ def playSound(wav=None):
         shared.pg.sndarray.make_sound(wav).play()
 
     while shared.pg.mixer.get_busy():
-        waitForPress({}, 100)
+        waitForResponse({}, 100)
 
 

@@ -8,10 +8,11 @@ from . import shared
 from .io import *
 from .response import *
 from .stim.draw import *
+from .stim.display import *
 from .stim.sound import *
 from .stim.video import *
 from .recorder import *
-from .page import *
+from .scaffold import *
 from .extend import *
 
 
