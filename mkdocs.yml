@@ -6,11 +6,14 @@ site_author: Jinbiao(Ray) Yang
 repo_url: https://github.com/ray306/expy
 
 pages:
-- Overview: index.md
-- User Guide:
+  - Overview: index.md
+  - User Guide:
     - Quickstart: example.md
     - Cookbook: cookbook.md
     - Functions: functions.md
     - API: api.md
-- About:
+  - About:
     - Changelog: changelog.md
+
+
+copyright: Copyright (c) 2016 Jinbiao(Ray) Yang
