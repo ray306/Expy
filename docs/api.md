@@ -22,6 +22,7 @@
     - Display controller
         - show
         - clear
+        - getScreen
 - Response
     - Keyboard & Mouse & Joystick
         - waitForResponse: 等待被试按键，超过设定时间自动结束, has time limit

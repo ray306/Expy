@@ -1,8 +1,7 @@
 # Overview
 Expy is an easy-but-powerful psychology experiment builder. It's designed for psycholinguistic experiment, but also be suitable for any other visual or auditory experiments.
-
-[![PyPI Version][pypi-v-image]][pypi-v-link]
 [Document](http://expy.readthedocs.io/en/latest/)
+[![PyPI Version][pypi-v-image]][pypi-v-link]
 
 [pypi-v-image]: https://img.shields.io/pypi/v/expy.png
 [pypi-v-link]: https://pypi.python.org/pypi/expy
@@ -22,6 +21,12 @@ for w in 'ABCDE12345':
 
 ---
 # Cookbook
+## *Experiment Initiation*
+```python
+from expy import * # Import the needed functions
+start() # Initiate the experiment environment
+```
+
 ## *Experiment Structure*
 A standard experiment contains 3 levels:
 - Run(Session)
@@ -29,6 +34,9 @@ A standard experiment contains 3 levels:
 - Trial
 So we suggest that your code should have hierarchical structure, as the example below：
 ```python
+from expy import *
+start()
+
 def trial(stim):
     draw(stim)
     show(1000)
@@ -49,10 +57,7 @@ from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 
 name = getInput('Please enter your name:')
-
-setting = readSetting()
-introduction(setting['introduction1'])
-
+introduction(setting('introduction1'))
 tip(name+', Are you ready?')
 
 def trial(word,pos):
@@ -80,5 +85,33 @@ for word,pos in stimuli:
 
 alertAndQuit('Done!')
 ```
+
 ## *Auditory Experiment*
-todo
+```python
+from expy import * # Import the needed functions
+start() # Initiate the experiment environment
+
+name = getInput('Please enter your name:')
+introduction(setting('introduction2'))
+tip(name+', Are you ready?')
+
+def trial(stim):
+    sound = loadSound('data/'+stim+'.WAV')
+    playSound(sound)
+
+    textSlide('Please press F for "ba", or press J for "da"')
+    key = waitForEvent({K_f:'ba',K_j:'da'}) # Waiting for pressing 'F' or 'J'
+
+    if key==stim:
+        alertAndGo('Correct!',1000)
+    else:
+        alertAndGo('Wrong!',1000)
+
+    show(500)
+
+alertAndGo('The experiment will start after 3s.')
+for stim in ['ba','da','da','ba']:
+    trial(stim)
+
+alertAndQuit('Done!')
+```
