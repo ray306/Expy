@@ -1,14 +1,38 @@
 # Overview
 Expy is an easy-but-powerful psychology experiment builder. It's designed for psycholinguistic experiment, but also be suitable for any other visual or auditory experiments.
 
-[Document](http://expy.readthedocs.io/en/latest/)
-
 [![PyPI Version][pypi-v-image]][pypi-v-link]
 
 [pypi-v-image]: https://img.shields.io/pypi/v/expy.png
 [pypi-v-link]: https://pypi.python.org/pypi/expy
 ---
-# Simple example
+
+## Documentation
+See http://expy.readthedocs.io/en/latest/ for a complete reference manual and introductory tutorials.
+
+---
+## Installation instructions
+
+The simplest way to install Expy is through the Python Package Index (PyPI). This will ensure that all required dependencies are fulfilled. This can be achieved by executing the following command:
+
+```
+pip install expy
+```
+or:
+```
+sudo pip install expy
+```
+
+###*Required Dependencies*
+- numpy
+- pandas
+- scipy
+- pygame
+- pyaudio
+- wave
+- pyserial
+---
+## Simple example
 
 ```python
 # coding:utf-8
@@ -22,14 +46,14 @@ for w in 'ABCDE12345':
 ```
 
 ---
-# Cookbook
-## *Experiment Initiation*
+## Cookbook
+### *Experiment Initiation*
 ```python
 from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 ```
 
-## *Experiment Structure*
+### *Experiment Structure*
 A standard experiment contains 3 levels:
 - Run(Session)
 - Block
@@ -53,7 +77,7 @@ def run():
 
 run()
 ```
-## *Visual Experiment*
+### *Visual Experiment*
 ```python
 from expy import * # Import the needed functions
 start() # Initiate the experiment environment
@@ -87,7 +111,7 @@ for word,pos in stimuli:
 alertAndQuit('Done!') # Display something in 3s(default), and quit the program
 ```
 
-## *Auditory Experiment*
+### *Auditory Experiment*
 ```python
 from expy import * # Import the needed functions
 start() # Initiate the experiment environment
