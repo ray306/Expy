@@ -16,9 +16,8 @@ for w in 'ABCDE12345':
 from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 
-name = getInput('Please enter your name:')
+# name = getInput('Please enter your name:')
 introduction(setting('introduction1'))
-tip(name+', Are you ready?')
 
 def trial(word,pos):
     drawWord('+')
@@ -50,9 +49,8 @@ alertAndQuit('Done!')
 from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 
-name = getInput('Please enter your name:')
 introduction(setting('introduction2'))
-tip(name+', Are you ready?')
+# tip('Are you ready?')
 
 def trial(stim):
     sound = loadSound('data/'+stim+'.WAV')

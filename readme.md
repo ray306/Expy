@@ -1,6 +1,8 @@
 # Overview
 Expy is an easy-but-powerful psychology experiment builder. It's designed for psycholinguistic experiment, but also be suitable for any other visual or auditory experiments.
+
 [Document](http://expy.readthedocs.io/en/latest/)
+
 [![PyPI Version][pypi-v-image]][pypi-v-link]
 
 [pypi-v-image]: https://img.shields.io/pypi/v/expy.png
@@ -56,9 +58,8 @@ run()
 from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 
-name = getInput('Please enter your name:')
+# name = getInput('Please enter your name:')
 introduction(setting('introduction1'))
-tip(name+', Are you ready?')
 
 def trial(word,pos):
     drawWord('+')
@@ -66,14 +67,17 @@ def trial(word,pos):
 
     drawWord(word,x=pos) # Draw text on the canvas
     show()
+
     key = waitForEvent({K_f:'Left',K_j:'Right'}) # Waiting for pressing 'F' or 'J'
     if key==word:
         alertAndGo('Correct!',1000)
     else:
         alertAndGo('Wrong!',1000)
+
     show(500)
 
 alertAndGo('The experiment will start after 3s.')
+
 stimuli = [('Left',-0.5),
             ('Right',0.5),
             ('Right',-0.5),
@@ -91,9 +95,8 @@ alertAndQuit('Done!')
 from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 
-name = getInput('Please enter your name:')
 introduction(setting('introduction2'))
-tip(name+', Are you ready?')
+# tip('Are you ready?')
 
 def trial(stim):
     sound = loadSound('data/'+stim+'.WAV')

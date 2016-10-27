@@ -7,9 +7,8 @@ sys.path.append('../../')
 from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 
-name = getInput('Please enter your name:')
+# name = getInput('Please enter your name:')
 introduction(setting('introduction1'))
-tip(name+', Are you ready?')
 
 def trial(word,pos):
     drawWord('+')
