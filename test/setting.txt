@@ -12,7 +12,7 @@ Happy expy!
 [introduction2]
 Welcome to our experiment!
 >
-In this example, you need to listen to the voice, and give your choice.
+In this example, you need to press key to select the word you heard.
 >
 Happy expy!
 ----

@@ -11,19 +11,19 @@ start() # Initiate the experiment environment
 introduction(setting('introduction1'))
 
 def trial(word,pos):
-    drawWord('+')
-    show(500)
-
     drawWord(word,x=pos) # Draw text on the canvas
-    show()
+    show() # Display current canvas
+
     key = waitForEvent({K_f:'Left',K_j:'Right'}) # Waiting for pressing 'F' or 'J'
     if key==word:
-        alertAndGo('Correct!',1000)
+        alertAndGo('Correct!',1000) # Display something in 1s
     else:
         alertAndGo('Wrong!',1000)
-    show(500)
 
-alertAndGo('The experiment will start after 3s.')
+    show(500) # Pause (show a screen during 500ms)
+
+alertAndGo('The experiment will start after 3s.') # Display something in 3s(default)
+
 stimuli = [('Left',-0.5),
             ('Right',0.5),
             ('Right',-0.5),
@@ -31,6 +31,6 @@ stimuli = [('Left',-0.5),
             ('Left',-0.5),
             ('Right',-0.5)]
 for word,pos in stimuli:
-    trial(word,pos)
+    trial(word,pos) # Call the trial function with different parameters
 
-alertAndQuit('Done!')
+alertAndQuit('Done!') # Display something in 3s(default), and quit the program

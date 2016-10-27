@@ -106,10 +106,11 @@ show(3000) # Display current canvas
 ## *Auditory Experiment*
 ### Play sound
 ```python
-sound = loadSound('data/demo.WAV')
-playSound(sound)
+sound = loadSound('data/demo.WAV') # Load the wav file
+playSound(sound) # Play the wav file
+show(3000) # Pause (show a screen during 3000ms)
 
-sound = loadManySound('data',['demo','demo','demo'])
+sound = loadManySound('data',['demo','demo','demo']) # Load many wav files and concat them
 playSound(sound)
 ```
 ### *Sound Recording*
