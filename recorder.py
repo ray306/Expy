@@ -81,32 +81,41 @@ def trim(snd_data,threshold):
     return snd_data
 
 def environment_noise(sample_duration):
-    """
-    Record a word or words from the microphone and 
-    return the data as an array of signed shorts.
+    def calc_threshold():
+        """
+        Record a word or words from the microphone and 
+        return the data as an array of signed shorts.
 
-    Normalizes the audio, trims silence from the 
-    start and end, and pads with 0.5 seconds of 
-    blank sound to make sure VLC et al can play 
-    it without getting chopped off.
-    """
-    p = pyaudio.PyAudio()
-    stream = p.open(format=FORMAT, channels=1, rate=RATE,
-        input=True, output=True,
-        frames_per_buffer=CHUNK_SIZE)
+        Normalizes the audio, trims silence from the 
+        start and end, and pads with 0.5 seconds of 
+        blank sound to make sure VLC et al can play 
+        it without getting chopped off.
+        """
+        p = pyaudio.PyAudio()
+        stream = p.open(format=FORMAT, channels=1, rate=RATE,
+            input=True, output=True,
+            frames_per_buffer=CHUNK_SIZE)
 
-    r = array('h')
+        r = array('h')
+        
+        noise = []
+        for i in range(int(sample_duration*RATE//CHUNK_SIZE)):
+            # little endian, signed short
+            snd_data = array('h', stream.read(CHUNK_SIZE))
+            if byteorder == 'big':
+                snd_data.byteswap()
+            r.extend(snd_data)
+            noise.append(max(snd_data))
+
+        return np.mean(noise[1:])
+
+    threshold = -1
+    while threshold<0:
+        threshold = calc_threshold()
     
-    noise = []
-    for i in range(int(sample_duration*RATE//CHUNK_SIZE)):
-        # little endian, signed short
-        snd_data = array('h', stream.read(CHUNK_SIZE))
-        if byteorder == 'big':
-            snd_data.byteswap()
-        r.extend(snd_data)
-        noise.append(max(snd_data))
+    print("environment's noise level:",threshold)
+    return threshold
 
-    return np.mean(noise[1:])
 
 def recordSound(threshold,min_record_duration=0,max_sound_duration=60*RATE):
     """
@@ -124,6 +133,7 @@ def recordSound(threshold,min_record_duration=0,max_sound_duration=60*RATE):
         frames_per_buffer=CHUNK_SIZE)
 
     num_silent = 0
+    speech_threshold = 4*threshold
     num_sound = 0
     silent_limit = 1*RATE
     
@@ -148,7 +158,7 @@ def recordSound(threshold,min_record_duration=0,max_sound_duration=60*RATE):
             else:
                 num_silent  = 0
         else:
-            if max(snd_data)>6000:
+            if max(snd_data)>speech_threshold:
                 for idx in range(1,len(r),CHUNK_SIZE):
                     if np.max(r[-idx-CHUNK_SIZE:-idx])<threshold:
                         onset = len(r)-idx-CHUNK_SIZE
@@ -163,17 +173,19 @@ def recordSound(threshold,min_record_duration=0,max_sound_duration=60*RATE):
     r = trim(r,threshold)
     r = normalize(r)
     r = r[:max_sound_duration]
+    r = np.require(np.tile(r, (2, 1)).T, requirements='C')
 #     r = add_silence(r, 0.5)
     return sample_width, r
 
+import struct
 def recordSound_tofile(path,filename,threshold,min_record_duration,max_sound_duration):
     "Records from the microphone and outputs the resulting data to 'path'"
     try:
         sample_width, data = recordSound(threshold,min_record_duration,max_sound_duration)
 
-        data = pack('<' + ('h'*len(data)), *data)
+        data = pack('<' + ('h'*len(data[:,0])), *data[:,0])
 
-        wf = wave.open(path+filename+'.wav', 'wb')
+        wf = wave.open(path+'/'+filename+'.wav', 'wb')
         wf.setnchannels(1)
         wf.setsampwidth(sample_width)
         wf.setframerate(RATE)

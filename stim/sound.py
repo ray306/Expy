@@ -8,11 +8,11 @@ from expy.response import *
 # Or load a mp3 file, and return None
 def loadSound(path):
     if path[-3:] in ['wav','WAV']:
-        sr,sounds = scipy.io.wavfile.read(path)
-        sounds_reshaped = np.require(np.tile(sounds, (2, 1)).T, requirements='C')
-        return sounds_reshaped
+        sr,sound = scipy.io.wavfile.read(path)
+        if len(sound.shape)==1:
+            sound = np.require(np.tile(sound, (2, 1)).T, requirements='C')
+        return sound
     elif path[-3:] in ['mp3','MP3']:
-        shared.pg.mixer.pre_init(frequency=44100,size=-16,channels=1)
         shared.pg.mixer.music.load(path)
         return None
     else:
@@ -21,7 +21,7 @@ def loadSound(path):
 # Read a list of music file, and return data array
 # not support mp3 files
 def loadManySound(dirpath,filenames,ext='.wav'):
-    paths = [(dirpath+file+ext)  for file in filenames]
+    paths = [(dirpath+'/'+file+ext)  for file in filenames]
     sounds = np.concatenate([scipy.io.wavfile.read(p)[1] for p in paths])
     sounds_reshaped = np.require(np.tile(sounds, (2, 1)).T, requirements='C')
     return sounds_reshaped

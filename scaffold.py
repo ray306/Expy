@@ -11,8 +11,8 @@ from .response import *
 # 在一个新页面上显示text的内容
 # 依赖drawText()
 def textSlide(text, bgImage=None):
-    shared.win.fill(shared.bgColor)
-    drawText(text,shared.font['nFont'])
+    shared.win.fill(shared.backgroundColor)
+    drawText(text, fontname='nFont', fontsize='nSize')
     if bgImage: drawPic(path)
     shared.pg.display.flip()
 
@@ -46,14 +46,11 @@ def introduction(introductionText,hasPractice=False):
             continue
 
         if i==0:
-            textSlide(intro[i]+'\n\n(按方向键“→”进入下一页)')
+            textSlide(intro[i]+'\n\n(按方向键“→”进入下一页)\n\n(Press "→" to the next page)')
         elif i==len(intro)-1:
-            if hasPractice:
-                textSlide(intro[i]+'\n\n(按方向键“←”返回上一页，按 [回车键] 开始练习. \n如果要跳过练习，请按 [空格] )')
-            else:
-                textSlide(intro[i]+'\n\n(按方向键“←”返回上一页，按 [空格] 开始实验. )')
+            textSlide(intro[i]+'\n\n(按方向键“←”返回上一页，按 [空格] 开始实验. )\n\n(Press "←" to the previous page, or Press "SPACE" to start the experiment)')
         else:
-            textSlide(intro[i]+'\n\n(按方向键“←”返回上一页，按方向键“→”进入下一页)')
+            textSlide(intro[i]+'\n\n(按方向键“←”返回上一页，按方向键“→”进入下一页)\n\n(Press "←" to the previous page, or Press "→" to the next page)')
         
         resp = waitForEvent()
         if resp == K_LEFT and i > 0:
@@ -85,15 +82,15 @@ def alertAndQuit(text,outTime=2500):
 
 # 显示一个实验提示，一段时间后自动消失并继续程序
 # 依赖textSlide()
-def alertAndGo(tipText, outTime):
+def alertAndGo(tipText, outTime=3000):
     textSlide(tipText)
     show(outTime)
 
 # 表示休息时间，用空格键结束（可用F12暂停，回车恢复）
 # 依赖tip()
-def restTime():
+def restTime(text='现在实验暂停一会儿，您可以放松一下~\n如果休息好了请按 [空格键] 开始实验。'):
     shared.pg.time.wait(3000)
     while 1:
-        resp = tip('现在实验暂停一会儿，您可以放松一下~\n如果休息好了请按 [空格键] 开始实验。')
+        resp = tip(text)
         if resp == K_SPACE:
             break

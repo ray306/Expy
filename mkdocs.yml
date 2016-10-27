@@ -12,6 +12,7 @@ pages:
     - Cookbook: cookbook.md
     - Functions: functions.md
     - API: api.md
+    - Key Mapping: keymap.md
   - About:
     - Changelog: changelog.md
 

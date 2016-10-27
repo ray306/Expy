@@ -12,17 +12,17 @@ winWidth, winHeight = pg.display.set_mode((0,0)).get_size()
 # winHeight = GetSystemMetrics(1)
 font = dict()
 win = None
-bgColor = None
+backgroundColor = None
 fontColor = None
 
 'experiment varible'
 subj = ''
 startBlockID = 1
-duration = dict()
+
+setting = dict()
+timing = dict()
+
 
 # init
-sample_rate = 44100
-bits = 16
-pg.mixer.pre_init(sample_rate, -bits, 2)
 pg.init()
 Objdll = ctypes.windll.LoadLibrary(path+"inpoutx64.dll")

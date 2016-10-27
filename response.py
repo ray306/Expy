@@ -19,7 +19,7 @@ def setKeyMapping(allowedKeys):
 def suspend():
     backup = shared.pg.display.get_surface().convert()
     
-    shared.win.fill(shared.bgColor)
+    shared.win.fill(shared.backgroundColor)
     target = shared.font['nFont'].render('现在实验暂停一会儿，请等待主试操作', True, shared.fontColor)
     shared.win.blit(target, 
         ((shared.winWidth-target.get_width())/2, (shared.winHeight-target.get_height())/2))
@@ -69,7 +69,7 @@ def waitForEvent(allowedKeys=None):
 # 等待被试按键，超过设定时间自动结束
 # 【参数】 respKeys：容许的按键（可有多个）； outTime：超过这个时间就不再等待，进入下一步
 # 【返回值】按键，反应时 （没有按键会返回None,None）
-def waitForResponse(allowedKeys=None, outTime=None):
+def waitForResponse(allowedKeys=None, outTime=0):
     startT = shared.pg.time.get_ticks()
     endT = outTime+startT
 
@@ -78,7 +78,7 @@ def waitForResponse(allowedKeys=None, outTime=None):
 
     shared.pg.event.clear()
     while True:
-        if outTime and shared.pg.time.get_ticks() >= endT:
+        if outTime>0 and shared.pg.time.get_ticks() >= endT:
             return 'None', 'None'
         for e in shared.pg.event.get():
             # get the pressed key

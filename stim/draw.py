@@ -13,7 +13,7 @@ from expy import shared
 def getPos(center_x=shared.winWidth//2,center_y=shared.winHeight//2,w=0,h=0):
     if type(center_x) is float:
         center_x, center_y = (0.5+center_x/2)*shared.winWidth, (0.5+center_y/2)*shared.winHeight
-    if type(w) is float:
+    if w<1:
         w, h = w*shared.winWidth, h*shared.winHeight
     return int(center_x-w/2),int(center_y-h/2)
 
@@ -28,13 +28,14 @@ def drawFix(size):
 
 # draw word at screen center
 # 将text的内容生成并放入缓存 ，只能显示一行
-def drawWord(text,x=0.0, y=0.0):
-    target = shared.font['sFont'].render(text, True, shared.fontColor)
+def drawWord(text, fontname='sFont', x=0.0, y=0.0):
+    target = shared.font[fontname].render(text, True, shared.fontColor)
     x,y = getPos(x,y,w=target.get_width(), h=target.get_height())
     shared.win.blit(target, (x, y))
 
-def drawWordWithLine(text,linePos):
-    target = shared.font['sFont'].render(text, True, shared.fontColor)
+def drawWordWithLine(text, linePos, fontname='sFont'):
+    # shared.font[fontname].set_underline(True)
+    target = shared.font[fontname].render(text, True, shared.fontColor)
     x,y = getPos(w=target.get_width(), h=target.get_height())
     shared.win.blit(target, (x,y))
 
@@ -53,15 +54,17 @@ def drawWordWithLine(text,linePos):
 
 # draw sentences in more than one line
 # 将text的内容生成并放入缓存，text可分行显示（由‘\n’分行）
-def drawText(text, font, pos='center'):
+def drawText(text, fontname='sFont', fontsize='sSize', pos='center'):
     lines = text.split('\n')
-    maxLen = max([len(l) for l in lines])*shared.font['nSize']
     lineN = len(lines)
         
-    for ind,l in enumerate(lines):
-        target = font.render(l, True, shared.fontColor)
+    font = shared.font[fontname]
+    targets = [font.render(l, True, shared.fontColor) for l in lines]
+    maxLen = max([t.get_width() for t in targets])
+
+    for ind,target in enumerate(targets):
         if pos=='center':
-            x,y = getPos(w=maxLen, h=(ind*2-lineN)*target.get_height())
+            x,y = getPos(w=maxLen, h=(lineN-1-ind*2)*target.get_height())
             shared.win.blit(target, (x, y))
         elif pos == 'LU':
             x,y = getPos(-0.9, -0.9, 0, 0)
@@ -79,18 +82,23 @@ def drawText(text, font, pos='center'):
 # draw a square
 # 屏幕中央显示一个方块
 def drawRect(w, h, x=0.0, y=0.0, fill=True, color=(255,255,255), width=1):
-    x,y = getPos(w=w, h=h)
+    x,y = getPos(x, y, w=w, h=h)
     #colour, (x, y), size, thickness
     if fill:
         width = 0
-    shared.pg.draw.rect(shared.win, color, (x, y, size,size), width)
+    shared.pg.draw.rect(shared.win, color, (x, y, w, h), width)
 
 # draw circle
 def drawCircle(r, x=0.0, y=0.0, fill=True, color=(255,255,255), width=1):
-    x,y = getPos(w=r*2, h=r*2)
+    x,y = getPos(x, y, w=0, h=0)
     if fill:
         width = 0
-    shared.pg.draw.circle(shared.win, color, x, y, size, width)
+    shared.pg.draw.circle(shared.win, color, (x, y), r, width)
+
+# draw line
+def drawLine(points, color=(255,255,255), width=1):
+    shared.pg.draw.lines(shared.win, color, False, points, width)
+
 
 # draw picture
 def drawPic(path, w=0, h=0, x=0.0, y=0.0):
@@ -101,7 +109,3 @@ def drawPic(path, w=0, h=0, x=0.0, y=0.0):
         w,h = im.get_rect().size
     x,y = getPos(x,y,w,h)
     shared.win.blit(im, (x,y))
-
-# draw line
-def drawLine(points, color=(255,255,255), width=1):
-    shared.pg.draw.lines(shared.win, False, points, color, width)

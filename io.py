@@ -21,16 +21,32 @@ def readSetting(path='setting.txt'):
 
                     name,*content = s.split('\n')
                     setting[name[1:-1]] = content
+
+            if 'timingSet' in setting:
+                # Set timing of each phase
+                for dur in setting['timingSet']:
+                    k,v = dur.replace(' ','').split(':')
+                    if '-' in v:
+                        limit = v.split('-')
+                        shared.timing[k] = [int(limit[0]),int(limit[1])]
+                    else:
+                        shared.timing[k] = int(v)
         except:
             raise Exception('Please check your setting.txt!')
+    shared.setting = setting
     return setting
 
 # get stimuli in a csv file
 # 读取csv数据文件，得到实验刺激材料
 # 【参数】 filepath：csv数据文件的路径
 # 【返回值】Pandas数组，存储了csv数据文件的内容
-def readStimuli(filepath,blockID=None):
-    stimuli = pd.read_csv(filepath,sep=',',encoding='gbk')
+def readStimuli(filepath,blockID=None,sheetname=0):
+    if filepath.split('.')[-1]=='csv':
+        stimuli = pd.read_csv(filepath,sep=',',encoding='gbk')
+    elif filepath.split('.')[-1] in ['xls','xlsx']:
+        stimuli = pd.read_excel(filepath,sep=',',sheetname=0)
+    else:
+        raise ValueError('Only support csv and Excel file')
     if blockID:
         # stimuli = stimuli[stimuli[blockID[0]]==blockID[1]]
         stimuli = stimuli[stimuli[blockID[0]]==blockID[1]].sample(n=4)

@@ -1,0 +1,9 @@
+content,condition,other,block
+a,1,FALSE,1
+b,2,FALSE,1
+c,1,TRUE,1
+d,2,TRUE,1
+e,1,FALSE,2
+f,2,FALSE,2
+g,1,TRUE,2
+h,2,TRUE,2

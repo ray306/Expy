@@ -24,12 +24,24 @@ from .extend import *
 #               diag = 14.3：the length of the screen diagonal (inch)
 #               angel = 1.5：visual angel of single char (degree)
 # 【返回值】pg：pygame对象，win：显示屏对象，font：字体对象
-def start(durations=[], fullscreen=True, normalFontSize = 20, stimFontSize = None, distance=60, diag = 23, angel = 2.5, fontColor = (255,255,255), bgColor = (128, 128, 128)):
+def start(settingfile='setting.txt', fullscreen=True, normalFontSize = 20, stimFontSize = None, distance=60, diag = 23, angel = 2.5, fontColor = (255,255,255), backgroundColor = (128, 128, 128), sample_rate = 44100, bits = 16, channel=2):
+    func_var = locals().copy()
+    
+    readSetting(settingfile)
+    for k in ['fullscreen','fontColor','backgroundColor','distance','diag','angel',
+              'normalFontSize','stimFontSize','sample_rate','bit','channel']:
+        if setting(k):
+            func_var[k] = eval('%s' %setting(k)[0])
+
     # Set the pointer visibility
     shared.pg.mouse.set_visible(False)
+    shared.pg.mixer.quit()
 
+    # Initate the mixer
+    shared.pg.mixer.init(func_var['sample_rate'], -func_var['bits'], func_var['channel'])
+    
     # Initate the window
-    if fullscreen == True:
+    if func_var['fullscreen'] == True:
         shared.win = shared.pg.display.set_mode((shared.winWidth,shared.winHeight), FULLSCREEN| HWSURFACE|DOUBLEBUF)
     else:
         shared.win = shared.pg.display.set_mode((800,600), HWSURFACE | DOUBLEBUF)
@@ -43,31 +55,19 @@ def start(durations=[], fullscreen=True, normalFontSize = 20, stimFontSize = Non
     except:
         pass
 
-    shared.fontColor = fontColor
-    shared.bgColor = bgColor
+    shared.fontColor = func_var['fontColor']
+    shared.backgroundColor = func_var['backgroundColor']
 
-    # 计算一般显示内容的字体字号
-    shared.font['nSize'] = normalFontSize
-    shared.font['nFont'] = shared.pg.font.Font(shared.path+"simhei.ttf", normalFontSize)
+    # Get the font attribute of normal text
+    shared.font['nSize'] = func_var['normalFontSize']
+    shared.font['nFont'] = shared.pg.font.Font(shared.path+"simhei.ttf", shared.font['nSize'])
 
-    # 计算刺激材料的字体字号
-    if stimFontSize == None:
-        shared.font['sSize'] =  int((shared.winWidth**2 + shared.winHeight**2) **0.5/(diag*2.54 / (distance * np.tan(angel/4*np.pi/180) * 2))) # pixelSize/(pixels in diagonal) = realLength/(real length in diagonal)
+    # Get the font attribute of stimulus text
+    if func_var['stimFontSize'] == None:
+        shared.font['sSize'] =  int((shared.winWidth**2 + shared.winHeight**2) **0.5/(func_var['diag']*2.54 / (func_var['distance'] * np.tan(func_var['angel']/4*np.pi/180) * 2))) # pixelSize/(pixels in diagonal) = realLength/(real length in diagonal)
     else:
-        shared.font['sSize'] =  stimFontSize
+        shared.font['sSize'] =  func_var['stimFontSize']
+        
     shared.font['sFont'] = shared.pg.font.Font(shared.path+"simhei.ttf", shared.font['sSize'])
 
-    # Set duration of each phase
-    for dur in durations:
-        k,v = dur.replace(' ','').split(':')
-        if '-' in v:
-            limit = v.split('-')
-            shared.duration[k] = [int(limit[0]),int(limit[1])]
-        else:
-            shared.duration[k] = int(v)
-
-
-
-
-    
-
+    clear()

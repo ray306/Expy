@@ -1,0 +1,26 @@
+[timingSet]
+fix: 800-1400
+ITI: 500
+----
+[introduction1]
+Welcome to our experiment!
+>
+In this example, you need to respond to the words "left" with the F key , and respond to the words "right" with the J key. 
+>
+Happy expy!
+----
+[introduction2]
+Welcome to our experiment!
+>
+In this example, you need to listen to the voice, and give your choice.
+>
+Happy expy!
+----
+[backgroundColor]
+(128,128,128)
+----
+[stimFontSize]
+20
+----
+[normalFontSize]
+20
