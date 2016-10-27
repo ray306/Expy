@@ -25,12 +25,20 @@ sudo pip install expy
 
 ###*Required Dependencies*
 - numpy
+
 - pandas
+
 - scipy
+
 - pygame
+
 - pyaudio
+
 - wave
+
 - pyserial
+
+
 ---
 ## Simple example
 
