@@ -117,7 +117,7 @@ def environment_noise(sample_duration):
     return threshold
 
 
-def recordSound(threshold,min_record_duration=0,max_sound_duration=60*RATE):
+def recordSound(threshold,min_record_duration=0,max_sound_duration=60*RATE,feedback=False):
     """
     Record a word or words from the microphone and 
     return the data as an array of signed shorts.
@@ -144,11 +144,20 @@ def recordSound(threshold,min_record_duration=0,max_sound_duration=60*RATE):
     while num_sound<max_sound_duration and len(r)<(min_record_duration+max_sound_duration) and num_silent < silent_limit:
         # little endian, signed short
         s = stream.read(CHUNK_SIZE)
-        stream.write(s, CHUNK_SIZE)
+        if feedback: stream.write(s, CHUNK_SIZE)
+        
         snd_data = array('h', s)
         if byteorder == 'big':
             snd_data.byteswap()
         r.extend(snd_data)
+
+        # for e in shared.pg.event.get():
+        #     if e.type == KEYDOWN:
+        #         k = e.key
+        #     if k == 27:
+        #         shared.pg.quit()
+        #     elif k == K_F12:
+        #         suspend()
 
         if onset_detected:
             num_sound += len(snd_data)

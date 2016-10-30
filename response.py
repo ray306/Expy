@@ -20,12 +20,12 @@ def suspend():
     backup = shared.pg.display.get_surface().convert()
     
     shared.win.fill(shared.backgroundColor)
-    target = shared.font['nFont'].render('现在实验暂停一会儿，请等待主试操作', True, shared.fontColor)
+    target = shared.font['normalFont'].render('[程序暂停/Paused]', True, shared.fontColor)
     shared.win.blit(target, 
         ((shared.winWidth-target.get_width())/2, (shared.winHeight-target.get_height())/2))
     shared.pg.display.flip()
 
-    waitForEvent([K_RETURN])
+    waitForEvent()
     shared.win.blit(backup,(0,0))
     shared.pg.display.flip()
 

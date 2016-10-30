@@ -8,10 +8,10 @@ from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 
 # name = getInput('Please enter your name:')
-introduction(setting('introduction1'))
+introduction(shared.setting['introduction1'])
 
 def trial(word,pos):
-    drawWord(word,x=pos) # Draw text on the canvas
+    drawText(word,x=pos) # Draw text on the canvas
     show() # Display current canvas
 
     key = waitForEvent({K_f:'Left',K_j:'Right'}) # Waiting for pressing 'F' or 'J'

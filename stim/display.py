@@ -20,6 +20,7 @@ def show(outTime=False,cleanScreen=True,backup=None):
         if cleanScreen:
             clear()
 
+# Get a backup of current canvas
 def getScreen(cleanScreen=True):
     backup = shared.pg.display.get_surface().convert()
     if cleanScreen:

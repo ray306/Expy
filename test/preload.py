@@ -7,13 +7,13 @@ sys.path.append('../../')
 from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 
-drawWord('Hello') # Draw text on the canvas
+drawText('Hello') # Draw text on the canvas
 s1 = getScreen() # Get current canvas, then clean the canvas
 
-drawWord('world') # Draw text on the canvas
+drawText('world') # Draw text on the canvas
 s2 = getScreen(cleanScreen=False) # Get current canvas, and keep it
 
-drawWord('........') # Draw text on the canvas
+drawText('........') # Draw text on the canvas
 s3 = getScreen() # Get current canvas, then clean the canvas
 
 show(3000,backup=s1) # Display backup canvas

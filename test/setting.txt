@@ -19,8 +19,8 @@ Happy expy!
 [backgroundColor]
 (128,128,128)
 ----
-[stimFontSize]
-20
+[stim1FontSize]
+15
 ----
 [normalFontSize]
-20
+22

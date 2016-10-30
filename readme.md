@@ -23,7 +23,7 @@ or:
 sudo pip install expy
 ```
 
-###*Required Dependencies*
+###*Required Dependencies:*
 - numpy
 
 - pandas
@@ -49,7 +49,7 @@ start() # Initiate the experiment environment
 
 # An RSPV demo
 for w in 'ABCDE12345':
-    drawWord(w) # Draw something on the canvas(not the screen)
+    drawText(w) # Draw something on the canvas(not the screen)
     show(200) # Show the content of current canvas on the screen, and keep for 200ms
 ```
 
@@ -90,11 +90,10 @@ run()
 from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 
-# name = getInput('Please enter your name:')
 tip('In this example, you need to respond to the words "left" with the F key , and respond to the words "right" with the J key. ') # Display something until pressing 'SPACE' or 'ENTER'
 
 def trial(word,pos):
-    drawWord(word,x=pos) # Draw text on the canvas
+    drawText(word,x=pos) # Draw text on the canvas
     show() # Display current canvas
 
     key = waitForEvent({K_f:'Left',K_j:'Right'}) # Waiting for pressing 'F' or 'J'
@@ -124,7 +123,6 @@ alertAndQuit('Done!') # Display something in 3s(default), and quit the program
 from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 
-# name = getInput('Please enter your name:')
 tip('In this example, you need to press key to select the word you heard.') # Display something until pressing 'SPACE' or 'ENTER'
 
 def trial(stim):

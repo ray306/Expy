@@ -34,50 +34,60 @@ run()
 
 ## *Response*
 ```python
+'With response time'
+drawText('请按下键盘上的K或J') # Draw text on the canvas
+show() # Display current canvas
+'''General usage'''
+key,rt = waitForResponse({K_k:'K',K_j:'J'}) # Waiting for pressing 'K' or 'J', and get the pressed key.
+''''''
+alertAndGo('您刚刚按下了'+key+'，用时：'+str(rt)) # Print the keypress
+
+drawText('请在1秒内按下键盘上的K或J') # Draw text on the canvas
+show() # Display current canvas
+key,rt = waitForResponse({K_k:'K',K_j:'J'}, outTime=1000) # Waiting for pressing 'K' or 'J' in 1000ms, and get the pressed key.
+
+alertAndGo('您刚刚按下了'+key+'，用时：'+str(rt)) # Print the keypress
+
+
 'Only key'
-drawWord('请按下键盘上的任意键') # Draw text on the canvas
+drawText('请按下键盘上的任意键') # Draw text on the canvas
 show() # Display current canvas
 key = waitForEvent() # Waiting for pressing and get the pressed key.
 alertAndGo('您刚刚按下了'+str(key)) # Show the keypress
 
 # Please look into "Key mapping" for some detail
-drawWord('除了键盘上的K，别的按键都不会起作用') # Draw text on the canvas
+drawText('除了键盘上的K，别的按键都不会起作用') # Draw text on the canvas
 show() # Display current canvas
 key = waitForEvent(K_k) # Waiting for pressing "K"
 clear()
 
-drawWord('请按下键盘上的K或J') # Draw text on the canvas
+drawText('请按下键盘上的K或J') # Draw text on the canvas
 show() # Display current canvas
 key = waitForEvent({K_k:'K',K_j:'J'}) # Waiting for pressing 'K' or 'J', and get the pressed key.
 alertAndGo('您刚刚按下了'+key) # Print the keypress
-
-
-'With response time'
-drawWord('请按下键盘上的K或J') # Draw text on the canvas
-show() # Display current canvas
-key,rt = waitForResponse({K_k:'K',K_j:'J'}) # Waiting for pressing 'K' or 'J', and get the pressed key.
-alertAndGo('您刚刚按下了'+key+'，用时：'+str(rt)) # Print the keypress
-
-drawWord('请在1秒内按下键盘上的K或J') # Draw text on the canvas
-show() # Display current canvas
-key,rt = waitForResponse({K_k:'K',K_j:'J'}, outTime=1000) # Waiting for pressing 'K' or 'J' in 1000ms, and get the pressed key.
-
-alertAndGo('您刚刚按下了'+key+'，用时：'+str(rt)) # Print the keypress
 ```
 
 ## *Visual Experiment*
 ### Show text
 ```python
-drawWord('Hello world!') # Draw text on the canvas
+'''General usage'''
+drawText('Hello world!') # Draw text on the canvas
+show(3000) # Display current canvas
+''''''
+
+drawText('Hello world!', fontname='normalFont') # Draw text on the canvas, with given font(size)
 show(3000) # Display current canvas
 
-drawWord('Hello world!', x=0.5, y=0.0)
+drawText('Hello! world!', x=-0.5,y=0.0) # Draw text on the canvas, with center's position
 show(3000) # Display current canvas
 
-drawText('Hello\nworld\n!') # Draw text on the canvas
+drawText('Hello! world!', x=-0.5,y=0.0, benchmark='left_center') # Draw text on the canvas, with left center's position
 show(3000) # Display current canvas
 
-textSlide('Hello\nworld\nagain!') # Display some text directly
+drawText('Hello\nworld\n!') # Draw multi-line text on the canvas
+show(3000) # Display current canvas
+
+textSlide('Hello\nworld\nagain!') # Display some text directly, it's functionally equals to clear+drawText+show
 ```
 ### Show picture
 ```python
@@ -88,6 +98,9 @@ drawPic('demo.jpg', w=400, h=300) # Draw a zoomed picture on the canvas center
 show(3000) # Display current canvas
 
 drawPic('demo.jpg', w=400, h=300, x=0.5, y=0.5) # Draw a zoomed picture on the canvas, and move it
+show(3000) # Display current canvas
+
+drawPic('data/demo.jpg', w=400, h=300, x=0.5, y=0.5, benchmark='upper_center') # Draw a zoomed picture on the canvas, and move it
 show(3000) # Display current canvas
 ```
 ### Show shape
@@ -106,11 +119,14 @@ show(3000) # Display current canvas
 ## *Auditory Experiment*
 ### Play sound
 ```python
-sound = loadSound('data/demo.WAV') # Load the wav file
+'''General usage'''
+sound = loadSound('data/demo.wav') # Load the wav file
 playSound(sound) # Play the wav file
-show(3000) # Pause (show a screen during 3000ms)
+''''''
 
-sound = loadManySound('data',['demo','demo','demo']) # Load many wav files and concat them
+show(1000) # Pause (show a screen during 3000ms)
+
+sound = loadManySound('data',['ba','da'],'wav') # Load many wav files and concat them
 playSound(sound)
 ```
 ### *Sound Recording*
@@ -152,7 +168,7 @@ alertAndQuit('Show something for 3s, and quit')# Show something during a given t
 start()  # Calling start() will do the readSetting() implicitly
 # readSetting() # Or you can directly load setting from "setting.txt"
 
-print(setting('timingSet')) # Print the text of 'timingSet' part 
+print(shared.setting['timingSet']) # Print the text of 'timingSet' part 
 
 print(timing('ITI')) # Print 'ITI' value (we specify 500 for it in "setting.txt")
 print(timing('fix')) # Print 'fix' value (we specify 800~1400 range for it in "setting.txt")
@@ -202,13 +218,13 @@ ser.write(n.to_bytes((n.bit_length()+7)//8, 'big')) # send a binary code
 
 ## *Preload screen*
 ```python
-drawWord('Hello') # Draw text on the canvas
+drawText('Hello') # Draw text on the canvas
 s1 = getScreen() # Get current canvas, then clean the canvas
 
-drawWord('world') # Draw text on the canvas
+drawText('world') # Draw text on the canvas
 s2 = getScreen(cleanScreen=False) # Get current canvas, and keep it
 
-drawWord('........') # Draw text on the canvas
+drawText('........') # Draw text on the canvas
 s3 = getScreen() # Get current canvas, then clean the canvas
 
 show(3000,backup=s1) # Display backup canvas

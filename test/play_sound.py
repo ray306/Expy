@@ -5,11 +5,14 @@ sys.path.append('../../')
 ################
 
 from expy import * # Import the needed functions
-start(sample_rate = 11025) # Initiate the experiment environment
+start(sample_rate = 44100) # Initiate the experiment environment
 
-sound = loadSound('data/demo.WAV') # Load the wav file
+'''General usage'''
+sound = loadSound('data/demo.wav') # Load the wav file
 playSound(sound) # Play the wav file
-show(3000) # Pause (show a screen during 3000ms)
+''''''
 
-sound = loadManySound('data',['demo','demo','demo']) # Load many wav files and concat them
+show(1000) # Pause (show a screen during 3000ms)
+
+sound = loadManySound('data',['ba','da'],'wav') # Load many wav files and concat them
 playSound(sound)

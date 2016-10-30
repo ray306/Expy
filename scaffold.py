@@ -1,3 +1,4 @@
+import numpy as np
 from pygame.locals import *
 
 from expy import shared
@@ -6,13 +7,21 @@ from .stim.display import *
 from .io import *
 from .response import *
 
+
+def timing(name):
+    val = shared.timing[name]
+    if type(val) == int:
+        return val
+    else:
+        return np.random.randint(val[0],val[1])
+
 '''Advanced draw class'''
 # display text right now
 # 在一个新页面上显示text的内容
 # 依赖drawText()
-def textSlide(text, bgImage=None):
+def textSlide(text, fontname='normalFont', bgImage=None):
     shared.win.fill(shared.backgroundColor)
-    drawText(text, fontname='nFont', fontsize='nSize')
+    drawText(text, fontname=fontname)
     if bgImage: drawPic(path)
     shared.pg.display.flip()
 
@@ -77,7 +86,7 @@ def tip(text):
 # 依赖textSlide()
 def alertAndQuit(text,outTime=2500):
     textSlide(text)
-    shared.pg.time.wait(outTime)
+    show(outTime)
     shared.pg.quit()
 
 # 显示一个实验提示，一段时间后自动消失并继续程序

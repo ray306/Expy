@@ -7,7 +7,7 @@ sys.path.append('../../')
 from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 
-introduction(setting('introduction2'))
+introduction(shared.setting['introduction2'])
 # tip('Are you ready?')
 
 def trial(stim):

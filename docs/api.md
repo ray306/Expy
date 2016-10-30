@@ -4,10 +4,8 @@
     - start
 - Stimulus
     - Text
-        - drawWord
         - drawText
     - Shape
-        - drawFix
         - drawLine
         - drawRect
         - drawCircle
@@ -25,8 +23,8 @@
         - getScreen
 - Response
     - Keyboard & Mouse & Joystick
-        - waitForResponse: 等待被试按键，超过设定时间自动结束, has time limit
-        - waitForEvent: 等待被试按键, wait until event
+        - waitForResponse: 等待被试按键，超过设定时间自动结束, has time limit, return key&RT
+        - waitForEvent: 等待被试按键, wait until event, return key
     - Sound Recorder
 - IO (Read & Save)
     - Read

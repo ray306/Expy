@@ -5,26 +5,30 @@ from expy import shared
 from expy.response import *
 
 # Load a wav file, and return data array
-# Or load a mp3 file, and return None
+# Or load a mp3/ogg file, and return None
 def loadSound(path):
     if path[-3:] in ['wav','WAV']:
         sr,sound = scipy.io.wavfile.read(path)
         if len(sound.shape)==1:
             sound = np.require(np.tile(sound, (2, 1)).T, requirements='C')
         return sound
-    elif path[-3:] in ['mp3','MP3']:
-        shared.pg.mixer.music.load(path)
-        return None
     else:
-        raise ValueError('Unsupported sound format')
+        try:
+            shared.pg.mixer.music.load(path)
+        except:
+            raise ValueError('Unsupported sound format or file misssing')
+        return None
 
 # Read a list of music file, and return data array
-# not support mp3 files
-def loadManySound(dirpath,filenames,ext='.wav'):
-    paths = [(dirpath+'/'+file+ext)  for file in filenames]
-    sounds = np.concatenate([scipy.io.wavfile.read(p)[1] for p in paths])
-    sounds_reshaped = np.require(np.tile(sounds, (2, 1)).T, requirements='C')
-    return sounds_reshaped
+# not support mp3/ogg files
+def loadManySound(dirpath,filenames,ext='wav'):
+    if ext in ['wav','WAV']:
+        paths = [(dirpath+'/'+file+'.'+ext)  for file in filenames]
+        sounds = np.concatenate([scipy.io.wavfile.read(p)[1] for p in paths])
+        sounds_reshaped = np.require(np.tile(sounds, (2, 1)).T, requirements='C')
+        return sounds_reshaped
+    else:
+        raise ValueError('Unsupported sound format or file misssing')
 
 # Return a data array of certain sound freq
 def makeSound(freq, duration):
@@ -56,7 +60,7 @@ def makeSound(freq, duration):
     return shared.pg.sndarray.make_sound(sound)
 
 # Play a loaded file or a data array
-def playSound(wav=None):
+def playSound(wav=None,block=True):
     if wav is None:
         shared.pg.mixer.music.play()
     else:
@@ -64,8 +68,8 @@ def playSound(wav=None):
         # indices = indices[indices < len(wav)].astype(int)
         # wav = wav[ indices.astype(int) ]
         shared.pg.sndarray.make_sound(wav).play()
-
-    while shared.pg.mixer.get_busy():
-        waitForResponse({}, 100)
+    if block:
+        while shared.pg.mixer.get_busy():
+            waitForResponse({}, 100)
 
 

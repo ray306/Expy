@@ -32,8 +32,7 @@ def readSetting(path='setting.txt'):
                     else:
                         shared.timing[k] = int(v)
         except:
-            raise Exception('Please check your setting.txt!')
-    shared.setting = setting
+            raise ValueError('Please check your setting.txt!')
     return setting
 
 # get stimuli in a csv file
@@ -75,3 +74,17 @@ def saveResult(blockID, resp, columns=['respKey','RT'], stim=None, stim_columns=
         result = stim.join(result)
 
     result.to_csv('result\\'+shared.subj+'_'+str(blockID)+'_result.csv',index=None)
+
+# send trigger
+def sendTrigger(data, mode='P'):
+    if mode=='P':
+        shared.Objdll.Out32(shared.setting['port'],0)
+    elif mode=='S': 
+        shared.ser.write(bytes(data,encoding='utf-8')) # send a string which might change
+        # shared.ser.write(b'something') # send a string directly
+
+        # n=int('0b00010001',2)
+        # shared.ser.write(n.to_bytes((n.bit_length()+7)//8, 'big')) # send a binary code
+    else:
+        raise ValueError('Only support "S" or "P" (serial/parallel) mode!')
+
