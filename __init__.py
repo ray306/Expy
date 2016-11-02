@@ -28,7 +28,10 @@ from .extend import *
 def start(settingfile='setting.txt', fullscreen=True, winsize=(800,600),mouseVisible=False, normalFontSize = 20, stimFontSize = None, distance=60, diag = 23, angel = 2.5, fontColor = (255,255,255), backgroundColor = (128, 128, 128), sample_rate = 44100, bits = 16, channel=2, port='COM1'):
     'Parameters'
     func_var = locals().copy()
-    shared.setting = readSetting(settingfile)
+    try:
+        shared.setting = readSetting(settingfile)
+    except:
+        print('"setting.txt" does not exist.')
 
     for k,v in shared.setting.items():
         if k in ['fullscreen','fontColor','winsize','mouseVisible','backgroundColor','distance','diag','angel',
@@ -41,6 +44,7 @@ def start(settingfile='setting.txt', fullscreen=True, winsize=(800,600),mouseVis
 
     'Color'
     shared.fontColor = shared.setting['fontColor']
+    print(shared.fontColor)
     shared.backgroundColor = shared.setting['backgroundColor']
 
     'Mouse pointer visibility'

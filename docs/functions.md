@@ -18,6 +18,7 @@
         - Directory
     - Save
         - Experiment Result
+    - Send trigger
 - Other Scaffolds
     - textSlide
     - getInput

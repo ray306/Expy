@@ -9,6 +9,7 @@ Expy is an easy-but-powerful psychology experiment framework. It's aimed at buil
 Expy is designed for psycholinguistic experiment, but also be suitable for any other experiments.
 
 **Advantange**:
+
 - Various of stimuli module (not need to prepare massive of stimuli pictures).
 - Various of procedure-controlling module (instruction, tip, rest, etc.)
 - Convenient to read stimuli from file and record response to file.
@@ -17,6 +18,7 @@ Expy is designed for psycholinguistic experiment, but also be suitable for any o
 - You can pause or quit the program at anytime.
 
 **Drawback**:
+
 - Drawing complex shape (like grating) as stimuli (but you could draw them as loaded pictures).
 - Video playing.
 
@@ -38,6 +40,7 @@ sudo pip install expy
 ```
 
 ###*Required Dependencies*
+
 - numpy
 - pandas
 - scipy

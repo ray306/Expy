@@ -198,22 +198,12 @@ saveResult(blockID=3, resp=[(1,0),(2,0),(3,0),(4,0)], columns=['resp1','resp2'],
 ## *Send trigger*
 ```python
 'Parallel Port'
-shared.Objdll.Out32(0xC100,0) # 0xC100 is the port, 0 is the data
+start(port=0xC100)
+sendTrigger(0,mode='P')
 
 'Serial Port'
-import serial
-ser = serial.Serial()
-ser.baudrate= 115200
-ser.port = 'COM1' # set the port
-ser.open()
-
-ser.write(b'something') # send a string directly
-
-tg = 'something'
-ser.write(bytes(tg,encoding='utf8')) # send a string which might change
-
-n=int('0b00010001',2)
-ser.write(n.to_bytes((n.bit_length()+7)//8, 'big')) # send a binary code
+start(port='COM1')
+sendTrigger('something',mode='S')
 ```
 
 ## *Preload screen*

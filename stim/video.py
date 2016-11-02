@@ -1,48 +1,48 @@
 from expy import shared
 from expy.response import *
-import pyglet
-import time
+# import pyglet
+# import time
 
-# Load a video file
-def loadVideo(path):
-    source = pyglet.media.load(path)
-    format = source.video_format
-    if not format:
-        raise ValueError('Unsupported file type')
+# # Load a video file
+# def loadVideo(path):
+#     source = pyglet.media.load(path)
+#     format = source.video_format
+#     if not format:
+#         raise ValueError('Unsupported file type')
 
-    return source
+#     return source
 
-# Play a loaded file
-def playVideo(source, pauseKey={},area=None):
-    format = source.video_format
-    width=format.width
-    height=format.height
+# # Play a loaded file
+# def playVideo(source, pauseKey={},area=None):
+#     format = source.video_format
+#     width=format.width
+#     height=format.height
 
-    start = time.time()
-    duration = source.duration
+#     start = time.time()
+#     duration = source.duration
     
-    while 1:
-        ts = source.get_next_video_timestamp()
-        fm = source.get_next_video_frame()
-        if fm:
-            rawimage = fm.get_image_data()
-            pixels = rawimage.get_data(rawimage.format, rawimage.pitch)
+#     while 1:
+#         ts = source.get_next_video_timestamp()
+#         fm = source.get_next_video_frame()
+#         if fm:
+#             rawimage = fm.get_image_data()
+#             pixels = rawimage.get_data(rawimage.format, rawimage.pitch)
             
-            video = shared.pg.image.frombuffer(pixels, (width, height), rawimage.format)
+#             video = shared.pg.image.frombuffer(pixels, (width, height), rawimage.format)
 
-            #Blit the image to the screen
-            shared.win.blit(video, (10, 10))
+#             #Blit the image to the screen
+#             shared.win.blit(video, (10, 10))
 
-            ts = source.get_next_video_timestamp()
+#             ts = source.get_next_video_timestamp()
 
-            waitT = start+ts-time.time()
-            if waitT>0 and ts<=duration:
-                key,rt = waitForResponse({}, waitT*1000)
-            elif ts>duration:
-                break
-            else:
-                print(rawimage.width, rawimage.height)
-            shared.pg.display.flip()
+#             waitT = start+ts-time.time()
+#             if waitT>0 and ts<=duration:
+#                 key,rt = waitForResponse({}, waitT*1000)
+#             elif ts>duration:
+#                 break
+#             else:
+#                 print(rawimage.width, rawimage.height)
+#             shared.pg.display.flip()
 
 # # Load a MPEG file
 # def loadVideo(path):

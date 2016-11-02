@@ -1,6 +1,11 @@
 # todo
 - todo: format text draw function
 
+# 0.9.3.2
+- Fix the error when running `sendTrigger` without available port.
+- Fix the error when setting.txt doesn't exist.
+- Fix the error of `import pyglet`
+
 # 0.9.3.1
 - Add the parameter "winsize" to `start`
 - fix the remained time after run `suspend` 
