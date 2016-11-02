@@ -25,13 +25,13 @@ from .extend import *
 #               diag = 14.3：the length of the screen diagonal (inch)
 #               angel = 1.5：visual angel of single char (degree)
 # 【返回值】pg：pygame对象，win：显示屏对象，font：字体对象
-def start(settingfile='setting.txt', fullscreen=True,mouseVisible=False, normalFontSize = 20, stimFontSize = None, distance=60, diag = 23, angel = 2.5, fontColor = (255,255,255), backgroundColor = (128, 128, 128), sample_rate = 44100, bits = 16, channel=2, port='COM1'):
+def start(settingfile='setting.txt', fullscreen=True, winsize=(800,600),mouseVisible=False, normalFontSize = 20, stimFontSize = None, distance=60, diag = 23, angel = 2.5, fontColor = (255,255,255), backgroundColor = (128, 128, 128), sample_rate = 44100, bits = 16, channel=2, port='COM1'):
     'Parameters'
     func_var = locals().copy()
     shared.setting = readSetting(settingfile)
 
     for k,v in shared.setting.items():
-        if k in ['fullscreen','fontColor','mouseVisible','backgroundColor','distance','diag','angel',
+        if k in ['fullscreen','fontColor','winsize','mouseVisible','backgroundColor','distance','diag','angel',
               'sample_rate','bit','channel','port'] or k[-8:] == 'FontSize':
             func_var[k] = eval('%s' %v[0])
         else:
@@ -57,9 +57,9 @@ def start(settingfile='setting.txt', fullscreen=True,mouseVisible=False, normalF
     if shared.setting['fullscreen'] == True:
         shared.win = shared.pg.display.set_mode((shared.winWidth,shared.winHeight), FULLSCREEN| HWSURFACE|DOUBLEBUF)
     else:
-        shared.win = shared.pg.display.set_mode((800,600), HWSURFACE | DOUBLEBUF)
-        shared.winWidth = 800
-        shared.winHeight = 600
+        shared.win = shared.pg.display.set_mode(shared.setting['winsize'], HWSURFACE | DOUBLEBUF)
+        shared.winWidth = shared.setting['winsize'][0]
+        shared.winHeight = shared.setting['winsize'][1]
     clear() # Reset screen color
 
     'Joystick'

@@ -8,7 +8,7 @@ from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 
 # name = getInput('Please enter your name:')
-introduction(shared.setting['introduction1'])
+instruction(shared.setting['instruction1'])
 
 def trial(word,pos):
     drawText(word,x=pos) # Draw text on the canvas

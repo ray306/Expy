@@ -17,17 +17,22 @@ def setKeyMapping(allowedKeys):
     return keys,mapping
 
 def suspend():
+    onset = shared.pg.time.get_ticks()
+
     backup = shared.pg.display.get_surface().convert()
     
     shared.win.fill(shared.backgroundColor)
-    target = shared.font['normalFont'].render('[程序暂停/Paused]', True, shared.fontColor)
+    target = shared.font['normalFont'].render('[程序暂停中/Pause]', True, shared.fontColor)
     shared.win.blit(target, 
         ((shared.winWidth-target.get_width())/2, (shared.winHeight-target.get_height())/2))
     shared.pg.display.flip()
 
     waitForEvent()
+
     shared.win.blit(backup,(0,0))
     shared.pg.display.flip()
+
+    return shared.pg.time.get_ticks()-onset
 
 # hold on until a event coming, if the respKeys hasn't set, return the key (usually be used as 'next' button)
 # 等待被试按键
@@ -97,7 +102,9 @@ def waitForResponse(allowedKeys=None, outTime=0):
             if k == 27:
                 shared.pg.quit()
             elif k == K_F12:
-                suspend()
+                suspendTime = suspend()
+                startT += suspendTime
+                endT += suspendTime
             elif not keys: # if the allowedKeys hasn't set
                 return k, shared.pg.time.get_ticks() - startT
             elif k in keys:

@@ -2,14 +2,14 @@
 fix: 800-1400
 ITI: 500
 ----
-[introduction1]
+[instruction1]
 Welcome to our experiment!
 >
 In this example, you need to respond to the words "left" with the F key , and respond to the words "right" with the J key. 
 >
 Happy expy!
 ----
-[introduction2]
+[instruction2]
 Welcome to our experiment!
 >
 In this example, you need to press key to select the word you heard.

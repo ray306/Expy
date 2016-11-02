@@ -16,6 +16,7 @@ sendTrigger(0,mode='P')
 'Serial Port'
 start(port='COM1')
 sendTrigger('something',mode='S')
+
 # import serial
 # ser = serial.Serial(baudrate=115200)
 # ser.port = 'COM1' # set the port

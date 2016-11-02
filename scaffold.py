@@ -42,11 +42,11 @@ def getInput(preText):
         textSlide(text)
     return text[len(preText):]
 
-# display the introduction of the experiment (press 'left' to back, 'right' to continue)
-# 显示指导语introductionText，可分页面显示（introductionText列表有多长就显示几页）
+# display the instruction of the experiment (press 'left' to back, 'right' to continue)
+# 显示指导语instructionText，可分页面显示（instructionText列表有多长就显示几页）
 # 依赖textSlide()、 waitForEvent()
-def introduction(introductionText,hasPractice=False):
-    intro = '\n'.join(introductionText).split('>\n')
+def instruction(instructionText,hasPractice=False):
+    intro = '\n'.join(instructionText).split('>\n')
     i = 0
     while True:
         if intro[i] == '[demo]':
