@@ -8,8 +8,7 @@ from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 
 def trial(word,pos):
-    drawText(word,x=pos) # Draw text on the canvas
-    show() # Display current canvas
+    drawText(word,x=pos) # Draw text on the canvas and display it
 
     key,rt = waitForResponse({K_f:'Left',K_j:'Right'}) # Waiting for pressing 'F' or 'J'
     if key==word:

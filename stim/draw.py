@@ -40,7 +40,7 @@ def getPos(x=shared.winWidth//2,y=shared.winHeight//2,w=0,h=0,benchmark='center'
 '''Basic draw class'''
 # draw text 
 # 将text的内容生成并放入缓存，text可分行显示（由‘\n’分行）
-def drawText(text, fontname='stimFont', x=0.0, y=0.0, benchmark='center'):
+def drawText(text, fontname='stimFont', x=0.0, y=0.0, benchmark='center',display=True):
     if not '\n' in text:
         target = shared.font[fontname].render(text, True, shared.fontColor)
         x,y = getPos(x,y,w=target.get_width(), h=target.get_height(), benchmark=benchmark)
@@ -57,42 +57,60 @@ def drawText(text, fontname='stimFont', x=0.0, y=0.0, benchmark='center'):
             y_offset = (lineN-1-ind*2)*(target.get_height()/shared.winHeight)
             pos_x,pos_y = getPos(x,y-y_offset,w=maxLen, h=0, benchmark=benchmark)
             shared.win.blit(target, (pos_x, pos_y))
+    if display:
+        shared.pg.display.flip()
 
 # draw text with complex format
-def drawFormattedText(text, fontname='stimFont',size=15, x=0.0, y=0.0, benchmark='center'):
+def drawFormattedText(text, fontname='stimFont',size=15, x=0.0, y=0.0, benchmark='center',display=True):
     FONT = shared.font['ft']
     FONT.underline = True
 
     x,y = getPos(x,y,w=size*len(text), h=size, benchmark=benchmark)
     FONT.render_to(shared.win, (x,y), text, size=(size, size))
 
+    if display:
+        shared.pg.display.flip()
 
 # draw a square
 # 屏幕中央显示一个方块
-def drawRect(w, h, x=0.0, y=0.0, fill=True, color=(255,255,255), width=1, benchmark='center'):
+def drawRect(w, h, x=0.0, y=0.0, fill=True, color=(255,255,255), width=1, benchmark='center',display=True):
     x,y = getPos(x, y, w=w, h=h, benchmark=benchmark)
     #colour, (x, y), size, thickness
     if fill:
         width = 0
     shared.pg.draw.rect(shared.win, color, (x, y, w, h), width)
 
+    if display:
+        shared.pg.display.flip()
+
 # draw circle
-def drawCircle(r, x=0.0, y=0.0, fill=True, color=(255,255,255), width=1, benchmark='center'):
+def drawCircle(r, x=0.0, y=0.0, fill=True, color=(255,255,255), width=1, benchmark='center',display=True):
     x,y = getPos(x, y, w=0, h=0, benchmark=benchmark)
     if fill:
         width = 0
     shared.pg.draw.circle(shared.win, color, (x, y), r, width)
 
+    if display:
+        shared.pg.display.flip()
+
 # draw line
 def drawLine(points, color=(255,255,255), width=1):
     shared.pg.draw.lines(shared.win, color, False, points, width)
 
+    if display:
+        shared.pg.display.flip()
+
 # draw picture
-def drawPic(path, w=0, h=0, x=0.0, y=0.0, benchmark='center'):
+def drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, benchmark='center',display=True):
     im = shared.pg.image.load(path).convert()
+    if rotate!=0:
+        im = shared.pg.transform.rotate(im, rotate)
     if w>0 and h>0:
         im = shared.pg.transform.scale(im, (w,h))
     else:
         w,h = im.get_rect().size
     x,y = getPos(x,y,w,h, benchmark=benchmark)
     shared.win.blit(im, (x,y))
+
+    if display:
+        shared.pg.display.flip()

@@ -62,6 +62,6 @@ from expy.response import *
 #         key,time = waitForResponse({}, 100)
 #         if key==pauseKey:
 #             video.pause()
-#             waitForEvent(pauseKey, 100)
+#             waitForResponse(pauseKey, 100)
 #             video.pause()
 #         

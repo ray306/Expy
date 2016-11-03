@@ -12,8 +12,10 @@ drawPic('data/demo.jpg') # Draw a picture on the canvas center
 show(3000) # Display current canvas
 ''''''
 
-
 drawPic('data/demo.jpg', w=400, h=300) # Draw a zoomed picture on the canvas center
+show(3000) # Display current canvas
+
+drawPic('data/demo.jpg', w=300, h=400, rotate=90) # Draw a zoomed picture on the canvas center
 show(3000) # Display current canvas
 
 drawPic('data/demo.jpg', w=400, h=300, x=0.5, y=0.5) # Draw a zoomed picture on the canvas, and move it

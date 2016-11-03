@@ -44,7 +44,6 @@ def start(settingfile='setting.txt', fullscreen=True, winsize=(800,600),mouseVis
 
     'Color'
     shared.fontColor = shared.setting['fontColor']
-    print(shared.fontColor)
     shared.backgroundColor = shared.setting['backgroundColor']
 
     'Mouse pointer visibility'

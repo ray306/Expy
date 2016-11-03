@@ -15,7 +15,7 @@ def trial(stim):
     playSound(sound) # Play the wav file
 
     textSlide('Please press F for "ba", or press J for "da"')
-    key = waitForEvent({K_f:'ba',K_j:'da'}) # Waiting for pressing 'F' or 'J'
+    key,rt = waitForResponse({K_f:'ba',K_j:'da'}) # Waiting for pressing 'F' or 'J'
 
     if key==stim:
         alertAndGo('Correct!',1000) # Display something in 1s

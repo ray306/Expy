@@ -5,37 +5,29 @@ sys.path.append('../../')
 from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 
-'Please look into "Key mapping" for some detail'
+drawText('请按下键盘上的任意键') # Draw text on the canvas and display it
+key,rt = waitForResponse() # Waiting for pressing and get the pressed key.
+alertAndGo('您刚刚按下了%d，用时：%dms'%(key,rt)) # Display the keypress
 
-'With response time'
-drawText('请按下键盘上的K或J') # Draw text on the canvas
-show() # Display current canvas
-'''General usage'''
-key,rt = waitForResponse({K_k:'K',K_j:'J'}) # Waiting for pressing 'K' or 'J', and get the pressed key.
-''''''
-alertAndGo('您刚刚按下了'+key+'，用时：'+str(rt)) # Print the keypress
+'Key limited by "allowedKeys". Please look into "Key mapping" for some detail'
+drawText('除了键盘上的K或J，别的按键都不会起作用') # Draw text on the canvas and display it
+key,rt = waitForResponse({K_k:'K',K_j:'J'}) # Waiting for pressing 'K' or 'J', and get the pressed key's name.
+alertAndGo('您刚刚按下了%s，用时：%dms'%(key,rt)) # Display the keypress
 
+drawText('除了键盘上的K或J，别的按键都不会起作用') # Draw text on the canvas and display it
+key,rt = waitForResponse([K_k,K_j]) # Waiting for pressing 'K' or 'J', and get the pressed key's id.
+alertAndGo('您刚刚按下了%d，用时：%dms'%(key,rt)) # Display the keypress
 
-drawText('请在1秒内按下键盘上的K或J') # Draw text on the canvas
-show() # Display current canvas
-key,rt = waitForResponse({K_k:'K',K_j:'J'}, outTime=1000) # Waiting for pressing 'K' or 'J' in 1000ms, and get the pressed key.
+drawText('除了键盘上的K，别的按键都不会起作用') # Draw text on the canvas and display it
+key,rt = waitForResponse(K_k) # Waiting for pressing 'K', and get the pressed key's id.
+alertAndGo('您刚刚按下了%d，用时：%dms'%(key,rt)) # Display the keypress
 
-alertAndGo('您刚刚按下了'+key+'，用时：'+str(rt)) # Print the keypress
+'Time limited by "outTime"'
+drawText('请在1秒内按下键盘上的K或J') # Draw text on the canvas and display it
+key,rt = waitForResponse({K_k:'K',K_j:'J'}, outTime=1000) # Waiting for pressing 'K' or 'J' in 1000ms.
+alertAndGo('您刚刚按下了%s，用时：%dms'%(key,rt)) # Display the keypress
 
-
-'Only key'
-drawText('请按下键盘上的任意键') # Draw text on the canvas
-show() # Display current canvas
-key = waitForEvent() # Waiting for pressing and get the pressed key.
-alertAndGo('您刚刚按下了'+str(key)) # Show the keypress
-
-# Please look into "Key mapping" for some detail
-drawText('除了键盘上的K，别的按键都不会起作用') # Draw text on the canvas
-show() # Display current canvas
-key = waitForEvent(K_k) # Waiting for pressing "K"
-clear()
-
-drawText('请按下键盘上的K或J') # Draw text on the canvas
-show() # Display current canvas
-key = waitForEvent({K_k:'K',K_j:'J'}) # Waiting for pressing 'K' or 'J', and get the pressed key.
-alertAndGo('您刚刚按下了'+key) # Print the keypress
+'Get only key(without RT) by "hasRT"'
+drawText('请按下键盘上的K或J') # Draw text on the canvas and display it
+key = waitForResponse({K_k:'K',K_j:'J'}, hasRT=False) # Waiting for pressing 'K' or 'J', no RT returned.
+alertAndGo('您刚刚按下了'+key) # Display the keypress
