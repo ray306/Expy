@@ -1,6 +1,6 @@
 # todo
 - todo: format text draw function
-- rotation
+- Added the parameter "rotate" to all the `drawXXX`
 
 # 0.9.4
 - Added the parameter "hasRT" to `waitForResponse`

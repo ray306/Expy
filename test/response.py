@@ -27,7 +27,7 @@ drawText('请在1秒内按下键盘上的K或J') # Draw text on the canvas and d
 key,rt = waitForResponse({K_k:'K',K_j:'J'}, outTime=1000) # Waiting for pressing 'K' or 'J' in 1000ms.
 alertAndGo('您刚刚按下了%s，用时：%dms'%(key,rt)) # Display the keypress
 
-'Get only key(without RT) by "hasRT"'
+'Get only key(without RT) by falsing the "hasRT"'
 drawText('请按下键盘上的K或J') # Draw text on the canvas and display it
 key = waitForResponse({K_k:'K',K_j:'J'}, hasRT=False) # Waiting for pressing 'K' or 'J', no RT returned.
 alertAndGo('您刚刚按下了'+key) # Display the keypress
