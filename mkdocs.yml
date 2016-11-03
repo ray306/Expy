@@ -8,9 +8,8 @@ repo_url: https://github.com/ray306/expy
 pages:
   - Overview: index.md
   - User Guide:
-    - Quickstart: example.md
+    - Quickstart: quickstart.md
     - Cookbook: cookbook.md
-    - Functions: functions.md
     - API: api.md
     - Key Mapping: keymap.md
   - About:

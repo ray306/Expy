@@ -4,18 +4,23 @@ import sys
 sys.path.append('../../')
 ################
 
-from expy import * # Import the needed functions
-start() # Initiate the experiment environment
+from expy import *  # Import the needed functions
+start()  # Initiate the experiment environment
 
-something = getInput('enter something:') # Get user input until "ENTER", then give it to a varible
+# Get user input until "ENTER" pressed, then give it to a variable
+something = getInput('enter something:')
 
-instruction(['page1>','page2>','page3\npage3']) # Show the information of experiment
+# Show the instruction of experiment
+instruction(['page1>', 'page2>', 'page3\npage3'])
 
-tip('Show something until press SPACE or RETURN') # Show something until "SPACE" or "RETURN"
+# Show something until "SPACE" or "RETURN" pressed
+tip('Show something until press SPACE or RETURN')
 
-restTime() # Suspend the experiment and ask participant to rest, until "SPACE" or "RETURN"
+# Suspend the experiment and ask participant to rest, until "SPACE" or "RETURN" pressed
+restTime()  
 
-alertAndGo('Show something for 3000ms',3000) # Show something during a given time, and continue
+# Show something during a limited period, and continue
+alertAndGo('Show something for 3000ms', 3000)
 
-alertAndQuit('Show something for 3000ms, and quit')# Show something during a given time, and quit the program
-
+# Show something during a limited period, and quit the program
+alertAndQuit('Show something for 3000ms, and quit')

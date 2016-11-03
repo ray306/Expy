@@ -25,7 +25,7 @@ from .extend import *
 #               diag = 14.3：the length of the screen diagonal (inch)
 #               angel = 1.5：visual angel of single char (degree)
 # 【返回值】pg：pygame对象，win：显示屏对象，font：字体对象
-def start(settingfile='setting.txt', fullscreen=True, winsize=(800,600),mouseVisible=False, normalFontSize = 20, stimFontSize = None, distance=60, diag = 23, angel = 2.5, fontColor = (255,255,255), backgroundColor = (128, 128, 128), sample_rate = 44100, bits = 16, channel=2, port='COM1'):
+def start(settingfile='setting.txt', fullscreen=True, winsize=(800, 600), mouseVisible=False, normalFontSize=20, stimFontSize=None, distance=60, diag=23, angel=2.5, fontColor=(255, 255, 255), backgroundColor=(128, 128, 128), sample_rate=44100, bits=16, channel=2, port='COM1'):
     'Parameters'
     func_var = locals().copy()
     try:
@@ -33,12 +33,12 @@ def start(settingfile='setting.txt', fullscreen=True, winsize=(800,600),mouseVis
     except:
         print('"setting.txt" does not exist.')
 
-    for k,v in shared.setting.items():
-        if k in ['fullscreen','fontColor','winsize','mouseVisible','backgroundColor','distance','diag','angel',
-              'sample_rate','bit','channel','port'] or k[-8:] == 'FontSize':
-            func_var[k] = eval('%s' %v[0])
+    for k, v in shared.setting.items():
+        if k in ['fullscreen', 'fontColor', 'winsize', 'mouseVisible', 'backgroundColor', 'distance', 'diag', 'angel',
+                 'sample_rate', 'bit', 'channel', 'port'] or k[-8:] == 'FontSize':
+            func_var[k] = eval('%s' % v[0])
         else:
-            func_var[k] = eval('%s' %v)
+            func_var[k] = eval('%s' % v)
 
     shared.setting = func_var
 
@@ -53,17 +53,20 @@ def start(settingfile='setting.txt', fullscreen=True, winsize=(800,600),mouseVis
 
     'Sound mixer'
     # Initate the mixer
-    shared.pg.mixer.init(shared.setting['sample_rate'], -shared.setting['bits'], shared.setting['channel'])
-    
+    shared.pg.mixer.init(shared.setting[
+                         'sample_rate'], -shared.setting['bits'], shared.setting['channel'])
+
     'Window'
     # Initate the window
     if shared.setting['fullscreen'] == True:
-        shared.win = shared.pg.display.set_mode((shared.winWidth,shared.winHeight), FULLSCREEN| HWSURFACE|DOUBLEBUF)
+        shared.win = shared.pg.display.set_mode(
+            (shared.winWidth, shared.winHeight), FULLSCREEN | HWSURFACE | DOUBLEBUF)
     else:
-        shared.win = shared.pg.display.set_mode(shared.setting['winsize'], HWSURFACE | DOUBLEBUF)
+        shared.win = shared.pg.display.set_mode(
+            shared.setting['winsize'], HWSURFACE | DOUBLEBUF)
         shared.winWidth = shared.setting['winsize'][0]
         shared.winHeight = shared.setting['winsize'][1]
-    clear() # Reset screen color
+    clear()  # Reset screen color
 
     'Joystick'
     # Initate the joystick
@@ -75,23 +78,23 @@ def start(settingfile='setting.txt', fullscreen=True, winsize=(800,600),mouseVis
 
     'Font'
     # Get the font size attribute of normal text, stimulus, or others
-    for k,v in shared.setting.items():
-         if 'FontSize' == k[-8:]:
+    for k, v in shared.setting.items():
+        if 'FontSize' == k[-8:]:
             shared.font[k] = v
 
     if shared.setting['stimFontSize'] == None:
-        shared.font['stimFontSize'] =  int((shared.winWidth**2 + shared.winHeight**2) **0.5/(shared.setting['diag']*2.54 / (shared.setting['distance'] * np.tan(shared.setting['angel']/4*np.pi/180) * 2))) # pixelSize/(pixels in diagonal) = realLength/(real length in diagonal)
-    
-    for k,v in shared.font.copy().items():
-         shared.font[k[:-4]] = shared.pg.font.Font(shared.path+"simhei.ttf", shared.font[k])
+        shared.font['stimFontSize'] = int((shared.winWidth**2 + shared.winHeight**2) ** 0.5 / (shared.setting['diag'] * 2.54 / (shared.setting[
+                                          'distance'] * np.tan(shared.setting['angel'] / 4 * np.pi / 180) * 2)))  # pixelSize/(pixels in diagonal) = realLength/(real length in diagonal)
 
-    shared.font['ft'] = freetype.Font(shared.path+"simhei.ttf")
+    for k, v in shared.font.copy().items():
+        shared.font[
+            k[:-4]] = shared.pg.font.Font(shared.path + "simhei.ttf", shared.font[k])
+
+    shared.font['ft'] = freetype.Font(shared.path + "simhei.ttf")
 
     'Port (only serial port needs port name pre-define)'
-    shared.ser.port = shared.setting['port'] # set the port
+    shared.ser.port = shared.setting['port']  # set the port
     try:
         shared.ser.open()
     except:
         print('Could not open serial port')
-
-    

@@ -2,6 +2,9 @@
 - todo: format text draw function
 - Added the parameter "rotate" to all the `drawXXX`
 
+# 0.9.4.1
+- Clear screen in the end of `getInput`
+
 # 0.9.4
 - Added the parameter "hasRT" to `waitForResponse`
 - Removed `waitForEvent`

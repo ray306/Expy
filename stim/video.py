@@ -20,14 +20,14 @@ from expy.response import *
 
 #     start = time.time()
 #     duration = source.duration
-    
+
 #     while 1:
 #         ts = source.get_next_video_timestamp()
 #         fm = source.get_next_video_frame()
 #         if fm:
 #             rawimage = fm.get_image_data()
 #             pixels = rawimage.get_data(rawimage.format, rawimage.pitch)
-            
+
 #             video = shared.pg.image.frombuffer(pixels, (width, height), rawimage.format)
 
 #             #Blit the image to the screen
@@ -49,7 +49,7 @@ from expy.response import *
 #     video = shared.pg.movie.Movie(path)
 #     return video
 
-# # 
+# #
 # def getVideoInfo(video):
 #     return video.get_length(),video.get_size()
 
@@ -64,4 +64,4 @@ from expy.response import *
 #             video.pause()
 #             waitForResponse(pauseKey, 100)
 #             video.pause()
-#         
+#

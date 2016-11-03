@@ -4,18 +4,18 @@ import sys
 sys.path.append('../../')
 ################
 
-from expy import * # Import the needed functions
+from expy import *  # Import the needed functions
 
 
 'Parallel Port'
 start(port=0xC100)
-sendTrigger(0,mode='P')
+sendTrigger(0, mode='P')
 # shared.Objdll.Out32(0xC100,0) # 0xC100 is the port, 0 is the data
 
 
 'Serial Port'
 start(port='COM1')
-sendTrigger('something',mode='S')
+sendTrigger('something', mode='S')
 
 # import serial
 # ser = serial.Serial(baudrate=115200)

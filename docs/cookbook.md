@@ -2,6 +2,7 @@
 ---
 ## *Experiment Initiation*
 ```python
+# coding:utf-8
 from expy import * # Import the needed functions
 start() # Initiate the experiment environment
 ```
