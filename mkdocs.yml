@@ -10,7 +10,7 @@ pages:
   - User Guide:
     - Quickstart: quickstart.md
     - Cookbook: cookbook.md
-    - API: api.md
+    - API referrence: api.md
     - Key Mapping: keymap.md
   - About:
     - Changelog: changelog.md

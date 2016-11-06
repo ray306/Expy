@@ -17,7 +17,10 @@ In this example, you need to press key to select the word you heard.
 Happy expy!
 ----
 [backgroundColor]
-(128,128,128)
+(255,255,255)
+----
+[fontColor]
+(0,0,0)
 ----
 [stim1FontSize]
 15

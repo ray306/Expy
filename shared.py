@@ -4,6 +4,9 @@ import pygame as pg
 import ctypes
 import serial
 
+'''
+Some variable that will be used in many place.
+'''
 
 'environment varible'
 path = os.path.dirname(os.path.abspath(__file__)) + '/'

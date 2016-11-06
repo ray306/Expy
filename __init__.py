@@ -16,16 +16,50 @@ from .recorder import *
 from .scaffold import *
 from .extend import *
 
-
-# 启动pygame环境，设置好一些参数
-# 【参数】fullscreen：是否全屏显示
-#               normalFontSize: 一般显示内容的字体字号
-#               normalFont: 一般显示内容的字体字号
-#               distance = 40：distance from eyes to screen (cm)
-#               diag = 14.3：the length of the screen diagonal (inch)
-#               angel = 1.5：visual angel of single char (degree)
-# 【返回值】pg：pygame对象，win：显示屏对象，font：字体对象
 def start(settingfile='setting.txt', fullscreen=True, winsize=(800, 600), mouseVisible=False, normalFontSize=20, stimFontSize=None, distance=60, diag=23, angel=2.5, fontColor=(255, 255, 255), backgroundColor=(128, 128, 128), sample_rate=44100, bits=16, channel=2, port='COM1'):
+    '''
+    Initialize the experiment.
+    Note: todo.
+
+    Parameters
+    ----------
+    settingfile: str (default: 'setting.txt')
+        The filepath of setting
+    fullscreen: True(default), or False 
+        Whether the window is fullscreen
+    winsize: (width,height) (default:(800, 600)) 
+        The size of window
+    mouseVisible: True, or False(default)
+        Set the mouse pointer visibility
+    normalFontSize: int (default:20) 
+        The size of normal/['normalFont'] text 
+    stimFontSize: int, or None(default) 
+        The size of ['stimFont'] text 
+    distance: int (default:60) 
+        Distance from eyes to screen (cm)
+    diag: int (default:23) 
+        The length of the screen diagonal (inch) 
+    angel: int (default:2.5) 
+        Visual angel of single char (degree)
+    fontColor: tuple RGB (default:(255, 255, 255)) 
+        The color of text
+    backgroundColor: tuple RGB (default:(128, 128, 128)) 
+        The color of background
+    sample_rate: int (default:44100) 
+        Sample rate of sound mixer
+    bits: int (default:16) 
+        Bits of sound mixer
+    channel: int (default:2) 
+        Channel amount of sound mixer
+    port: str, or hex number (default:'COM1') 
+        Port name used to send trigger.
+        Use str on serial port, and hex on parallel port 
+
+    Returns
+    -------
+    None
+    '''
+    
     'Parameters'
     func_var = locals().copy()
     try:

@@ -24,8 +24,7 @@ def readSetting(filepath='setting.txt'):
     '''
 
     setting = dict()
-    timing
-    with open(path) as f:
+    with open(filepath) as f:
         try:
             for s in re.compile(r'[-]{2,}').split(f.read()):
                 if len(s) > 0:

@@ -38,7 +38,7 @@ run()
 ```python
 '''General usage'''
 drawText('Hello world!') # Draw text on the canvas
-show(3000) # Display current canvas
+show(3000) # Display current canvas in 3s
 ''''''
 
 drawText('Hello world!', fontname='normalFont') # Draw text on the canvas, with given font(size)

@@ -9,6 +9,15 @@ def loadSound(path):
     '''
     Load a wav file, and return data array
     Or load a mp3/ogg file, and return None
+
+    Parameters
+    ----------
+    todo
+
+    Returns
+    -------
+    value: np.array (if loaded a wav file), or None (if loaded a mp3/ogg file)
+        The sound data array
     '''
     if path[-3:] in ['wav', 'WAV']:
         sr, sound = scipy.io.wavfile.read(path)
@@ -24,8 +33,17 @@ def loadSound(path):
 
 def loadManySound(dirpath, filenames, ext='wav'):
     '''
-    Read a list of music file, and return data array
+    Read a list of music file, then concatnate them and return data array.
     not support mp3/ogg files
+
+    Parameters
+    ----------
+    todo
+
+    Returns
+    -------
+    value: np.array
+        The sound data
     '''
     if ext in ['wav', 'WAV']:
         paths = [(dirpath + '/' + file + '.' + ext) for file in filenames]
@@ -39,6 +57,15 @@ def loadManySound(dirpath, filenames, ext='wav'):
 def makeSound(freq, duration):
     '''
     Return a data array of certain sound freq
+
+    Parameters
+    ----------
+    todo
+
+    Returns
+    -------
+    wave: np.array
+        The sound data array
     '''
     sample_rate = 44100
     bits = 16
@@ -67,11 +94,20 @@ def makeSound(freq, duration):
 
     # pygame environment
     shared.pg.mixer.pre_init(sample_rate, -bits, 2)
-    return shared.pg.sndarray.make_sound(sound)
+    wave = shared.pg.sndarray.make_sound(sound)
+    return wave
 
 def playSound(wav=None, block=True):
     '''
     Play a loaded file or a data array
+
+    Parameters
+    ----------
+    todo
+
+    Returns
+    -------
+    None
     '''
     if wav is None:
         shared.pg.mixer.music.play()

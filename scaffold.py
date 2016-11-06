@@ -9,30 +9,62 @@ from .response import *
 
 
 def timing(name):
+    '''
+    Get a value of timing parameter:
+    If the setting gave a int, return it;
+    If the setting gave a range, return a random int in that range.
+
+    Parameters
+    ----------
+    name：str
+        The name of timing parameter.
+        
+    Return
+    ---------
+    value: int
+    '''
     val = shared.setting['timing'][name]
     if type(val) == int:
         return val
     else:
         return np.random.randint(val[0], val[1])
 
-'''Advanced draw class'''
-# display text right now
-# 在一个新页面上显示text的内容
-# 依赖drawText()
-
-
 def textSlide(text, fontname='normalFont', bgImage=None):
+    '''
+    Display a new text slide right now.
+
+    Parameters
+    ----------
+    text：str
+        The text on the screen.
+    fontname: str (default:'normalFont')
+        The font of the text.
+    bgImage: str, or None(default)
+        The path of background picture.
+        
+    Return
+    ---------
+    None
+    '''
     shared.win.fill(shared.backgroundColor)
     drawText(text, fontname=fontname)
     if bgImage:
         drawPic(path)
 
-# 获取被试输入的信息,以回车确认
-# 【参数】 preText：屏幕上预先出现的内容
-# 【返回值】被试的输入
-
-
 def getInput(preText):
+    '''
+    Get user input until "ENTER" pressed, then give it to a variable
+
+    Parameters
+    ----------
+    preText：str
+        The text that will be displayed before user's input.
+
+    Return
+    ---------
+    input_text: str
+        The content of user's input.
+    '''
     textSlide(preText)
     text = preText
     while 1:
@@ -44,15 +76,25 @@ def getInput(preText):
         elif inkey <= 127:
             text += (chr(inkey))
         textSlide(text)
+    input_text = text[len(preText):]
     clear()
-    return text[len(preText):]
-
-# display the instruction of the experiment (press 'left' to back, 'right' to continue)
-# 显示指导语instructionText，可分页面显示（instructionText列表有多长就显示几页）
-# 依赖textSlide()、 waitForResponse()
-
+    return input_text
 
 def instruction(instructionText, hasPractice=False):
+    '''
+    Show the instruction of experiment
+    (press 'left' to back, 'right' to continue)
+
+    Parameters
+    ----------
+    instructionText：list of str
+        The text that will be displayed as instruction.
+
+    Return
+    ---------
+    resp: Keyname/int
+        The last pressed key name.
+    '''
     intro = '\n'.join(instructionText).split('>\n')
     i = 0
     while True:
@@ -80,37 +122,82 @@ def instruction(instructionText, hasPractice=False):
             clear()
             return resp
 
-# display the tip during experiment (press 'blank' to continue)
-# 显示一个实验提示tip，然后等待被试按键确认
-# 依赖textSlide()、 waitForResponse()、 clear()
-
-
 def tip(text, allowedKeys=[K_SPACE, K_RETURN], outTime=0):
+    '''
+    Display a new text slide right now, and keep the screen until user's response.
+
+    Parameters
+    ----------
+    text：str
+        The text on the screen.
+    allowedKeys: Keyname, or list of Keyname (default:[K_SPACE, K_RETURN])
+        The allowed user's response.
+    outTime: int(>0) or 0(default)
+        The display time limitation of this function.
+        
+    Return
+    ---------
+    resp: Keyname/int
+        The last pressed key name.
+    '''
     textSlide(text)
     resp = waitForResponse(allowedKeys, outTime, hasRT=False)
     clear()
     return resp
 
-# 显示一个实验提示，一段时间后自动消失并继续程序
-# 依赖textSlide()
-
-
 def alertAndGo(text, outTime=3000):
+    '''
+    Display a new text slide right now, 
+    and keep the screen in a given period of time, or until user pressed SPACE or K_RETURN
+
+    Parameters
+    ----------
+    text：str
+        The text on the screen.
+    outTime: int(>0) or 0(default)
+        The display time limitation of this function.
+        
+    Return
+    ---------
+    None
+    '''
     tip(text, outTime=outTime)
 
-# display message and quit after some time
-# 显示一个实验提示（出错警告或实验结束提示），2.5秒后自动退出程序
-# 依赖textSlide()
-
-
 def alertAndQuit(text, outTime=3000):
+    '''
+    Display a new text slide right now, 
+    and keep the screen in a given period of time, or until user pressed SPACE or K_RETURN,
+    then quit the program.
+
+    Parameters
+    ----------
+    text：str
+        The text on the screen.
+    outTime: int(>0) or 0(default)
+        The display time limitation of this function.
+        
+    Return
+    ---------
+    None
+    '''
     alertAndGo(text, outTime)
     shared.pg.quit()
 
-# 表示休息时间，用空格键结束
-# 依赖tip()
-
-
 def restTime(text='现在实验暂停一会儿，您可以放松一下\n如果休息好了请按 [空格键] 开始实验。'):
+    '''
+    Suspend the experiment and ask participant to rest:
+    1. Display a blank screen in 3s,
+    2. Display a new text slide which tells user to rest, 
+    3. eep the screen until user pressed SPACE.
+
+    Parameters
+    ----------
+    text：str
+        The text on the screen.
+        
+    Return
+    ---------
+    None
+    '''
     shared.pg.time.wait(3000)
     tip(text, K_SPACE)

@@ -11,7 +11,7 @@ start()  # Initiate the experiment environment
 something = getInput('enter something:')
 
 # Show the instruction of experiment
-instruction(['page1>', 'page2>', 'page3\npage3'])
+instruction(['This is the first page of instruction>', 'second page>', 'last page\nPress SPACE to quit the instruction'])
 
 # Show something until "SPACE" or "RETURN" pressed
 tip('Show something until press SPACE or RETURN')
