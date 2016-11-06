@@ -1,5 +1,6 @@
 ## Initialization
 - **start(settingfile='setting.txt', fullscreen=True, winsize=(800, 600), mouseVisible=False, normalFontSize=20, stimFontSize=None, distance=60, diag=23, angel=2.5, fontColor=(255, 255, 255), backgroundColor=(128, 128, 128), sample_rate=44100, bits=16, channel=2, port='COM1')**
+
     ```
     Initialize the experiment.
     Note: todo.
@@ -47,6 +48,7 @@
 ## Stimulus
 ### *Position*
 - **getPos(x=shared.winWidth // 2, y=shared.winHeight // 2, w=0, h=0, benchmark='center')**
+
     ```
     Caluate the screen position of object
 
@@ -75,6 +77,7 @@
     ```
 ### *Text*
 - **drawText(text, fontname='stimFont', x=0.0, y=0.0, benchmark='center', display=True)**
+
     ```
     Draw text on the canvas. The text will show as multiple lines splited by the '\n'. 
 
@@ -88,6 +91,7 @@
     ```
 ### *Shape*
 - **drawRect(w, h, x=0.0, y=0.0, fill=True, color=(255, 255, 255), width=1, benchmark='center', display=True)**
+
     ```
     Draw rectangle on the canvas.
 
@@ -100,6 +104,7 @@
     None
     ```
 - **drawCircle(r, x=0.0, y=0.0, fill=True, color=(255, 255, 255), width=1, benchmark='center', display=True)**
+
     ```
     Draw circle on the canvas.
 
@@ -112,6 +117,7 @@
     None
     ```
 - **drawLine(points, color=(255, 255, 255), width=1)**
+
     ```
     Draw line(s) on the canvas.
 
@@ -125,6 +131,7 @@
     ```
 ### *Picture*
 - **drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, benchmark='center', display=True)**
+
     ```
     Draw picture on the canvas.
 
@@ -138,6 +145,7 @@
     ```
 ### *Sound*
 - **loadSound(path)**
+
     ```
     Load a wav file, and return data array
     Or load a mp3/ogg file, and return None
@@ -152,6 +160,7 @@
         The sound data array
     ```
 - **loadManySound(dirpath, filenames, ext='wav')**
+
     ```
     Read a list of music file, then concatnate them and return data array.
     not support mp3/ogg files
@@ -166,6 +175,7 @@
         The sound data
     ```
 - **makeSound(freq, duration)**
+
     ```
     Return a data array of certain sound freq
 
@@ -179,6 +189,7 @@
         The sound data array
     ```
 - **playSound(wav=None, block=True)**
+
     ```
     Play a loaded file or a data array
     
@@ -193,6 +204,7 @@
 ### *Video*
 ### *Display controller*
 - **show(outTime=False, cleanScreen=True, backup=None)**
+
     ```
     Display current canvas buffer, and keep the display during a limited period.
 
@@ -210,6 +222,7 @@
     None
     ```
 - **clear()**
+
     ```
     Clear the screen
 
@@ -222,6 +235,7 @@
     None
     ```
 - **getScreen(cleanScreen=True)**
+
     ```
     Get a backup of current canvas
 
@@ -239,6 +253,7 @@
 ## Response
 ### *Keyboard & Mouse & Joystick*
 -    **waitForResponse(allowedKeys=None, outTime=0, hasRT=True, suspending=False)**
+
     ```
     Waiting for a allowed keypress event during a limited period
     (Press F12 would suspend the procedure and press ESC would end the program)
@@ -272,14 +287,17 @@
     
 ### *Sound Recorder*
 - **environment_noise(samplingTime)**
+
     ```
     todo.
     ```
 - **recordSound(threshold, minRecordTime=0, maxSoundLength=60 * RATE, feedback=False)**
+
     ```
     todo.
     ```
 - **recordSound_tofile(path, filename, threshold, min_record_duration, maxSoundLength)**
+
     ```
     todo.
     ```
@@ -288,6 +306,7 @@
 ## IO
 ### *Read*
 - **readSetting(filepath='setting.txt')**
+
     ```
     Read the setting file and put the items into a dict.
     If the 'timingSet' is in the file, create a "timing" in the dict to put the timing parameter.
@@ -303,6 +322,7 @@
         todo.
     ```
 - **readStimuli(filepath, blockID=None, sheetname=0)**
+
     ```
     Get the stimuli from a csv/excel file
 
@@ -319,6 +339,7 @@
         The selected stimuli data
     ```
 - **readDir(dirpath, shuffle=True)**
+
     ```
     List the files in a directory
 
@@ -336,6 +357,7 @@
     ```
 ### *Save*
 - **saveResult(blockID, resp, columns=['respKey', 'RT'], stim=None, stim_columns=None)**
+
     ```
     Save experiment result to a file named {subjID}_{blockID}_result.csv.
     If stim is not None, the stimuli data would attach to the response result.
@@ -360,6 +382,7 @@
 
 ### *Send trigger*
 - **sendTrigger(data, mode='P')**
+
     ```
     Send trigger
 
@@ -378,6 +401,7 @@
 ---
 ## Other Scaffolds
 -   **textSlide(text, fontname='normalFont', bgImage=None)**
+
     ```
     Display a new text slide right now.
 
@@ -395,6 +419,7 @@
     None
     ```
 -   **getInput(preText)**
+
     ```
     Get user input until "ENTER" pressed, then give it to a variable
 
@@ -409,6 +434,7 @@
         The content of user's input.
     ```
 -   **instruction(instructionText, hasPractice=False)**
+
     ```
     Show the instruction of experiment
     (press 'left' to back, 'right' to continue)
@@ -424,6 +450,7 @@
         The last pressed key name.
       ```
 -   **tip(text, allowedKeys=[K_SPACE, K_RETURN], outTime=0)**
+
     ```
     Display a new text slide right now, and keep the screen until user's response.
 
@@ -442,6 +469,7 @@
         The last pressed key name.
     ```
 -   **alertAndGo(text, outTime=3000)**
+
     ```
     Display a new text slide right now, 
     and keep the screen in a given period of time, or until user pressed SPACE or K_RETURN
@@ -458,6 +486,7 @@
     None
     ```
 -   **alertAndQuit(text, outTime=3000)**
+
     ```
     Display a new text slide right now, 
     and keep the screen in a given period of time, or until user pressed SPACE or K_RETURN,
@@ -475,11 +504,12 @@
     None
     ```
 -   **restTime(text='现在实验暂停一会儿，您可以放松一下\n如果休息好了请按 [空格键] 开始实验。')**
+
     ```
     Suspend the experiment and ask participant to rest:
     1. Display a blank screen in 3s,
     2. Display a new text slide which tells user to rest, 
-    3. eep the screen until user pressed SPACE.
+    3. Keep the screen until user pressed SPACE.
 
     Parameters
     ----------
@@ -489,4 +519,4 @@
     Return
     ---------
     None
-      ```
+    ```
