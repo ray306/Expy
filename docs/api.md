@@ -77,7 +77,7 @@ Returns
 ```
 
 ### *Text*
-- **drawText(text, font='simhei', size=25, color=C_white, x=0.0, y=0.0, benchmark='center', display=True)**
+- **drawText(text, font='simhei', size=25, color=C_white, rotation=0, x=0.0, y=0.0, benchmark='center', display=True)**
 
 ```
 Draw text on the canvas. The text will show as multiple lines splited by the '\n'. 

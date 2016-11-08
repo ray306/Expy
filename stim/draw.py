@@ -61,7 +61,8 @@ def getPos(x=shared.winWidth // 2, y=shared.winHeight // 2, w=0, h=0, benchmark=
 
 # def drawText(text, fontname='stimFont', x=0.0, y=0.0, benchmark='center', display=True):
 #     '''
-#     Draw text on the canvas. The text will show as multiple lines splited by the '\n'. 
+# Draw text on the canvas. The text will show as multiple lines splited by
+# the '\n'.
 
 #     Parameters
 #     ----------
@@ -92,7 +93,7 @@ def getPos(x=shared.winWidth // 2, y=shared.winHeight // 2, w=0, h=0, benchmark=
 #     if display:
 #         shared.pg.display.flip()
 
-def drawText(text, font='simhei', size=25, color=C_white, x=0.0, y=0.0, benchmark='center', display=True):
+def drawText(text, font='simhei', size=25, color=C_white, rotation=0, x=0.0, y=0.0, benchmark='center', display=True):
     '''
     Draw text with complex format on the canvas. The text will show as multiple lines splited by the '\n'. 
 
@@ -104,7 +105,7 @@ def drawText(text, font='simhei', size=25, color=C_white, x=0.0, y=0.0, benchmar
     -------
     None
     '''
-    'assign value'
+    'Assign value'
     if (type(size) is str) and (size in shared.font):
         size = shared.font[size]
     elif (type(size) is int) and (size > 0):
@@ -114,22 +115,28 @@ def drawText(text, font='simhei', size=25, color=C_white, x=0.0, y=0.0, benchmar
 
     if font in shared.font:
         FONT = shared.font[font]
+        FONT.rotation = rotation
     else:
         raise ValueError(font + ' cannot be regarded as a font')
 
-    'draw'
+    'Draw'
     if not '\n' in text:
-        target, (left, top, w, h) = FONT.render(text, fgcolor=color, size=(size, size))
+        target, (left, top, w, h) = FONT.render(
+            text, fgcolor=color, size=(size, size))
         pos_x, pos_y = getPos(x, y, w, h, benchmark=benchmark)
         shared.win.blit(target, (pos_x, pos_y))
     else:
         lines = text.split('\n')
-        rendered = [FONT.render(l, fgcolor=color, size=(size, size)) for l in lines]
+        rendered = [FONT.render(l, fgcolor=color, size=(size, size))
+                    for l in lines]
         maxWidth = max([w for target, (left, top, w, h) in rendered])
 
         for ind, (target, (left, top, w, h)) in enumerate(rendered):
-            y_offset = (len(lines) - 1 - ind * 2) * (h / shared.winHeight)
-            pos_x, pos_y = getPos(x, y - y_offset, w=maxWidth, h=0, benchmark=benchmark)
+            # h*1.5: 1.5x row spacing
+            y_offset = (len(lines) - 1 - ind * 2) * \
+                ((h * 1.5) / shared.winHeight)
+            pos_x, pos_y = getPos(
+                x, y - y_offset, w=maxWidth, h=0, benchmark=benchmark)
             shared.win.blit(target, (pos_x, pos_y))
 
     if display:
@@ -153,7 +160,7 @@ def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, benchmark='c
     if fill:
         width = 0
     shared.pg.draw.rect(shared.win, color, (x, y, w, h), width)
-
+    # target = shared.pg.transform.rotate(target, 45)
     if display:
         shared.pg.display.flip()
 

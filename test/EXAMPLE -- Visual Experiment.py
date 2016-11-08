@@ -7,7 +7,6 @@ sys.path.append('../../')
 from expy import *  # Import the needed functions
 start()  # Initiate the experiment environment
 
-
 def trial(word, pos):
     drawText(word, x=pos)  # Draw text on the canvas and display it
 

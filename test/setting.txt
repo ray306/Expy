@@ -5,7 +5,8 @@ ITI: 500
 [instruction1]
 Welcome to our experiment!
 >
-In this example, you need to respond to the words "left" with the F key , and respond to the words "right" with the J key. 
+In this example, you need to respond to the words "left" with the F key ,
+and respond to the words "right" with the J key. 
 >
 Happy expy!
 ----

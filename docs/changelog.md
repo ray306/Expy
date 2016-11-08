@@ -5,7 +5,8 @@
 # 0.9.5
 - Supported colornames: C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy
 - Import time while importing expy
-- Added the parameters "font", "size", and "color" to `drawText` (Freetype as th backend)
+- Added the parameters "font", "size", "rotation" and "color" to `drawText` (used Freetype as the backend)
+- 1.5x row spacing when multiple lines appear.
 
 # 0.9.4.3
 - Import pandas(as pd), random while importing expy

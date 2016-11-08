@@ -42,16 +42,20 @@ drawText('Hello world!')
 show(3000)  # Display current canvas
 ''''''
 
+# Draw text on the canvas, with left center's position
+drawText('Hello! world!', x=-0.5, y=0.0, benchmark='left_center')
+show(3000)  # Display current canvas
+
 # Draw text on the canvas, with given fontsize
 drawText('Hello world!', size=40)
 show(3000)  # Display current canvas
 
-# Draw text on the canvas, with center's position
-drawText('Hello! world!', x=-0.5, y=0.0)
+# Draw text on the canvas, with given angle
+drawText('Hello world!', size=40, rotation=45)
 show(3000)  # Display current canvas
 
-# Draw text on the canvas, with left center's position
-drawText('Hello! world!', x=-0.5, y=0.0, benchmark='left_center')
+# Draw text on the canvas, with center's position
+drawText('Hello! world!', x=-0.5, y=0.0)
 show(3000)  # Display current canvas
 
 drawText('Hello\nworld\n!')  # Draw multi-line text on the canvas
