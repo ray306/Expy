@@ -2,6 +2,7 @@ import numpy as np
 import pygame as pg
 
 from expy import shared
+from expy.colors import *
 
 
 def getPos(x=shared.winWidth // 2, y=shared.winHeight // 2, w=0, h=0, benchmark='center'):
@@ -58,9 +59,42 @@ def getPos(x=shared.winWidth // 2, y=shared.winHeight // 2, w=0, h=0, benchmark=
     raise ValueError('Unsupported position benchmark')
 
 
-def drawText(text, fontname='stimFont', x=0.0, y=0.0, benchmark='center', display=True):
+# def drawText(text, fontname='stimFont', x=0.0, y=0.0, benchmark='center', display=True):
+#     '''
+#     Draw text on the canvas. The text will show as multiple lines splited by the '\n'. 
+
+#     Parameters
+#     ----------
+#     todo
+
+#     Returns
+#     -------
+#     None
+#     '''
+#     FONT = shared.font[fontname]
+
+#     if not '\n' in text:
+#         target = FONT.render(text, True, shared.fontColor)
+#         x, y = getPos(x, y, w=target.get_width(),
+#                       h=target.get_height(), benchmark=benchmark)
+#         shared.win.blit(target, (x, y))
+
+#     else:
+#         lines = text.split('\n')
+
+#         targets = [FONT.render(l, True, shared.fontColor) for l in lines]
+#         maxWidth = max([t.get_width() for t in targets])
+#         for ind, target in enumerate(targets):
+#             y_offset = (len(lines) - 1 - ind * 2) * (target.get_height() / shared.winHeight)
+#             pos_x, pos_y = getPos(x, y - y_offset, w=maxWidth, h=0, benchmark=benchmark)
+#             shared.win.blit(target, (pos_x, pos_y))
+
+#     if display:
+#         shared.pg.display.flip()
+
+def drawText(text, font='simhei', size=25, color=C_white, x=0.0, y=0.0, benchmark='center', display=True):
     '''
-    Draw text on the canvas. The text will show as multiple lines splited by the '\n'. 
+    Draw text with complex format on the canvas. The text will show as multiple lines splited by the '\n'. 
 
     Parameters
     ----------
@@ -70,51 +104,39 @@ def drawText(text, fontname='stimFont', x=0.0, y=0.0, benchmark='center', displa
     -------
     None
     '''
-    if not '\n' in text:
-        target = shared.font[fontname].render(text, True, shared.fontColor)
-        x, y = getPos(x, y, w=target.get_width(),
-                      h=target.get_height(), benchmark=benchmark)
-        shared.win.blit(target, (x, y))
+    'assign value'
+    if (type(size) is str) and (size in shared.font):
+        size = shared.font[size]
+    elif (type(size) is int) and (size > 0):
+        pass
+    else:
+        raise ValueError(str(size) + ' cannot be regarded as a font size')
 
+    if font in shared.font:
+        FONT = shared.font[font]
+    else:
+        raise ValueError(font + ' cannot be regarded as a font')
+
+    'draw'
+    if not '\n' in text:
+        target, (left, top, w, h) = FONT.render(text, fgcolor=color, size=(size, size))
+        pos_x, pos_y = getPos(x, y, w, h, benchmark=benchmark)
+        shared.win.blit(target, (pos_x, pos_y))
     else:
         lines = text.split('\n')
-        lineN = len(lines)
+        rendered = [FONT.render(l, fgcolor=color, size=(size, size)) for l in lines]
+        maxWidth = max([w for target, (left, top, w, h) in rendered])
 
-        font = shared.font[fontname]
-        targets = [font.render(l, True, shared.fontColor) for l in lines]
-        maxLen = max([t.get_width() for t in targets])
-        for ind, target in enumerate(targets):
-            y_offset = (lineN - 1 - ind * 2) * \
-                (target.get_height() / shared.winHeight)
-            pos_x, pos_y = getPos(x, y - y_offset, w=maxLen,
-                                  h=0, benchmark=benchmark)
+        for ind, (target, (left, top, w, h)) in enumerate(rendered):
+            y_offset = (len(lines) - 1 - ind * 2) * (h / shared.winHeight)
+            pos_x, pos_y = getPos(x, y - y_offset, w=maxWidth, h=0, benchmark=benchmark)
             shared.win.blit(target, (pos_x, pos_y))
-    if display:
-        shared.pg.display.flip()
-
-def drawFormattedText(text, fontname='stimFont', size=15, x=0.0, y=0.0, benchmark='center', display=True):
-    '''
-    Draw text with complex format on the canvas.
-
-    Parameters
-    ----------
-    todo
-
-    Returns
-    -------
-    None
-    '''
-    FONT = shared.font['ft']
-    FONT.underline = True
-
-    x, y = getPos(x, y, w=size * len(text), h=size, benchmark=benchmark)
-    FONT.render_to(shared.win, (x, y), text, size=(size, size))
 
     if display:
         shared.pg.display.flip()
 
 
-def drawRect(w, h, x=0.0, y=0.0, fill=True, color=(255, 255, 255), width=1, benchmark='center', display=True):
+def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, benchmark='center', display=True):
     '''
     Draw rectangle on the canvas.
 
@@ -136,7 +158,7 @@ def drawRect(w, h, x=0.0, y=0.0, fill=True, color=(255, 255, 255), width=1, benc
         shared.pg.display.flip()
 
 
-def drawCircle(r, x=0.0, y=0.0, fill=True, color=(255, 255, 255), width=1, benchmark='center', display=True):
+def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, benchmark='center', display=True):
     '''
     Draw circle on the canvas.
 
@@ -157,7 +179,7 @@ def drawCircle(r, x=0.0, y=0.0, fill=True, color=(255, 255, 255), width=1, bench
         shared.pg.display.flip()
 
 
-def drawLine(points, color=(255, 255, 255), width=1):
+def drawLine(points, color=C_white, width=1, display=True):
     '''
     Draw line(s) on the canvas.
 

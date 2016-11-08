@@ -2,6 +2,7 @@ import numpy as np
 from pygame.locals import *
 
 from expy import shared
+from .colors import *
 from .stim.draw import *
 from .stim.display import *
 from .io import *
@@ -29,7 +30,7 @@ def timing(name):
     else:
         return np.random.randint(val[0], val[1])
 
-def textSlide(text, fontname='normalFont', bgImage=None):
+def textSlide(text, font='simhei', size='normalFontSize', bgImage=None):
     '''
     Display a new text slide right now.
 
@@ -37,8 +38,10 @@ def textSlide(text, fontname='normalFont', bgImage=None):
     ----------
     text：str
         The text on the screen.
-    fontname: str (default:'normalFont')
-        The font of the text.
+    font: str (default:'simhei')
+        The fontname of the text.
+    size: str (default:'normalFontSize')
+        The fontsize of the text.
     bgImage: str, or None(default)
         The path of background picture.
         
@@ -47,9 +50,10 @@ def textSlide(text, fontname='normalFont', bgImage=None):
     None
     '''
     shared.win.fill(shared.backgroundColor)
-    drawText(text, fontname=fontname)
     if bgImage:
-        drawPic(path)
+        drawPic(path)    
+    drawText(text, font=font, size=size)
+    
 
 def getInput(preText):
     '''

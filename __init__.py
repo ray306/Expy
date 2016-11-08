@@ -4,8 +4,12 @@ import os
 from pygame.locals import *
 from pygame import freetype
 import numpy as np
+import pandas as pd
+import random
+import time
 
 from . import shared
+from .colors import *
 from .io import *
 from .response import *
 from .stim.draw import *
@@ -32,9 +36,9 @@ def start(settingfile='setting.txt', fullscreen=True, winsize=(800, 600), mouseV
     mouseVisible: True, or False(default)
         Set the mouse pointer visibility
     normalFontSize: int (default:20) 
-        The size of normal/['normalFont'] text 
+        The size of the text in normal font 
     stimFontSize: int, or None(default) 
-        The size of ['stimFont'] text 
+        The size of the text in stimulus font  
     distance: int (default:60) 
         Distance from eyes to screen (cm)
     diag: int (default:23) 
@@ -119,12 +123,14 @@ def start(settingfile='setting.txt', fullscreen=True, winsize=(800, 600), mouseV
     if shared.setting['stimFontSize'] == None:
         shared.font['stimFontSize'] = int((shared.winWidth**2 + shared.winHeight**2) ** 0.5 / (shared.setting['diag'] * 2.54 / (shared.setting[
                                           'distance'] * np.tan(shared.setting['angel'] / 4 * np.pi / 180) * 2)))  # pixelSize/(pixels in diagonal) = realLength/(real length in diagonal)
+    # Find out all the .ttf files and load them.
+    for f in os.listdir(shared.path):
+        if f[-4:] == '.ttf':
+            shared.font[f[:-4]] = freetype.Font(shared.path + f)
 
-    for k, v in shared.font.copy().items():
-        shared.font[
-            k[:-4]] = shared.pg.font.Font(shared.path + "simhei.ttf", shared.font[k])
-
-    shared.font['ft'] = freetype.Font(shared.path + "simhei.ttf")
+    # for k, v in shared.font.copy().items():
+    #     shared.font[
+    #         k[:-4]] = shared.pg.font.Font(shared.path + "simhei.ttf", shared.font[k])
 
     'Port (only serial port needs port name pre-define)'
     shared.ser.port = shared.setting['port']  # set the port

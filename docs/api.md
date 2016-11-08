@@ -75,8 +75,9 @@ Returns
     The position of the object's upperleft corner
 
 ```
+
 ### *Text*
-- **drawText(text, fontname='stimFont', x=0.0, y=0.0, benchmark='center', display=True)**
+- **drawText(text, font='simhei', size=25, color=C_white, x=0.0, y=0.0, benchmark='center', display=True)**
 
 ```
 Draw text on the canvas. The text will show as multiple lines splited by the '\n'. 
@@ -89,6 +90,7 @@ Returns
 -------
 None
 ```
+
 ### *Shape*
 - **drawRect(w, h, x=0.0, y=0.0, fill=True, color=(255, 255, 255), width=1, benchmark='center', display=True)**
 
@@ -129,6 +131,7 @@ Returns
 -------
 None
 ```
+
 ### *Picture*
 - **drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, benchmark='center', display=True)**
 
@@ -143,6 +146,7 @@ Returns
 -------
 None
 ```
+
 ### *Sound*
 - **loadSound(path)**
 
@@ -201,6 +205,7 @@ Returns
 -------
 None
 ```
+
 ### *Video*
 ### *Display controller*
 - **show(outTime=False, cleanScreen=True, backup=None)**
@@ -311,6 +316,7 @@ todo.
 Read the setting file and put the items into a dict.
 If the 'timingSet' is in the file, create a "timing" in the dict to put the timing parameter.
 
+
 Parameters
 ----------
 filepath：str (default:'setting.txt')
@@ -321,7 +327,7 @@ Returns
 setting: dict
     todo.
 ```
-- **readStimuli(filepath, blockID=None, sheetname=0)**
+- **readStimuli(filepath, query=None, sheetname=0, returnList=True)**
 
 ```
 Get the stimuli from a csv/excel file
@@ -330,18 +336,23 @@ Parameters
 ----------
 filepath：str
     The path of the data file
-blockID: int
-sheetname: int
+query: str, None(default)
+    The query expression (e.g. 'block==1' or 'block>1 and cond=="A"')
+sheetname: int (default:0)
+    The sheet id of an excel.
+returnList: True(default), False
+    If returnList is True, then return a list of rows instead of whole table
 
 Returns
 -------
-stimuli: pandas.DataFrame
+stimuli: list of rows(pandas.Series), or whole table (pandas.DataFrame)
     The selected stimuli data
 ```
 - **readDir(dirpath, shuffle=True)**
 
 ```
 List the files in a directory
+
 
 Parameters
 ----------
@@ -355,12 +366,14 @@ Return
 files: list
     The filename list
 ```
+
 ### *Save*
 - **saveResult(blockID, resp, columns=['respKey', 'RT'], stim=None, stim_columns=None)**
 
 ```
 Save experiment result to a file named {subjID}_{blockID}_result.csv.
 If stim is not None, the stimuli data would attach to the response result.
+
 
 Parameters
 ----------
@@ -386,6 +399,7 @@ None
 ```
 Send trigger
 
+
 Parameters
 ----------
 data: int, or str
@@ -400,7 +414,7 @@ None
 
 ---
 ## Other Scaffolds
--   **textSlide(text, fontname='normalFont', bgImage=None)**
+-   **textSlide(text, font='simhei', size='normalFontSize', bgImage=None)**
 
 ```
 Display a new text slide right now.
@@ -409,8 +423,10 @@ Parameters
 ----------
 text：str
     The text on the screen.
-fontname: str (default:'normalFont')
-    The font of the text.
+font: str (default:'simhei')
+    The fontname of the text.
+size: str (default:'normalFontSize')
+    The fontsize of the text.
 bgImage: str, or None(default)
     The path of background picture.
     
@@ -422,6 +438,7 @@ None
 
 ```
 Get user input until "ENTER" pressed, then give it to a variable
+
 
 Parameters
 ----------
@@ -439,6 +456,7 @@ input_text: str
 Show the instruction of experiment
 (press 'left' to back, 'right' to continue)
 
+
 Parameters
 ----------
 instructionText：list of str
@@ -454,6 +472,7 @@ resp: Keyname/int
 ```
 Display a new text slide right now, and keep the screen until user's response.
 
+
 Parameters
 ----------
 text：str
@@ -462,7 +481,7 @@ allowedKeys: Keyname, or list of Keyname (default:[K_SPACE, K_RETURN])
     The allowed user's response.
 outTime: int(>0) or 0(default)
     The display time limitation of this function.
-    
+
 Return
 ---------
 resp: Keyname/int
@@ -474,13 +493,14 @@ resp: Keyname/int
 Display a new text slide right now, 
 and keep the screen in a given period of time, or until user pressed SPACE or K_RETURN
 
+
 Parameters
 ----------
 text：str
     The text on the screen.
 outTime: int(>0) or 0(default)
     The display time limitation of this function.
-    
+
 Return
 ---------
 None
@@ -492,13 +512,14 @@ Display a new text slide right now,
 and keep the screen in a given period of time, or until user pressed SPACE or K_RETURN,
 then quit the program.
 
+
 Parameters
 ----------
 text：str
     The text on the screen.
 outTime: int(>0) or 0(default)
     The display time limitation of this function.
-    
+
 Return
 ---------
 None
@@ -509,14 +530,17 @@ None
 Suspend the experiment and ask participant to rest:
 1. Display a blank screen in 3s,
 2. Display a new text slide which tells user to rest, 
-3. Keep the screen until user pressed SPACE.
+3. keep the screen until user pressed SPACE.
+
 
 Parameters
 ----------
 text：str
     The text on the screen.
-    
+
 Return
 ---------
 None
+```
+
 ```

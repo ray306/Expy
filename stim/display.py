@@ -1,4 +1,5 @@
 from expy import shared
+from expy.colors import *
 from .draw import *
 from expy.response import *
 

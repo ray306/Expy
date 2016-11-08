@@ -10,6 +10,7 @@ pages:
   - User Guide:
     - Quickstart: quickstart.md
     - Cookbook: cookbook.md
+    - Tips & tricks: tip.md
     - API referrence: api.md
     - Key Mapping: keymap.md
   - About:

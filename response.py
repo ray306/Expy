@@ -1,7 +1,9 @@
 from pygame.locals import *
 import time
-from expy import shared
 
+from expy import shared
+from .colors import *
+from .stim.draw import *
 
 def setKeyMapping(allowedKeys):
     '''
@@ -52,11 +54,18 @@ def suspend():
     backup = shared.pg.display.get_surface().convert()
     shared.win.fill(shared.backgroundColor)
 
-    target = shared.font['normalFont'].render(
-        '[程序暂停中/Pause]', True, shared.fontColor)
-    shared.win.blit(target,
-                    ((shared.winWidth - target.get_width()) / 2, (shared.winHeight - target.get_height()) / 2))
-    shared.pg.display.flip()
+    drawText('[程序暂停中/Pause]')
+
+    # target, (left, top, w, h) = shared.font['simhei'].render(
+    #     '[程序暂停中/Pause]', fgcolor=C_white, size=(25, 25))
+    # shared.win.blit(target, ((shared.winWidth - w) / 2, (shared.winHeight - h) / 2))
+    # shared.pg.display.flip()
+
+    # target = shared.font['normalFont'].render(
+    #     '[程序暂停中/Pause]', True, shared.fontColor)
+    # shared.win.blit(target,
+    #                 ((shared.winWidth - target.get_width()) / 2, (shared.winHeight - target.get_height()) / 2))
+    # shared.pg.display.flip()
 
     waitForResponse(K_F12, suspending=True)
 

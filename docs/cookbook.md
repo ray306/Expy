@@ -37,23 +37,29 @@ run()
 ### Show text
 ```python
 '''General usage'''
-drawText('Hello world!') # Draw text on the canvas
-show(3000) # Display current canvas in 3s
+# Draw text on the canvas
+drawText('Hello world!')
+show(3000)  # Display current canvas
 ''''''
 
-drawText('Hello world!', fontname='normalFont') # Draw text on the canvas, with given font(size)
-show(3000) # Display current canvas
+# Draw text on the canvas, with given fontsize
+drawText('Hello world!', size=40)
+show(3000)  # Display current canvas
 
-drawText('Hello! world!', x=-0.5,y=0.0) # Draw text on the canvas, with center's position
-show(3000) # Display current canvas
+# Draw text on the canvas, with center's position
+drawText('Hello! world!', x=-0.5, y=0.0)
+show(3000)  # Display current canvas
 
-drawText('Hello! world!', x=-0.5,y=0.0, benchmark='left_center') # Draw text on the canvas, with left center's position
-show(3000) # Display current canvas
+# Draw text on the canvas, with left center's position
+drawText('Hello! world!', x=-0.5, y=0.0, benchmark='left_center')
+show(3000)  # Display current canvas
 
-drawText('Hello\nworld\n!') # Draw multi-line text on the canvas
-show(3000) # Display current canvas
+drawText('Hello\nworld\n!')  # Draw multi-line text on the canvas
+show(3000)  # Display current canvas
 
-textSlide('Hello\nworld\nagain!') # Display some text directly, it's functionally equals to clear+drawText+show
+# Display text on a new slide, it's functionally equals to clear+drawText+show,
+textSlide('Hello\nworld\nagain!')
+
 ```
 ### Show picture
 ```python
@@ -190,7 +196,7 @@ print(filelist)
 'Get stimuli from csv or xlsx'
 stim = 'data/trial_list.csv'
 alldata = readStimuli(stim)
-block2 = readStimuli(stim, blockID=('block',2))
+block2 = readStimuli(stim, query='block==2')
 
 print('alldata:\n',alldata)
 print('block2:\n',block2)

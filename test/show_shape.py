@@ -12,7 +12,7 @@ drawCircle(60, fill=False)
 show(3000)  # Display current canvas
 
 # Draw a rect on the canvas
-drawRect(200, 100)
+drawRect(200, 100, color=C_red)
 show(3000)  # Display current canvas
 
 x, y = shared.winWidth // 2, shared.winHeight // 2  # calculate the screen center

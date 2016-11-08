@@ -51,7 +51,8 @@ def readSetting(filepath='setting.txt'):
 
     return setting
 
-def readStimuli(filepath, blockID=None, sheetname=0):
+
+def readStimuli(filepath, query=None, sheetname=0, returnList=True):
     '''
     Get the stimuli from a csv/excel file
 
@@ -59,12 +60,16 @@ def readStimuli(filepath, blockID=None, sheetname=0):
     ----------
     filepath：str
         The path of the data file
-    blockID: int
-    sheetname: int
+    query: str, None(default)
+        The query expression (e.g. 'block==1' or 'block>1 and cond=="A"')
+    sheetname: int (default:0)
+        The sheet id of an excel.
+    returnList: True(default), False
+        If returnList is True, then return a list of rows instead of whole table
 
     Returns
     -------
-    stimuli: pandas.DataFrame
+    stimuli: list of rows(pandas.Series), or whole table (pandas.DataFrame)
         The selected stimuli data
     '''
     if filepath.split('.')[-1] == 'csv':
@@ -73,11 +78,14 @@ def readStimuli(filepath, blockID=None, sheetname=0):
         stimuli = pd.read_excel(filepath, sep=',', sheetname=0)
     else:
         raise ValueError('Only support csv and Excel file')
-    if blockID:
-        # stimuli = stimuli[stimuli[blockID[0]]==blockID[1]]
-        stimuli = stimuli[stimuli[blockID[0]] == blockID[1]].sample(n=4)
+    if type(query) == str:
+        stimuli = stimuli.query(query)
+        # .sample(n=4)
     stimuli.index = range(len(stimuli))
+    if returnList:
+        stimuli = [i for ind, i in list(stimuli.iterrows())]
     return stimuli
+
 
 def readDir(dirpath, shuffle=True):
     '''
@@ -100,6 +108,7 @@ def readDir(dirpath, shuffle=True):
         np.random.shuffle(files)
     return files
 
+
 def saveResult(blockID, resp, columns=['respKey', 'RT'], stim=None, stim_columns=None):
     '''
     Save experiment result to a file named {subjID}_{blockID}_result.csv.
@@ -121,7 +130,7 @@ def saveResult(blockID, resp, columns=['respKey', 'RT'], stim=None, stim_columns
     Return
     ---------
     None
-    '''   
+    '''
     if not os.path.exists('result'):
         os.mkdir('result')
     result = pd.DataFrame(resp, columns=columns)
@@ -132,6 +141,7 @@ def saveResult(blockID, resp, columns=['respKey', 'RT'], stim=None, stim_columns
 
     result.to_csv('result\\' + shared.subj + '_' +
                   str(blockID) + '_result.csv', index=None)
+
 
 def sendTrigger(data, mode='P'):
     '''

@@ -13,8 +13,8 @@ drawText('Hello world!')
 show(3000)  # Display current canvas
 ''''''
 
-# Draw text on the canvas, with given font(size)
-drawText('Hello world!', fontname='normalFont')
+# Draw text on the canvas, with given fontsize
+drawText('Hello world!', size=40)
 show(3000)  # Display current canvas
 
 # Draw text on the canvas, with center's position

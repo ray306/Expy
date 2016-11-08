@@ -2,8 +2,18 @@
 - todo: format text draw function
 - Added the parameter "rotate" to all the `drawXXX`
 
+# 0.9.5
+- Supported colornames: C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy
+- Import time while importing expy
+- Added the parameters "font", "size", and "color" to `drawText` (Freetype as th backend)
+
+# 0.9.4.3
+- Import pandas(as pd), random while importing expy
+- Added the parameter "query" to `readStimuli`
+
 # 0.9.4.1
 - Clear screen in the end of `getInput`
+- Changed return value of `readStimuli` to list
 
 # 0.9.4
 - Added the parameter "hasRT" to `waitForResponse`

@@ -13,7 +13,7 @@ print(filelist)
 'Get stimuli from csv or xlsx'
 stim = 'data/trial_list.csv'
 alldata = readStimuli(stim)
-block2 = readStimuli(stim, blockID=('block', 2))
+block2 = readStimuli(stim, query='block==2')
 
 print('alldata:\n', alldata)
 print('block2:\n', block2)
