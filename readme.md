@@ -29,6 +29,8 @@ See http://expy.readthedocs.io/en/latest/ for a complete reference manual and in
 ---
 # Installation instructions
 
+Expy has been tested on Python3.5 64bit, and I think it might be unfit for Python2.7.
+
 The simplest way to install Expy is through the Python Package Index (PyPI). This will ensure that all required dependencies are fulfilled. This can be achieved by executing the following command:
 
 ```
@@ -37,6 +39,15 @@ pip install expy
 or:
 ```
 sudo pip install expy
+```
+
+The command of getting update:
+```
+pip install --upgrade expy
+```
+or:
+```
+sudo pip install --upgrade expy
 ```
 
 ###*Required Dependencies*
