@@ -85,16 +85,18 @@ def trim(sndData, threshold):
 
 
 def environment_noise(samplingTime):
-    def calc_threshold():
-        """
-        Record a word or words from the microphone and 
-        return the data as an array of signed shorts.
+    """
+    Record the sound in a certain duration as the environment noise, and calcuate its power.
 
-        Normalizes the audio, trims silence from the 
-        start and end, and pads with 0.5 seconds of 
-        blank sound to make sure VLC et al can play 
-        it without getting chopped off.
-        """
+    Parameters
+    ----------
+    todo
+
+    Returns
+    -------
+    todo
+    """
+    def calc_threshold():
         p = pyaudio.PyAudio()
         stream = p.open(format=FORMAT, channels=1, rate=RATE,
                         input=True, output=True,
@@ -123,13 +125,15 @@ def environment_noise(samplingTime):
 
 def recordSound(threshold, minRecordTime=0, maxSoundLength=60 * RATE, feedback=False):
     """
-    Record a word or words from the microphone and 
-    return the data as an array of signed shorts.
+    Record sound from the microphone and return the data as an array of signed shorts.
 
-    Normalizes the audio, trims silence from the 
-    start and end, and pads with 0.5 seconds of 
-    blank sound to make sure VLC et al can play 
-    it without getting chopped off.
+    Parameters
+    ----------
+    todo
+
+    Returns
+    -------
+    todo
     """
     p = pyaudio.PyAudio()
     stream = p.open(format=FORMAT, channels=1, rate=RATE,
@@ -159,10 +163,10 @@ def recordSound(threshold, minRecordTime=0, maxSoundLength=60 * RATE, feedback=F
         # for e in shared.pg.event.get():
         #     if e.type == KEYDOWN:
         #         k = e.key
-        #     if k == 27:
-        #         shared.pg.quit()
-        #     elif k == K_F12:
-        #         suspend()
+        #         if k == 27:
+        #             shared.pg.quit()
+        #         elif k == K_F12:
+        #             suspend()
 
         if onset_detected:
             num_sound += len(sndData)
@@ -185,15 +189,25 @@ def recordSound(threshold, minRecordTime=0, maxSoundLength=60 * RATE, feedback=F
     p.terminate()
 
     r = trim(r, threshold)
-    r = normalize(r)
+    # r = normalize(r)
     r = r[:maxSoundLength]
     r = np.require(np.tile(r, (2, 1)).T, requirements='C')
-#     r = add_silence(r, 0.5)
+    # r = add_silence(r, 0.5)
     return sample_width, r
 
 
 def recordSound_tofile(path, filename, threshold, min_record_duration, maxSoundLength):
-    "Records from the microphone and outputs the resulting data to 'path'"
+    """
+    Record from the microphone and save the sound on disk.
+
+    Parameters
+    ----------
+    todo
+
+    Returns
+    -------
+    todo
+    """
     try:
         sample_width, data = recordSound(
             threshold, min_record_duration, maxSoundLength)
@@ -209,3 +223,70 @@ def recordSound_tofile(path, filename, threshold, min_record_duration, maxSoundL
         return True
     except:
         return False
+
+
+def recordSound_testing(threshold, RecordTime=[0,60], maxSoundLength=60 * RATE, feedback=False):
+    """
+    Record a word or words from the microphone and 
+    return the data as an array of signed shorts.
+    """
+    RecordTime = RecordTime[0]*,RecordTime[1]*shared.setting['sample_rate']
+    p = pyaudio.PyAudio()
+    stream = p.open(format=FORMAT, channels=1, rate=RATE,
+                    input=True, output=True,
+                    frames_per_buffer=CHUNK_SIZE)
+
+    num_silent = 0
+    speech_threshold = 4 * threshold
+    num_sound = 0
+    silent_limit = 1 * RATE
+
+    onset = 0
+    onset_detected = False
+
+    r = array('h')
+    while num_sound < maxSoundLength and len(r) < (minRecordTime + maxSoundLength) and num_silent < silent_limit:
+        # little endian, signed short
+        s = stream.read(CHUNK_SIZE)
+        if feedback:
+            stream.write(s, CHUNK_SIZE)
+
+        sndData = array('h', s)
+        if byteorder == 'big':
+            sndData.byteswap()
+        r.extend(sndData)
+
+        # for e in shared.pg.event.get():
+        #     if e.type == KEYDOWN:
+        #         k = e.key
+        #         if k == 27:
+        #             shared.pg.quit()
+        #         elif k == K_F12:
+        #             suspend()
+
+        if onset_detected:
+            num_sound += len(sndData)
+
+            if is_silent(sndData, threshold):
+                num_silent += len(sndData)
+            else:
+                num_silent = 0
+        else:
+            if max(sndData) > speech_threshold:
+                for idx in range(1, len(r), CHUNK_SIZE):
+                    if np.max(r[-idx - CHUNK_SIZE:-idx]) < threshold:
+                        onset = len(r) - idx - CHUNK_SIZE
+                        onset_detected = True
+                        break
+
+    sample_width = p.get_sample_size(FORMAT)
+    stream.stop_stream()
+    stream.close()
+    p.terminate()
+
+    r = trim(r, threshold)
+    # r = normalize(r)
+    r = r[:maxSoundLength]
+    r = np.require(np.tile(r, (2, 1)).T, requirements='C')
+    # r = add_silence(r, 0.5)
+    return sample_width, r
