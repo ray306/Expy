@@ -93,7 +93,7 @@ def getPos(x=shared.winWidth // 2, y=shared.winHeight // 2, w=0, h=0, benchmark=
 #     if display:
 #         shared.pg.display.flip()
 
-def drawText(text, font='simhei', size=25, color=C_white, rotation=0, x=0.0, y=0.0, benchmark='center', display=True):
+def drawText(text, font='simhei', size='stimFontSize', color=C_white, rotation=0, x=0.0, y=0.0, benchmark='center', display=True):
     '''
     Draw text with complex format on the canvas. The text will show as multiple lines splited by the '\n'. 
 

@@ -2,6 +2,9 @@
 - todo: format text draw function
 - Added the parameter "rotate" to all the `drawXXX`
 
+# 0.9.5.1
+- Changed the default value of 'size' in the `drawText` to 'stimFontSize'
+
 # 0.9.5
 - Supported colornames: C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy
 - Import time while importing expy
