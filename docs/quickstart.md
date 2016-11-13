@@ -25,7 +25,7 @@ def trial(word, pos):
     else:
         alertAndGo('Wrong!', 1000)
 
-    (Keep displaying in 500ms)
+    show(500)  # Pause (Keep displaying in 500ms)
 
 tip('In this example, you need to respond to the words "left" with the F key , and respond to the words "right" with the J key. ') # Display something until pressing 'SPACE' or 'ENTER'
 alertAndGo('The experiment will start after 3s.') # Display something in 3s(default)

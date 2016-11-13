@@ -2,6 +2,12 @@
 - todo: format text draw function
 - Added the parameter "rotate" to all the `drawXXX`
 
+# 0.9.5.2
+- `drawLine` allowed relative position
+- Changed "allowedKeys" in `tip`'s default value to [K_RETURN]
+- Now the `show` won't stop if you press SPACE (it only will when RETURN)
+- `loadManySound` allowed mono channel
+
 # 0.9.5.1
 - Changed the default value of 'size' in the `drawText` to 'stimFontSize'
 

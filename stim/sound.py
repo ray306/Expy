@@ -22,7 +22,7 @@ def loadSound(path):
     '''
     if path[-3:] in ['wav', 'WAV']:
         sr, sound = scipy.io.wavfile.read(path)
-        if len(sound.shape) == 1:
+        if len(sound.shape) == 1:  # Monochannel
             sound = np.require(np.tile(sound, (2, 1)).T, requirements='C')
         return sound
     else:
@@ -49,9 +49,9 @@ def loadManySound(dirpath, filenames, ext='wav'):
     if ext in ['wav', 'WAV']:
         paths = [(dirpath + '/' + file + '.' + ext) for file in filenames]
         sounds = np.concatenate([scipy.io.wavfile.read(p)[1] for p in paths])
-        sounds_reshaped = np.require(
-            np.tile(sounds, (2, 1)).T, requirements='C')
-        return sounds_reshaped
+        if len(sounds.shape) == 1:  # Monochannel
+            sounds = np.require(np.tile(sounds, (2, 1)).T, requirements='C')
+        return sounds
     else:
         raise ValueError('Unsupported sound format or file misssing')
 
@@ -68,9 +68,9 @@ def makeSound(freq, duration):
     wave: np.array
         The sound data array
     '''
-    sample_rate = 44100
-    bits = 16
-    total_sample = int(sample_rate * duration)
+    sr = shared.setting['sample_rate']
+    bits = shared.setting['bits']
+    total_sample = int(sr * duration)
     # setup our numpy array to handle 16 bit ints, which is what we set our
     # mixer to expect with "bits" up above
     sound = np.zeros((total_sample, 2), dtype=np.int16)
@@ -78,11 +78,11 @@ def makeSound(freq, duration):
 
     # convert the frequences to sinusoid, and put them into the sound object
     for s in range(total_sample):
-        t = float(s) / sample_rate    # time in seconds
+        t = float(s) / sr    # time in seconds
         sound[s] = int(round(max_sample * math.sin(2 * math.pi * freq * t)))
 
     # 淡入淡出背景音音轨5ms
-    segment = int(44100 * 0.005)
+    segment = int(sr * 0.005)
     start = sound[:, 0][:segment] * np.array(list(range(segment))) // segment
     start = np.array(start, int)
     end = sound[:, 0][-segment:] * \
@@ -94,7 +94,7 @@ def makeSound(freq, duration):
     sound[:, 1][-segment:] = end
 
     # pygame environment
-    shared.pg.mixer.pre_init(sample_rate, -bits, 2)
+    shared.pg.mixer.pre_init(sr, -bits, 2)
     wave = shared.pg.sndarray.make_sound(sound)
     return wave
 
@@ -117,6 +117,7 @@ def playSound(wav=None, block=True):
         # indices = indices[indices < len(wav)].astype(int)
         # wav = wav[ indices.astype(int) ]
         shared.pg.sndarray.make_sound(wav).play()
+
     if block:
         while shared.pg.mixer.get_busy():
             waitForResponse({}, 100)

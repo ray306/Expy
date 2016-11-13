@@ -508,7 +508,7 @@ Return
 resp: Keyname/int
     The last pressed key name.
 ```
--   **tip(text, allowedKeys=[K_SPACE, K_RETURN], outTime=0)**
+-   **tip(text, allowedKeys=[K_RETURN], outTime=0)**
 
 ```
 Display a new text slide right now, and keep the screen until user's response.
@@ -518,7 +518,7 @@ Parameters
 ----------
 text：str
     The text on the screen.
-allowedKeys: Keyname, or list of Keyname (default:[K_SPACE, K_RETURN])
+allowedKeys: Keyname, or list of Keyname (default:[K_RETURN])
     The allowed user's response.
 outTime: int(>0) or 0(default)
     The display time limitation of this function.

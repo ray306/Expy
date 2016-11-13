@@ -39,7 +39,7 @@ def show(outTime=False, cleanScreen=True, backup=None):
         shared.win.blit(backup, (0, 0))
     shared.pg.display.flip()
     if outTime:
-        waitForResponse({}, outTime)
+        waitForResponse(K_RETURN, outTime)
         if cleanScreen:
             clear()
 

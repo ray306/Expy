@@ -16,7 +16,7 @@ def trial(word, pos):
     else:
         alertAndGo('Wrong!', 1000)
 
-    (Keep displaying in 500ms)
+    show(500)  # Pause (Keep displaying in 500ms)
 
 instruction(shared.setting['instruction1'])
 

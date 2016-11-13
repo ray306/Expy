@@ -126,7 +126,7 @@ def instruction(instructionText, hasPractice=False):
             clear()
             return resp
 
-def tip(text, allowedKeys=[K_SPACE, K_RETURN], outTime=0):
+def tip(text, allowedKeys=[K_RETURN], outTime=0):
     '''
     Display a new text slide right now, and keep the screen until user's response.
 
@@ -134,7 +134,7 @@ def tip(text, allowedKeys=[K_SPACE, K_RETURN], outTime=0):
     ----------
     text：str
         The text on the screen.
-    allowedKeys: Keyname, or list of Keyname (default:[K_SPACE, K_RETURN])
+    allowedKeys: Keyname, or list of Keyname (default:[K_RETURN])
         The allowed user's response.
     outTime: int(>0) or 0(default)
         The display time limitation of this function.

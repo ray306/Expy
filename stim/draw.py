@@ -99,7 +99,24 @@ def drawText(text, font='simhei', size='stimFontSize', color=C_white, rotation=0
 
     Parameters
     ----------
-    todo
+    text: str
+        The content of text.
+    font: str (default:'simhei')
+        The font name of text.
+    size:int, or str (default:'stimFontSize')
+        The font size of text, you can either use a number or a pre-defined number name.
+    color: RGB tuple, or pre-defined variable (default:'C_white')
+        The font color of text, you can either use an RGB value or a pre-defined color name. The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+    rotation: int (default:0)
+        The rotation angle of text.
+    x: int, or float (default:0.0)
+        The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    y: int, or float (default:0.0)
+        The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    benchmark: str (default:'center')
+        The position benchmark of x and y on the text area.
+    display: True(default), False
+        If True, the function will put the canvas onto the screen. 
 
     Returns
     -------
@@ -198,7 +215,16 @@ def drawLine(points, color=C_white, width=1, display=True):
     -------
     None
     '''
-    shared.pg.draw.lines(shared.win, color, False, points, width)
+    new_points = []
+    for x,y in points:
+        if type(x) is float:
+            new_points.append((
+                (0.5 + x / 2) * shared.winWidth, 
+                (0.5 + y / 2) * shared.winHeight))
+        else:
+            new_points.append((x,y))
+
+    shared.pg.draw.lines(shared.win, color, False, new_points, width)
 
     if display:
         shared.pg.display.flip()
