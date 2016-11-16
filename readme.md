@@ -100,11 +100,10 @@ def block(trialList):
     for stim in trialList:
         trial(stim)
 
-def run():
-    for trialList in blockList:
-        block(trialList)
+# run
+for trialList in blockList:
+    block(trialList)
 
-run()
 ```
 
 ### *Visual Experiment*

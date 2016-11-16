@@ -26,11 +26,9 @@ def block(trialList):
     for stim in trialList:
         trial(stim)
         
-def run():
-    for trialList in blockList:
-        block(trialList)
-
-run()
+# run
+for trialList in blockList:
+    block(trialList)
 ```
 
 ## *Visual*
