@@ -139,8 +139,7 @@ def saveResult(blockID, resp, columns=['respKey', 'RT'], stim=None, stim_columns
             stim = pd.DataFrame(stim, columns=stim_columns)
         result = stim.join(result)
 
-    result.to_csv('result\\' + shared.subj + '_' +
-                  str(blockID) + '_result.csv', index=None)
+    result.to_csv('result/%s_%d_result.csv' %(shared.subj,blockID), index=None)
 
 
 def sendTrigger(data, mode='P'):

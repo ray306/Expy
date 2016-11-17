@@ -133,8 +133,8 @@ def start(settingfile='setting.txt', fullscreen=True, winsize=(800, 600), mouseV
     #         k[:-4]] = shared.pg.font.Font(shared.path + "simhei.ttf", shared.font[k])
 
     'Port (only serial port needs port name pre-define)'
-    shared.ser.port = shared.setting['port']  # set the port
     try:
+        shared.ser.port = shared.setting['port']  # set the port
         shared.ser.open()
     except:
         print('Could not open serial port')

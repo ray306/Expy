@@ -2,6 +2,9 @@
 - todo: format text draw function
 - Added the parameter "rotate" to all the `drawXXX`
 
+# 0.9.5.3
+- Fixed a bug on parallel port
+
 # 0.9.5.2
 - `drawLine` allowed relative position
 - Changed "allowedKeys" in `tip`'s default value to [K_RETURN]
