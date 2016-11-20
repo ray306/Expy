@@ -5,34 +5,34 @@
 [pypi-v-image]: https://img.shields.io/pypi/v/expy.png
 [pypi-v-link]: https://pypi.python.org/pypi/expy
 
-Expy is an easy-but-powerful psychology experiment framework. It's aimed at building an experiment without strugglling against the manual work of stimuli or the coding logic, by using a various of module functions.
-Expy is designed for psycholinguistic experiment, but also be suitable for any other experiments.
+Expy is an easy-yet-powerful experiment framework builder for psychology. It's aimed at setting up an experiment without struggling with the manual production of stimuli, data loading and storing, or the other time-consuming works, by using various module functions.
+Expy is designed for psycholinguistic experiments, but it's also suitable for any other experiments.
 
-**Advantange**:
+**Advantanges**:
 
-- Various of stimuli module (not need to prepare massive of stimuli pictures).
-- Various of procedure-controlling module (instruction, tip, rest, etc.)
-- Convenient to read stimuli from file and record response to file.
-- Getting participant's response data (keyboard, mouse, joystick) by one function.
-- Sending trigger easily.
-- You can pause or quit the program at anytime.
+- Various stimuli modules (not need for preparation of massive stimuli pictures).
+- Various procedure-controlling modules (instruction, tip, rest-stage, etc.)
+- Convenient for stimuli loading and responses recording.
+- Getting participants' response data (from keyboard, mouse, or joystick) by one function.
+- Sending triggers easily.
+- Easy pause or exit from the program.
 
-**Drawback**:
+**Disadvantages**:
 
-- Drawing complex shape (like grating) as stimuli (but you could draw them as loaded pictures).
-- Video playing.
+- Not good at drawing complex shape (e.g.,grating) as stimuli (however, you could draw them as loaded pictures).
+- Not good at video playing.
 
 ---
 ## Documentation
-See http://expy.readthedocs.io/en/latest/ for a complete reference manual and introductory tutorials.
+See http://expy.readthedocs.io/en/latest/ for introduction, tutorials, and reference manual.
 
 ---
 # Installation instructions
 
-Expy has been tested on Python3.5 64bit, and I think it might be unfit for Python2.7.
-(Since Python2 will be abanboned in recent years, why not drop it away and take Python3?)
+Expy has been tested on Python3.5 64bit.
+(Current it might be unfit for older versions like Python2.7. But since Python2 will become obsolete in the years to come, why not drop it anyaway and take Python3 instead?)
 
-The simplest way to install Expy is through the Python Package Index (PyPI). This will ensure that all required dependencies are fulfilled. This can be achieved by executing the following command:
+The simplest way to install Expy is through the Python Package Index (PyPI), which ensures that all required dependencies are established. This can be achieved by executing the following command:
 
 ```
 pip install expy

@@ -8,7 +8,7 @@ center, upper_left, upper_right, lower_left, lower_right, upper_center, left_cen
 ---
 You could press **F12** to suspend/resume the program;
 You could press **ESC** to quit the program;
-You could press **WIN** to back to the desktop and leave the program running
+You could press **WIN** to return to the desktop and leave the program running
 
 ---
 `Simhei` is the default font. But if you put a "ttf" font file under expy package's path, then you can use the font (e.g. `drawText(text, font='consola'`)
