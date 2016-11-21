@@ -1,4 +1,4 @@
-[timingSet]
+[timing_set]
 fix: 800-1400
 ITI: 500
 ----
@@ -17,14 +17,14 @@ In this example, you need to press key to select the word you heard.
 >
 Happy expy!
 ----
-[backgroundColor]
+[background_color]
 C_gray
 ----
-[fontColor]
+[font_color]
 C_white
 ----
-[stim1FontSize]
+[stim1_font_size]
 15
 ----
-[normalFontSize]
+[normal_font_size]
 22

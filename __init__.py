@@ -20,24 +20,24 @@ from .recorder import *
 from .scaffold import *
 from .extend import *
 
-def start(settingfile='setting.txt', fullscreen=True, winsize=(800, 600), mouseVisible=False, normalFontSize=20, stimFontSize=None, distance=60, diag=23, angel=2.5, fontColor=(255, 255, 255), backgroundColor=(128, 128, 128), sample_rate=44100, bits=16, channel=2, port='COM1'):
+def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=(255, 255, 255), background_color=(128, 128, 128), sample_rate=44100, bits=16, channel=2, port='COM1'):
     '''
     Initialize the experiment.
     Note: todo.
 
     Parameters
     ----------
-    settingfile: str (default: 'setting.txt')
+    setting_file: str (default: 'setting.txt')
         The filepath of setting
     fullscreen: True(default), or False 
         Whether the window is fullscreen
     winsize: (width,height) (default:(800, 600)) 
         The size of window
-    mouseVisible: True, or False(default)
+    mouse_visible: True, or False(default)
         Set the mouse pointer visibility
-    normalFontSize: int (default:20) 
+    normal_font_size: int (default:20) 
         The size of the text in normal font 
-    stimFontSize: int, or None(default) 
+    stim_font_size: int, or None(default) 
         The size of the text in stimulus font  
     distance: int (default:60) 
         Distance from eyes to screen (cm)
@@ -45,9 +45,9 @@ def start(settingfile='setting.txt', fullscreen=True, winsize=(800, 600), mouseV
         The length of the screen diagonal (inch) 
     angel: int (default:2.5) 
         Visual angel of single char (degree)
-    fontColor: tuple RGB (default:(255, 255, 255)) 
+    font_color: tuple RGB (default:(255, 255, 255)) 
         The color of text
-    backgroundColor: tuple RGB (default:(128, 128, 128)) 
+    background_color: tuple RGB (default:(128, 128, 128)) 
         The color of background
     sample_rate: int (default:44100) 
         Sample rate of sound mixer
@@ -67,13 +67,13 @@ def start(settingfile='setting.txt', fullscreen=True, winsize=(800, 600), mouseV
     'Parameters'
     func_var = locals().copy()
     try:
-        shared.setting = readSetting(settingfile)
+        shared.setting = readSetting(setting_file)
     except:
         print('"setting.txt" does not exist.')
 
     for k, v in shared.setting.items():
-        if k in ['fullscreen', 'fontColor', 'winsize', 'mouseVisible', 'backgroundColor', 'distance', 'diag', 'angel',
-                 'sample_rate', 'bit', 'channel', 'port'] or k[-8:] == 'FontSize':
+        if k in ['fullscreen', 'font_color', 'winsize', 'mouse_visible', 'background_color', 'distance', 'diag', 'angel',
+                 'sample_rate', 'bit', 'channel', 'port'] or k[-10:] == '_font_size':
             func_var[k] = eval('%s' % v[0])
         else:
             func_var[k] = eval('%s' % v)
@@ -81,12 +81,12 @@ def start(settingfile='setting.txt', fullscreen=True, winsize=(800, 600), mouseV
     shared.setting = func_var
 
     'Color'
-    shared.fontColor = shared.setting['fontColor']
-    shared.backgroundColor = shared.setting['backgroundColor']
+    shared.font_color = shared.setting['font_color']
+    shared.background_color = shared.setting['background_color']
 
     'Mouse pointer visibility'
     # Set the pointer visibility
-    shared.pg.mouse.set_visible(shared.setting['mouseVisible'])
+    shared.pg.mouse.set_visible(shared.setting['mouse_visible'])
     shared.pg.mixer.quit()
 
     'Sound mixer'
@@ -98,12 +98,12 @@ def start(settingfile='setting.txt', fullscreen=True, winsize=(800, 600), mouseV
     # Initate the window
     if shared.setting['fullscreen'] == True:
         shared.win = shared.pg.display.set_mode(
-            (shared.winWidth, shared.winHeight), FULLSCREEN | HWSURFACE | DOUBLEBUF)
+            (shared.win_width, shared.win_height), FULLSCREEN | HWSURFACE | DOUBLEBUF)
     else:
         shared.win = shared.pg.display.set_mode(
             shared.setting['winsize'], HWSURFACE | DOUBLEBUF)
-        shared.winWidth = shared.setting['winsize'][0]
-        shared.winHeight = shared.setting['winsize'][1]
+        shared.win_width = shared.setting['winsize'][0]
+        shared.win_height = shared.setting['winsize'][1]
     clear()  # Reset screen color
 
     'Joystick'
@@ -117,11 +117,11 @@ def start(settingfile='setting.txt', fullscreen=True, winsize=(800, 600), mouseV
     'Font'
     # Get the font size attribute of normal text, stimulus, or others
     for k, v in shared.setting.items():
-        if 'FontSize' == k[-8:]:
+        if '_font_size' == k[-10:]:
             shared.font[k] = v
 
-    if shared.setting['stimFontSize'] == None:
-        shared.font['stimFontSize'] = int((shared.winWidth**2 + shared.winHeight**2) ** 0.5 / (shared.setting['diag'] * 2.54 / (shared.setting[
+    if shared.setting['stim_font_size'] == None:
+        shared.font['stim_font_size'] = int((shared.win_width**2 + shared.win_height**2) ** 0.5 / (shared.setting['diag'] * 2.54 / (shared.setting[
                                           'distance'] * np.tan(shared.setting['angel'] / 4 * np.pi / 180) * 2)))  # pixelSize/(pixels in diagonal) = realLength/(real length in diagonal)
     # Find out all the .ttf files and load them.
     for f in os.listdir(shared.path):

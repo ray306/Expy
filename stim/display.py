@@ -15,18 +15,18 @@ def clear():
     -------
     None
     '''
-    shared.win.fill(shared.backgroundColor)
+    shared.win.fill(shared.background_color)
     shared.pg.display.flip()
 
-def show(outTime=False, cleanScreen=True, backup=None):
+def show(out_time=False, clean_screen=True, backup=None):
     '''
     Display current canvas buffer, and keep the display during a limited period.
 
     Parameters
     ----------
-    outTime: int(>0), False(default)
+    out_time: int(>0), False(default)
         The time limit of current function. 
-    cleanScreen: True(default), False
+    clean_screen: True(default), False
         Whether clear the screen after get the screen or not. 
     backup: None, or a screen backup
         Give a prepared screen to display
@@ -38,18 +38,18 @@ def show(outTime=False, cleanScreen=True, backup=None):
     if backup:
         shared.win.blit(backup, (0, 0))
     shared.pg.display.flip()
-    if outTime:
-        waitForResponse(K_RETURN, outTime)
-        if cleanScreen:
+    if out_time:
+        waitForResponse(K_RETURN, out_time)
+        if clean_screen:
             clear()
 
-def getScreen(cleanScreen=True):
+def getScreen(clean_screen=True):
     '''
     Get a backup of current canvas
 
     Parameters
     ----------
-    cleanScreen: True(default), False
+    clean_screen: True(default), False
         Whether clear the screen after get the screen or not. 
 
     Returns
@@ -57,6 +57,6 @@ def getScreen(cleanScreen=True):
     None
     '''
     backup = shared.pg.display.get_surface().convert()
-    if cleanScreen:
+    if clean_screen:
         clear()
     return backup

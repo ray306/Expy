@@ -11,7 +11,7 @@ Expy is designed for psycholinguistic experiments, but it's also suitable for an
 **Advantanges**:
 
 - Various stimuli modules (not need for preparation of massive stimuli pictures).
-- Various procedure-controlling modules (instruction, tip, rest-stage, etc.)
+- Various procedure-controlling modules (instruction, alert, rest-stage, etc.)
 - Convenient for stimuli loading and responses recording.
 - Getting participants' response data (from keyboard, mouse, or joystick) by one function.
 - Sending triggers easily.

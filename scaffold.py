@@ -30,7 +30,7 @@ def timing(name):
     else:
         return np.random.randint(val[0], val[1])
 
-def textSlide(text, font='simhei', size='normalFontSize', bgImage=None):
+def textSlide(text, font='simhei', size='normal_font_size', background_image=None):
     '''
     Display a new text slide right now.
 
@@ -40,28 +40,28 @@ def textSlide(text, font='simhei', size='normalFontSize', bgImage=None):
         The text on the screen.
     font: str (default:'simhei')
         The fontname of the text.
-    size: str (default:'normalFontSize')
+    size: str (default:'normal_font_size')
         The fontsize of the text.
-    bgImage: str, or None(default)
+    background_image: str, or None(default)
         The path of background picture.
         
     Return
     ---------
     None
     '''
-    shared.win.fill(shared.backgroundColor)
-    if bgImage:
+    shared.win.fill(shared.background_color)
+    if background_image:
         drawPic(path)    
     drawText(text, font=font, size=size)
     
 
-def getInput(preText):
+def getInput(pre_text):
     '''
     Get user input until "ENTER" pressed, then give it to a variable
 
     Parameters
     ----------
-    preText：str
+    pre_text：str
         The text that will be displayed before user's input.
 
     Return
@@ -69,10 +69,10 @@ def getInput(preText):
     input_text: str
         The content of user's input.
     '''
-    textSlide(preText)
-    text = preText
+    textSlide(pre_text)
+    text = pre_text
     while 1:
-        inkey = waitForResponse(hasRT=False)
+        inkey = waitForResponse(has_RT=False)
         if inkey == K_RETURN:
             break
         elif inkey == K_BACKSPACE:
@@ -80,18 +80,18 @@ def getInput(preText):
         elif inkey <= 127:
             text += (chr(inkey))
         textSlide(text)
-    input_text = text[len(preText):]
+    input_text = text[len(pre_text):]
     clear()
     return input_text
 
-def instruction(instructionText, hasPractice=False):
+def instruction(instruction_text, has_practice=False):
     '''
     Show the instruction of experiment
     (press 'left' to back, 'right' to continue)
 
     Parameters
     ----------
-    instructionText：list of str
+    instruction_text：list of str
         The text that will be displayed as instruction.
 
     Return
@@ -99,7 +99,7 @@ def instruction(instructionText, hasPractice=False):
     resp: Keyname/int
         The last pressed key name.
     '''
-    intro = '\n'.join(instructionText).split('>\n')
+    intro = '\n'.join(instruction_text).split('>\n')
     i = 0
     while True:
         if intro[i] == '[demo]':
@@ -117,7 +117,7 @@ def instruction(instructionText, hasPractice=False):
             textSlide(intro[
                       i] + '\n\n\n(按“←”返回上一页，按“→”进入下一页)\n\n(Press "←" to the previous page, or Press "→" to the next page)')
 
-        resp = waitForResponse(hasRT=False)
+        resp = waitForResponse(has_RT=False)
         if resp == K_LEFT and i > 0:
             i -= 1
         elif resp == K_RIGHT and i < len(intro) - 1:
@@ -126,7 +126,7 @@ def instruction(instructionText, hasPractice=False):
             clear()
             return resp
 
-def tip(text, allowedKeys=[K_RETURN], outTime=0):
+def alert(text, allowed_keys=[K_RETURN], out_time=0):
     '''
     Display a new text slide right now, and keep the screen until user's response.
 
@@ -134,9 +134,9 @@ def tip(text, allowedKeys=[K_RETURN], outTime=0):
     ----------
     text：str
         The text on the screen.
-    allowedKeys: Keyname, or list of Keyname (default:[K_RETURN])
+    allowed_keys: Keyname, or list of Keyname (default:[K_RETURN])
         The allowed user's response.
-    outTime: int(>0) or 0(default)
+    out_time: int(>0) or 0(default)
         The display time limitation of this function.
         
     Return
@@ -145,11 +145,17 @@ def tip(text, allowedKeys=[K_RETURN], outTime=0):
         The last pressed key name.
     '''
     textSlide(text)
-    resp = waitForResponse(allowedKeys, outTime, hasRT=False)
+    resp = waitForResponse(allowed_keys, out_time, has_RT=False)
     clear()
     return resp
 
-def alertAndGo(text, outTime=3000):
+def tip(text, allowed_keys=[K_RETURN], out_time=0):
+    '''
+    Override with "alert()"
+    ''' 
+    return alert(text, allowed_keys, out_time)
+
+def alertAndGo(text, out_time=3000):
     '''
     Display a new text slide right now, 
     and keep the screen in a given period of time, or until user pressed SPACE or K_RETURN
@@ -158,16 +164,16 @@ def alertAndGo(text, outTime=3000):
     ----------
     text：str
         The text on the screen.
-    outTime: int(>0) or 0(default)
+    out_time: int(>0) or 0(default)
         The display time limitation of this function.
         
     Return
     ---------
     None
     '''
-    tip(text, outTime=outTime)
+    alert(text, out_time=out_time)
 
-def alertAndQuit(text, outTime=3000):
+def alertAndQuit(text, out_time=3000):
     '''
     Display a new text slide right now, 
     and keep the screen in a given period of time, or until user pressed SPACE or K_RETURN,
@@ -177,17 +183,21 @@ def alertAndQuit(text, outTime=3000):
     ----------
     text：str
         The text on the screen.
-    outTime: int(>0) or 0(default)
+    out_time: int(>0) or 0(default)
         The display time limitation of this function.
         
     Return
     ---------
     None
     '''
-    alertAndGo(text, outTime)
+    alertAndGo(text, out_time)
     shared.pg.quit()
 
-def restTime(text='现在实验暂停一会儿，您可以放松一下\n如果休息好了请按 [空格键] 开始实验。'):
+rest_text = '实验暂停，您可以休息一会\n\
+如果休息结束请按 [空格] 继续实验。\n\
+Now you could have a rest,\n \
+please press [SPACE] key when you decide to continue.\n'
+def restTime(text=rest_text):
     '''
     Suspend the experiment and ask participant to rest:
     1. Display a blank screen in 3s,
@@ -204,4 +214,4 @@ def restTime(text='现在实验暂停一会儿，您可以放松一下\n如果�
     None
     '''
     shared.pg.time.wait(3000)
-    tip(text, K_SPACE)
+    alert(text, K_SPACE)

@@ -10,7 +10,7 @@ from expy import *  # Import the needed functions
 'Parallel Port'
 start(port=0xC100)
 sendTrigger(0, mode='P')
-# shared.Objdll.Out32(0xC100,0) # 0xC100 is the port, 0 is the data
+# shared.port_dll.Out32(0xC100,0) # 0xC100 is the port, 0 is the data
 
 
 'Serial Port'

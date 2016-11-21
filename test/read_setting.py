@@ -10,8 +10,8 @@ start()  # Calling start() will do the readSetting() implicitly
 # readSetting() # Or you can directly load setting from "setting.txt"
 
 'Using "shared.setting" dictionary to get the pre-defined value'
-print(shared.setting['backgroundColor'])  # Print the setting of 'backgroundColor' part
-print(shared.setting['timingSet'])  # Print the setting of 'timingSet' part
+print(shared.setting['background_color'])  # Print the setting of 'background_color' part
+print(shared.setting['timing_set'])  # Print the setting of 'timing_set' part
 
 'Calling "timing" function to get a certain time value'
 print(timing('ITI'))  # Print 'ITI' value (we specify 500 for it in "setting.txt")

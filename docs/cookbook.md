@@ -87,7 +87,7 @@ show(3000) # Display current canvas
 drawRect(200,100) # Draw a rect on the canvas
 show(3000) # Display current canvas
 
-x,y = shared.winWidth//2, shared.winHeight//2 # calculate the screen center
+x,y = shared.win_width//2, shared.win_height//2 # calculate the screen center
 drawLine([(x-100,y-100), (x,y), (x+100,y-100)]) # Draw lines on the canvas
 show(3000) # Display current canvas
 ```
@@ -107,22 +107,17 @@ playSound(sound)
 ```
 ### *Sound Recording*
 ```python
-RATE = 44100
-min_duration = 1*RATE
-max_duration = 2*RATE
-sample_duration=0.5
-noise_level = environment_noise(sample_duration)
+noise_level = environment_noise(0.5)  # Detect the noise level of environment
 
 'Without file'
 textSlide('Recording：')
-sample_width,sound = recordSound(noise_level,min_duration,max_duration)
-
+sample_width, sound = recordSound(noise_level, recording_min=2, sounding_max=0.7)
 textSlide('Playing：')
 playSound(sound)
 
 'With file'
 textSlide('Recording to file：')
-recordSound_tofile('data','record',noise_level,min_duration,max_duration)
+recordSoundTofile('record', noise_level, recording_min=2, sounding_max=0.7)
 
 record = loadSound('data/record.WAV')
 textSlide('Playing from file：')
@@ -135,7 +130,7 @@ drawText('请按下键盘上的任意键') # Draw text on the canvas and display
 key,rt = waitForResponse() # Waiting for pressing and get the pressed key.
 alertAndGo('您刚刚按下了%d，用时：%dms'%(key,rt)) # Display the keypress
 
-'Key limited by "allowedKeys". Please look into "Key mapping" for some detail'
+'Key limited by "allowed_keys". Please look into "Key mapping" for some detail'
 drawText('除了键盘上的K或J，别的按键都不会起作用') # Draw text on the canvas and display it
 key,rt = waitForResponse({K_k:'K',K_j:'J'}) # Waiting for pressing 'K' or 'J', and get the pressed key's name.
 alertAndGo('您刚刚按下了%s，用时：%dms'%(key,rt)) # Display the keypress
@@ -148,30 +143,36 @@ drawText('除了键盘上的K，别的按键都不会起作用') # Draw text on 
 key,rt = waitForResponse(K_k) # Waiting for pressing 'K', and get the pressed key's id.
 alertAndGo('您刚刚按下了%d，用时：%dms'%(key,rt)) # Display the keypress
 
-'Time limited by "outTime"'
+'Time limited by "out_time"'
 drawText('请在1秒内按下键盘上的K或J') # Draw text on the canvas and display it
-key,rt = waitForResponse({K_k:'K',K_j:'J'}, outTime=1000) # Waiting for pressing 'K' or 'J' in 1000ms.
+key,rt = waitForResponse({K_k:'K',K_j:'J'}, out_time=1000) # Waiting for pressing 'K' or 'J' in 1000ms.
 alertAndGo('您刚刚按下了%s，用时：%dms'%(key,rt)) # Display the keypress
 
-'Get only key(without RT) by "hasRT"'
+'Get only key(without RT) by "has_RT"'
 drawText('请按下键盘上的K或J') # Draw text on the canvas and display it
-key = waitForResponse({K_k:'K',K_j:'J'}, hasRT=False) # Waiting for pressing 'K' or 'J', no RT returned.
+key = waitForResponse({K_k:'K',K_j:'J'}, has_RT=False) # Waiting for pressing 'K' or 'J', no RT returned.
 alertAndGo('您刚刚按下了'+key) # Display the keypress
 ```
 
 ## *Scaffold functions*
 ```python
-something = getInput('enter something:') # Get user input until "ENTER", then give it to a varible
+# Get user input until "ENTER" pressed, then give it to a variable
+something = getInput('enter something:')
 
-instruction(['page1>','page2>','page3\npage3']) # Show the information of experiment
+# Show something until "SPACE" or "RETURN" pressed
+alert('You just entered "%s".\nPlease press SPACE or RETURN to continue.' %something)
 
-tip('Show something until press SPACE or RETURN') # Show something until "SPACE" or "RETURN"
+# Show the instruction of experiment
+instruction(['This is the first page of instruction>', 'second page>', 'last page\nPress SPACE to quit the instruction'])
 
-restTime() # Suspend the experiment and ask participant to rest, until "SPACE" or "RETURN"
+# Suspend the experiment and ask participant to rest, until "SPACE" pressed
+restTime()  
 
-alertAndGo('Show something for 3000 ms',3000) # Show something during a given time, and continue
+# Show something during a limited period, and continue
+alertAndGo('Show something for 3000ms', 3000)
 
-alertAndQuit('Show something for 3s, and quit')# Show something during a given time, and quit the program
+# Show something during a limited period, and quit the program
+alertAndQuit('Show something for 3000ms, and quit')
 ```
 
 ## *Get external parameters*
@@ -180,8 +181,8 @@ start()  # Calling start() will do the readSetting() implicitly
 # readSetting() # Or you can directly load setting from "setting.txt"
 
 'Using "shared.setting" dictionary to get the pre-defined value'
-print(shared.setting['backgroundColor']) # Print the setting of 'backgroundColor' part 
-print(shared.setting['timingSet']) # Print the setting of 'timingSet' part 
+print(shared.setting['background_color']) # Print the setting of 'background_color' part 
+print(shared.setting['timing_set']) # Print the setting of 'timing_set' part 
 
 'Calling "timing" function to get a certain time value'
 print(timing('ITI')) # Print 'ITI' value (we specify 500 for it in "setting.txt")
@@ -204,9 +205,9 @@ print('alldata:\n',alldata)
 print('block2:\n',block2)
 
 'Save result'
-saveResult(blockID=1, resp=[1,2,3,4], columns=['resp'])
-saveResult(blockID=2, resp=[1,2,3,4], columns=['resp'], stim=block2)
-saveResult(blockID=3, resp=[(1,0),(2,0),(3,0),(4,0)], columns=['resp1','resp2'], stim=block2)
+saveResult(block_id=1, resp=[1,2,3,4], columns=['resp'])
+saveResult(block_id=2, resp=[1,2,3,4], columns=['resp'], stim=block2)
+saveResult(block_id=3, resp=[(1,0),(2,0),(3,0),(4,0)], columns=['resp1','resp2'], stim=block2)
 ```
 
 ## *Send trigger*
@@ -226,7 +227,7 @@ drawText('Hello',display=False) # Draw text on the canvas
 s1 = getScreen() # Get current canvas, then clean the canvas
 
 drawText('world',display=False) # Draw text on the canvas
-s2 = getScreen(cleanScreen=False) # Get current canvas, and keep it
+s2 = getScreen(clean_screen=False) # Get current canvas, and keep it
 
 drawText('........',display=False) # Draw text on the canvas
 s3 = getScreen() # Get current canvas, then clean the canvas

@@ -11,25 +11,28 @@ Some variable that will be used in many place.
 'environment varible'
 path = os.path.dirname(os.path.abspath(__file__)) + '/'
 
-# winWidth, winHeight = pg.display.set_mode((0,0)).get_size()
-from win32api import GetSystemMetrics
-winWidth = GetSystemMetrics(0)
-winHeight = GetSystemMetrics(1)
+try:
+    from win32api import GetSystemMetrics
+    win_width = GetSystemMetrics(0)
+    win_height = GetSystemMetrics(1)
+except:
+    win_width, win_height = pg.display.set_mode((0,0)).get_size()
+
 
 win = None
 
 'experiment varible'
-subj = ''
-startBlockID = 1
+subject = ''
+start_block = 1
 
 font = dict()
-backgroundColor = None
-fontColor = None
+background_color = None
+font_color = None
 
 setting = dict()
 timing = dict()
 
 # init
 pg.init()
-Objdll = ctypes.windll.LoadLibrary(path + "inpoutx64.dll")
+port_dll = ctypes.windll.LoadLibrary(path + "inpoutx64.dll")
 ser = serial.Serial(baudrate=115200)

@@ -10,7 +10,7 @@ from expy import shared
 def readSetting(filepath='setting.txt'):
     '''
     Read the setting file and put the items into a dict.
-    If the 'timingSet' is in the file, create a "timing" in the dict to put the timing parameter.
+    If the 'timing_set' is in the file, create a "timing" in the dict to put the timing parameter.
 
     Parameters
     ----------
@@ -36,10 +36,10 @@ def readSetting(filepath='setting.txt'):
                     name, *content = s.split('\n')
                     setting[name[1:-1]] = content
 
-            if 'timingSet' in setting:
+            if 'timing_set' in setting:
                 setting['timing'] = dict()
                 # Set timing of each phase
-                for dur in setting['timingSet']:
+                for dur in setting['timing_set']:
                     k, v = dur.replace(' ', '').split(':')
                     if '-' in v:
                         limit = v.split('-')
@@ -52,7 +52,7 @@ def readSetting(filepath='setting.txt'):
     return setting
 
 
-def readStimuli(filepath, query=None, sheetname=0, returnList=True):
+def readStimuli(filepath, query=None, sheetname=0, return_list=True):
     '''
     Get the stimuli from a csv/excel file
 
@@ -64,8 +64,8 @@ def readStimuli(filepath, query=None, sheetname=0, returnList=True):
         The query expression (e.g. 'block==1' or 'block>1 and cond=="A"')
     sheetname: int (default:0)
         The sheet id of an excel.
-    returnList: True(default), False
-        If returnList is True, then return a list of rows instead of whole table
+    return_list: True(default), False
+        If return_list is True, then return a list of rows instead of whole table
 
     Returns
     -------
@@ -82,7 +82,7 @@ def readStimuli(filepath, query=None, sheetname=0, returnList=True):
         stimuli = stimuli.query(query)
         # .sample(n=4)
     stimuli.index = range(len(stimuli))
-    if returnList:
+    if return_list:
         stimuli = [i for ind, i in list(stimuli.iterrows())]
     return stimuli
 
@@ -103,20 +103,20 @@ def readDir(dirpath, shuffle=True):
     files: list
         The filename list
     '''
-    files = [dirpath + f for f in os.listdir(dirpath)]
+    files = [dirpath + '/' + f for f in os.listdir(dirpath)]
     if shuffle:
         np.random.shuffle(files)
     return files
 
 
-def saveResult(blockID, resp, columns=['respKey', 'RT'], stim=None, stim_columns=None):
+def saveResult(block_id, resp, columns=['respKey', 'RT'], stim=None, stim_columns=None):
     '''
-    Save experiment result to a file named {subjID}_{blockID}_result.csv.
+    Save experiment result to a file named {subjectID}_{block_id}_result.csv.
     If stim is not None, the stimuli data would attach to the response result.
 
     Parameters
     ----------
-    blockID：int
+    block_id：int
         The ID of current block
     resp：list
         The list of response data
@@ -139,7 +139,7 @@ def saveResult(blockID, resp, columns=['respKey', 'RT'], stim=None, stim_columns
             stim = pd.DataFrame(stim, columns=stim_columns)
         result = stim.join(result)
 
-    result.to_csv('result/%s_%d_result.csv' %(shared.subj,blockID), index=None)
+    result.to_csv('result/%s_%d_result.csv' %(shared.subject,block_id), index=None)
 
 
 def sendTrigger(data, mode='P'):
@@ -159,7 +159,7 @@ def sendTrigger(data, mode='P'):
     '''
     try:
         if mode == 'P':
-            shared.Objdll.Out32(shared.setting['port'], 0)
+            shared.port_dll.Out32(shared.setting['port'], 0)
         elif mode == 'S':
             # send a string which might change
             shared.ser.write(bytes(data, encoding='utf-8'))

@@ -27,7 +27,7 @@ def trial(word, pos):
 
     show(500)  # Pause (Keep displaying in 500ms)
 
-tip('In this example, you need to respond to the words "left" with the F key , and respond to the words "right" with the J key. ') # Display something until pressing 'SPACE' or 'ENTER'
+alert('In this example, you need to respond to the words "left" with the F key , and respond to the words "right" with the J key. ') # Display something until pressing 'SPACE' or 'ENTER'
 alertAndGo('The experiment will start after 3s.') # Display something in 3s(default)
 
 stimuli = [('Left', -0.5), ('Right', 0.5), ('Right', -0.5),
@@ -59,7 +59,7 @@ def trial(stim):
 
     show(500)  # Pause (Keep displaying in 500ms)
 
-tip('In this example, you need to press key to select the word you heard.') # Display something until pressing 'SPACE' or 'ENTER'
+alert('In this example, you need to press key to select the word you heard.') # Display something until pressing 'SPACE' or 'ENTER'
 alertAndGo('The experiment will start after 3s.')  # Display something in 3s(default)
 
 for stim in ['ba', 'da', 'da', 'ba']:

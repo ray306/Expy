@@ -11,7 +11,7 @@ drawText('Hello', display=False)  # Draw text on the canvas
 s1 = getScreen()  # Get current canvas, then clean the canvas
 
 drawText('world', display=False)  # Draw text on the canvas
-s2 = getScreen(cleanScreen=False)  # Get current canvas, and keep it
+s2 = getScreen(clean_screen=False)  # Get current canvas, and keep it
 
 drawText('........', display=False)  # Draw text on the canvas
 s3 = getScreen()  # Get current canvas, then clean the canvas

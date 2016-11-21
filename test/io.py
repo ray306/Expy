@@ -19,7 +19,7 @@ print('alldata:\n', alldata)
 print('block2:\n', block2)
 
 'Save result'
-saveResult(blockID=1, resp=[1, 2, 3, 4], columns=['resp'])
-saveResult(blockID=2, resp=[1, 2, 3, 4], columns=['resp'], stim=block2)
-saveResult(blockID=3, resp=[(1, 0), (2, 0), (3, 0), (4, 0)], columns=[
+saveResult(block_id=1, resp=[1, 2, 3, 4], columns=['resp'])
+saveResult(block_id=2, resp=[1, 2, 3, 4], columns=['resp'], stim=block2)
+saveResult(block_id=3, resp=[(1, 0), (2, 0), (3, 0), (4, 0)], columns=[
            'resp1', 'resp2'], stim=block2)

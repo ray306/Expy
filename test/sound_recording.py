@@ -7,22 +7,17 @@ sys.path.append('../../')
 from expy import *  # Import the needed functions
 start()  # Initiate the experiment environment
 
-RATE = 44100
-min_duration = 1 * RATE
-max_duration = 2 * RATE
-sample_duration = 0.5
-noise_level = environment_noise(sample_duration)
+noise_level = environment_noise(0.5)  # Detect the noise level of environment
 
 'Without file'
 textSlide('Recording：')
-sample_width, sound = recordSound(noise_level, min_duration, max_duration)
-
+sample_width, sound = recordSound(noise_level, recording_min=2, sounding_max=0.7)
 textSlide('Playing：')
 playSound(sound)
 
 'With file'
 textSlide('Recording to file：')
-recordSound_tofile('data', 'record', noise_level, min_duration, max_duration)
+recordSoundTofile('record', noise_level=noise_level, recording_min=2, sounding_max=0.7)
 
 record = loadSound('data/record.WAV')
 textSlide('Playing from file：')

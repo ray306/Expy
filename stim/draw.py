@@ -5,16 +5,16 @@ from expy import shared
 from expy.colors import *
 
 
-def getPos(x=shared.winWidth // 2, y=shared.winHeight // 2, w=0, h=0, benchmark='center'):
+def getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, benchmark='center'):
     '''
     Caluate the screen position of object
 
     Parameters
     ----------
-    x: float or int (default: shared.winWidth // 2)
+    x: float or int (default: shared.win_width // 2)
         If x is float, it represents the x-offset(-1~1 scale) from the object benchmark to the screen center,
         if int, it represents the x-offset(pixel) from the object benchmark to the screen upperleft.
-    y: float or int (default: shared.winHeight // 2)
+    y: float or int (default: shared.win_height // 2)
         Similar with x
     w: float or int (default: 0)
         If w is float, it represents the width scale on screen,
@@ -34,9 +34,9 @@ def getPos(x=shared.winWidth // 2, y=shared.winHeight // 2, w=0, h=0, benchmark=
     '''
     if type(x) is float:
         x, y = (0.5 + x / 2) * \
-            shared.winWidth, (0.5 + y / 2) * shared.winHeight
+            shared.win_width, (0.5 + y / 2) * shared.win_height
     if w < 1:
-        w, h = w * shared.winWidth, h * shared.winHeight
+        w, h = w * shared.win_width, h * shared.win_height
 
     if benchmark == 'center':
         return int(x - w / 2), int(y - h / 2)
@@ -75,7 +75,7 @@ def getPos(x=shared.winWidth // 2, y=shared.winHeight // 2, w=0, h=0, benchmark=
 #     FONT = shared.font[fontname]
 
 #     if not '\n' in text:
-#         target = FONT.render(text, True, shared.fontColor)
+#         target = FONT.render(text, True, shared.font_color)
 #         x, y = getPos(x, y, w=target.get_width(),
 #                       h=target.get_height(), benchmark=benchmark)
 #         shared.win.blit(target, (x, y))
@@ -83,17 +83,17 @@ def getPos(x=shared.winWidth // 2, y=shared.winHeight // 2, w=0, h=0, benchmark=
 #     else:
 #         lines = text.split('\n')
 
-#         targets = [FONT.render(l, True, shared.fontColor) for l in lines]
+#         targets = [FONT.render(l, True, shared.font_color) for l in lines]
 #         maxWidth = max([t.get_width() for t in targets])
 #         for ind, target in enumerate(targets):
-#             y_offset = (len(lines) - 1 - ind * 2) * (target.get_height() / shared.winHeight)
+#             y_offset = (len(lines) - 1 - ind * 2) * (target.get_height() / shared.win_height)
 #             pos_x, pos_y = getPos(x, y - y_offset, w=maxWidth, h=0, benchmark=benchmark)
 #             shared.win.blit(target, (pos_x, pos_y))
 
 #     if display:
 #         shared.pg.display.flip()
 
-def drawText(text, font='simhei', size='stimFontSize', color=C_white, rotation=0, x=0.0, y=0.0, benchmark='center', display=True):
+def drawText(text, font='simhei', size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, benchmark='center', display=True):
     '''
     Draw text with complex format on the canvas. The text will show as multiple lines splited by the '\n'. 
 
@@ -103,7 +103,7 @@ def drawText(text, font='simhei', size='stimFontSize', color=C_white, rotation=0
         The content of text.
     font: str (default:'simhei')
         The font name of text.
-    size:int, or str (default:'stimFontSize')
+    size:int, or str (default:'stim_font_size')
         The font size of text, you can either use a number or a pre-defined number name.
     color: RGB tuple, or pre-defined variable (default:'C_white')
         The font color of text, you can either use an RGB value or a pre-defined color name. The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
@@ -151,7 +151,7 @@ def drawText(text, font='simhei', size='stimFontSize', color=C_white, rotation=0
         for ind, (target, (left, top, w, h)) in enumerate(rendered):
             # h*1.5: 1.5x row spacing
             y_offset = (len(lines) - 1 - ind * 2) * \
-                ((h * 1.5) / shared.winHeight)
+                ((h * 1.5) / shared.win_height)
             pos_x, pos_y = getPos(
                 x, y - y_offset, w=maxWidth, h=0, benchmark=benchmark)
             shared.win.blit(target, (pos_x, pos_y))
@@ -219,8 +219,8 @@ def drawLine(points, color=C_white, width=1, display=True):
     for x,y in points:
         if type(x) is float:
             new_points.append((
-                (0.5 + x / 2) * shared.winWidth, 
-                (0.5 + y / 2) * shared.winHeight))
+                (0.5 + x / 2) * shared.win_width, 
+                (0.5 + y / 2) * shared.win_height))
         else:
             new_points.append((x,y))
 

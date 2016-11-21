@@ -98,7 +98,7 @@ def makeSound(freq, duration):
     wave = shared.pg.sndarray.make_sound(sound)
     return wave
 
-def playSound(wav=None, block=True):
+def playSound(wav=None, blocking=True):
     '''
     Play a loaded file or a data array
 
@@ -118,6 +118,6 @@ def playSound(wav=None, block=True):
         # wav = wav[ indices.astype(int) ]
         shared.pg.sndarray.make_sound(wav).play()
 
-    if block:
+    if blocking:
         while shared.pg.mixer.get_busy():
             waitForResponse({}, 100)

@@ -1,22 +1,28 @@
 # todo
 - todo: format text draw function
 - Added the parameter "rotate" to all the `drawXXX`
+- Unit of measurement
+
+# 0.9.5.4
+- Renamed the `tip` to `alert`
+- Rewrite `recordSound` and `recordSoundToFile`
+- Renamed all the parameters to the CamelCase
 
 # 0.9.5.3
 - Fixed a bug on parallel port
 
 # 0.9.5.2
 - `drawLine` allowed relative position
-- Changed "allowedKeys" in `tip`'s default value to [K_RETURN]
+- Changed "allowed_keys" in `tip`'s default value to [K_RETURN]
 - Now the `show` won't stop if you press SPACE (it only will when RETURN)
 - `loadManySound` allowed mono channel
 
 # 0.9.5.1
-- Changed the default value of 'size' in the `drawText` to 'stimFontSize'
+- Changed the default value of 'size' in the `drawText` to 'stim_font_size'
 
 # 0.9.5
 - Supported colornames: C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy
-- Import time while importing expy
+- Import time package while importing expy
 - Added the parameters "font", "size", "rotation" and "color" to `drawText` (used Freetype as the backend)
 - 1.5x row spacing when multiple lines appear.
 
@@ -29,7 +35,7 @@
 - Changed return value of `readStimuli` to list
 
 # 0.9.4
-- Added the parameter "hasRT" to `waitForResponse`
+- Added the parameter "has_RT" to `waitForResponse`
 - Removed `waitForEvent`
 - Press F12 to suspend/resume
 - Added the parameter "rotate" to `drawPic`
@@ -49,7 +55,7 @@
 # 0.9.3
 - Press F12 to suspend the program, and press anykey to continue.
 - `recordSound_tofile` and `recordSound` allowed press F12 to suspend and ESC to quit.
-- Added the parameter "block" to `playSound`
+- Added the parameter "blocking" to `playSound`
 - Now the `getPos` function can use more position's benchmarks: center(default), upper_left, upper_right, lower_left, lower_right, upper_center, left_center, lower_center, right_center
 - All the `drawXXX` functions support the "benchmark" parameter 
 - Custom fonts size in setting.txt

@@ -52,7 +52,7 @@ while mainloop:
 # def printInfo(device):
 #     print( device.DeviceName, device.DeviceString)
 #     settings = win32api.EnumDisplaySettings(device.DeviceName, 0)
-#     for varName in ['Color', 'BitsPerPel', 'DisplayFrequency']:
+#     for varName in ['_color', 'BitsPerPel', 'DisplayFrequency']:
 #         print( "%s: %s"%(varName, getattr(settings, varName)))
 
 # device = win32api.EnumDisplayDevices()
