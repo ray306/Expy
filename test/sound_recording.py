@@ -7,7 +7,7 @@ sys.path.append('../../')
 from expy import *  # Import the needed functions
 start()  # Initiate the experiment environment
 
-noise_level = environment_noise(0.5)  # Detect the noise level of environment
+noise_level = environmentNoise(0.5)  # Detect the noise level of environment
 
 'Without file'
 textSlide('Recording：')

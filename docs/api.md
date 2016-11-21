@@ -308,7 +308,7 @@ KEY: None, int, or defined value
 ```
 
 ### *Sound Recorder*
-- **environment_noise(sampling_time)**
+- **environmentNoise(sampling_time)**
 
 ```
 Record the sound in a certain duration as the environment noise, and calcuate its power.

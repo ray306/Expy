@@ -27,7 +27,7 @@ def normalize(snd_data):
     return r
 
 
-def add_silence(snd_data, seconds):
+def addSilence(snd_data, seconds):
     "Add silence to the start and end of 'snd_data' of length 'seconds' (float)"
     r = array('h', [0 for i in range(
         int(seconds * shared.setting['sample_rate']))])
@@ -36,7 +36,7 @@ def add_silence(snd_data, seconds):
     return r
 
 
-def is_silent(snd_data, threshold):
+def isSilent(snd_data, threshold):
     "Returns 'True' if below the 'silent' threshold"
     return max(snd_data) < threshold
 
@@ -93,7 +93,7 @@ def trim(snd_data, threshold, side='left'):
     return snd_data
 
 
-def environment_noise(sampling_time, chunk=512):
+def environmentNoise(sampling_time, chunk=512):
     """
     Record the sound in a certain duration as the environment noise, and calcuate its power.
 
@@ -185,7 +185,7 @@ def environment_noise(sampling_time, chunk=512):
 #         if onset_detected:
 #             num_sound += len(snd_data)
 
-#             if is_silent(snd_data, threshold):
+#             if isSilent(snd_data, threshold):
 #                 num_silent += len(snd_data)
 #             else:
 #                 num_silent = 0
@@ -206,7 +206,7 @@ def environment_noise(sampling_time, chunk=512):
 #     # r = normalize(r)
 #     r = r[:maxSoundLength]
 #     r = np.require(np.tile(r, (2, 1)).T, requirements='C')
-#     # r = add_silence(r, 0.5)
+#     # r = addSilence(r, 0.5)
 #     return sample_width, r
 
 def recordSound(noise_level=500, recording_min=0, recording_max=0, sounding_max=0, trim_side='left', feedback=False, chunk=512):
@@ -259,7 +259,7 @@ def recordSound(noise_level=500, recording_min=0, recording_max=0, sounding_max=
         if onset_detected:
             num_sound += len(snd_data)
 
-            if is_silent(snd_data, noise_level):
+            if isSilent(snd_data, noise_level):
                 num_silent += len(snd_data)
             else:
                 num_silent = 0
@@ -295,7 +295,7 @@ def recordSound(noise_level=500, recording_min=0, recording_max=0, sounding_max=
     p.terminate()
 
     # rec_data = normalize(rec_data)
-    # rec_data = add_silence(rec_data, 0.5)
+    # rec_data = addSilence(rec_data, 0.5)
     rec_data = np.require(np.tile(rec_data, (2, 1)).T, requirements='C')
 
     return sample_width, rec_data

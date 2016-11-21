@@ -3,10 +3,13 @@
 - Added the parameter "rotate" to all the `drawXXX`
 - Unit of measurement
 
-# 0.9.5.4
+# 0.9.6.1
+- Renamed all the functions to the CamelCase
+
+# 0.9.6
 - Renamed the `tip` to `alert`
 - Rewrite `recordSound` and `recordSoundToFile`
-- Renamed all the parameters to the CamelCase
+- Renamed all the parameters to the PascalCase
 
 # 0.9.5.3
 - Fixed a bug on parallel port

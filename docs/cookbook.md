@@ -107,7 +107,7 @@ playSound(sound)
 ```
 ### *Sound Recording*
 ```python
-noise_level = environment_noise(0.5)  # Detect the noise level of environment
+noise_level = environmentNoise(0.5)  # Detect the noise level of environment
 
 'Without file'
 textSlide('Recording：')
