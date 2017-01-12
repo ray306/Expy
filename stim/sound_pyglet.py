@@ -1,0 +1,91 @@
+import math
+import numpy as np
+import librosa
+import scipy.io.wavfile
+import pyaudio
+
+from expy import shared
+from expy.response import *
+
+
+def loadSound(path, offset=0.0, duration=None):
+    '''
+    Load a wav file, and return data array
+    Or load a mp3/ogg file, and return None
+
+    Parameters
+    ----------
+    todo
+
+    Returns
+    -------
+    value: np.array
+        The sound data
+    '''
+    sound = shared.pyglet.media.Player()
+    sound.queue(shared.pyglet.media.load(path, streaming=False))
+    return sound
+
+def loadManySound(dirpath, filenames, ext='wav', offset=0.0, duration=None):
+    '''
+    Read a list of music file, then concatnate them and return data array.
+    not support mp3/ogg files
+
+    Parameters
+    ----------
+    todo
+
+    Returns
+    -------
+    value: np.array
+        The sound data
+    '''
+    sound = shared.pyglet.media.Player()
+    for file in filenames:
+        sound.queue(shared.pyglet.media.load(dirpath + '/' + file + '.' + ext, streaming=False))
+    return sound
+
+from pyglet.media.procedural import Sine
+def makeSound(frequency, duration):
+    '''
+    Return a data array of certain sound freq
+
+    Parameters
+    ----------
+    todo
+
+    Returns
+    -------
+    wave: np.array
+        The sound data array
+    '''
+
+    sound = shared.pyglet.media.Player()
+    sound.queue(Sine(duration, frequency))
+
+    return sound
+
+def playSound(wave=None, blocking=True):
+    '''
+    Play a loaded file or a data array
+
+    Parameters
+    ----------
+    todo
+
+    Returns
+    -------
+    None
+    '''
+    wave.play()
+    startT = shared.time.time()
+    
+    duration = wave.source.duration
+    while shared.time.time() - startT < duration:
+        # print(wave.playing,wave.time)
+        # print(shared.time.time() - startT,duration)
+        shared.time.sleep(0.01)
+
+from .sound_portAudio import *
+# if shared.has_openal:
+#     from .sound_openal import *

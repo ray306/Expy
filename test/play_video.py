@@ -5,7 +5,7 @@ sys.path.append('../../')
 ################
 
 from expy import *  # Import the needed functions
-start()  # Initiate the experiment environment
+start(fullscreen=False)  # Initiate the experiment environment
 
 video = loadVideo('data/demo.mpg')
-playVideo(video, pauseKey={})
+playVideo(video)

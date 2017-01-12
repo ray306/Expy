@@ -13,7 +13,7 @@ def trial(stim):
 
     textSlide('Please press F for "ba", or press J for "da"')  # Display something
     
-    key, rt = waitForResponse({K_f: 'ba', K_j: 'da'}) # Waiting for pressing 'F' or 'J'
+    key, rt = waitForResponse({key_.F: 'ba', key_.J: 'da'}) # Waiting for pressing 'F' or 'J'
 
     if key == stim:
         alertAndGo('Correct!', 1000)  # Display something in 1s
@@ -22,8 +22,8 @@ def trial(stim):
 
     show(500)  # Pause (Keep displaying in 500ms)
 
-instruction(shared.setting['instruction2'])
 
+instruction(shared.setting['instruction2'])
 alertAndGo('The experiment will start after 3s.')  # Display something in 3s(default)
 
 for stim in ['ba', 'da', 'da', 'ba']:

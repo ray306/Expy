@@ -1,27 +1,69 @@
 # coding:utf-8
 import os
-import pygame as pg
 import ctypes
 import serial
+import time
+import threading
+
+import pyglet
+from pyglet import gl
+import pyglet.window.key as key_
+
+import librosa
+import pyaudio
+import numpy as np
+import math
 
 '''
 Some variable that will be used in many place.
 '''
 
-'environment varible'
+'environment varibles'
 path = os.path.dirname(os.path.abspath(__file__)) + '/'
 
-try:
-    from win32api import GetSystemMetrics
-    win_width = GetSystemMetrics(0)
-    win_height = GetSystemMetrics(1)
-except:
-    win_width, win_height = pg.display.set_mode((0,0)).get_size()
-
+win_width = 0
+win_height = 0
 
 win = None
+need_update = False
 
-'experiment varible'
+'event varibles'
+events = []
+states = dict()
+
+allowed_keys = []
+allowed_keys_mapping = dict()
+
+allowed_mouse_events = [] # {'x':range(), 'y':range(), 'button':..}
+
+suspending = False
+
+start_tp = 0
+
+'Sound'
+lock = threading.Lock()
+
+def changeState(name, value):
+    '''
+    Change the value of a global state
+    Parameters
+    ----------
+    name: anything
+        The name of the target state
+    value: anything
+        The target value of the target state
+
+    Return
+    ---------
+    None
+    '''
+    lock.acquire()
+    try:
+        states[name] = value
+    finally:
+        lock.release()
+
+'experiment varibles'
 subject = ''
 start_block = 1
 
@@ -32,7 +74,28 @@ font_color = None
 setting = dict()
 timing = dict()
 
-# init
-pg.init()
-port_dll = ctypes.windll.LoadLibrary(path + "inpoutx64.dll")
+'sound'
+pa = pyaudio.PyAudio()
+# try:
+#     from pyglet.media.drivers.openal import lib_openal as al
+#     from pyglet.media.drivers.openal import lib_alc as alc
+# except:
+#     print('OpenAL not installed')
+#     has_openal = False
+# else:
+#     has_openal = True
+
+'port'
+import platform
+if platform.system()=="Windows":
+    if platform.architecture()[0]=='64bit':
+        port_dll = ctypes.windll.LoadLibrary(path + "inpoutx64.dll")
+    else:
+        port_dll = ctypes.windll.LoadLibrary(path + "inpout32.dll")
+else:
+    port_dll = None
+
 ser = serial.Serial(baudrate=115200)
+
+
+

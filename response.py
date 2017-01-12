@@ -1,5 +1,5 @@
-from pygame.locals import *
-import time
+# from pygame.locals import *
+import pyglet.window.key as key_
 
 from expy import shared
 from .colors import *
@@ -14,9 +14,9 @@ def setKeyMapping(allowed_keys):
     allowed_keys：None(default), Keyname, list, or dict
         The allowed key(s).
         You can leave nothing, 
-                a Keyname (eg. K_f), 
-                a list of Keyname (eg. [K_f,K_j]), 
-                or a dict of Keyname (eg. [K_f:'F',K_j:'J']) here.
+                a Keyname (eg. key_.F), 
+                a list of Keyname (eg. [key_.F,key_.J]), 
+                or a dict of Keyname (eg. [key_.F:'F',key_.J:'J']) here.
         You could look into the Keyname you want in http://expy.readthedocs.io/en/latest/keymap/
 
     Returns
@@ -29,11 +29,11 @@ def setKeyMapping(allowed_keys):
     keys = allowed_keys
     mapping = allowed_keys
 
-    if type(allowed_keys) == dict:  # eg. allowed_keys = {K_f: 'T', K_j: 'F'}
+    if type(allowed_keys) == dict:  # eg. allowed_keys = {key_.F: 'T', key_.J: 'F'}
         keys = list(allowed_keys.keys())
-    elif type(allowed_keys) == list:  # eg. allowed_keys = [K_f, K_j]
+    elif type(allowed_keys) == list:  # eg. allowed_keys = [key_.F, key_.J]
         mapping = {k: k for k in allowed_keys}
-    elif type(allowed_keys) == int:  # eg. allowed_keys = K_ENTER
+    elif type(allowed_keys) == int:  # eg. allowed_keys = key_.ENTER
         keys = [allowed_keys]
         mapping = {allowed_keys: allowed_keys}
 
@@ -44,38 +44,28 @@ def suspend():
     '''
     Suspend the program and display "[程序暂停中/Pause]"
 
+    Parameters
+    ----------
+
     Returns
     -------
     past time: int
         The millisecond count since the function starts.
     '''
-    onset = shared.pg.time.get_ticks()
-
-    backup = shared.pg.display.get_surface().convert()
-    shared.win.fill(shared.background_color)
+    onset = shared.time.time()
+    screenshot = shared.pyglet.image.get_buffer_manager().get_color_buffer().get_image_data()
+    shared.win.clear()
 
     drawText('[程序暂停中/Pause]')
 
-    # target, (left, top, w, h) = shared.font['simhei'].render(
-    #     '[程序暂停中/Pause]', fgcolor=C_white, size=(25, 25))
-    # shared.win.blit(target, ((shared.win_width - w) / 2, (shared.win_height - h) / 2))
-    # shared.pg.display.flip()
+    waitForResponse(key_.F12, suspending=True)
 
-    # target = shared.font['normalFont'].render(
-    #     '[程序暂停中/Pause]', True, shared.font_color)
-    # shared.win.blit(target,
-    #                 ((shared.win_width - target.get_width()) / 2, (shared.win_height - target.get_height()) / 2))
-    # shared.pg.display.flip()
+    screenshot.blit(0,0,0)
+    shared.win.flip()
 
-    waitForResponse(K_F12, suspending=True)
+    return shared.time.time() - onset
 
-    shared.win.blit(backup, (0, 0))
-    shared.pg.display.flip()
-
-    return shared.pg.time.get_ticks() - onset
-
-
-def waitForResponse(allowed_keys=None, out_time=0, has_RT=True, suspending=False):
+def waitForResponse(allowed_keys=[], out_time=0, has_RT=True, suspending=False):
     '''
     Waiting for a allowed keypress event during a limited period
     (Press F12 would suspend the procedure and press ESC would end the program)
@@ -85,9 +75,9 @@ def waitForResponse(allowed_keys=None, out_time=0, has_RT=True, suspending=False
     allowed_keys：None(default), Keyname, list, or dict
         The allowed key(s).
         You can leave nothing, 
-                a Keyname (eg. K_f), 
-                a list of Keyname (eg. [K_f,K_j]), 
-                or a dict of Keyname (eg. [K_f:'F',K_j:'J']) here.
+                a Keyname (eg. key_.F), 
+                a list of Keyname (eg. [key_.F,key_.J]), 
+                or a dict of Keyname (eg. [key_.F:'F',key_.J:'J']) here.
         You could look into the Keyname you want in http://expy.readthedocs.io/en/latest/keymap/
     out_time：int(>0), 0(default)
         The time limit of current function. While the past time exceeds the limitation, the function terminates.
@@ -100,49 +90,41 @@ def waitForResponse(allowed_keys=None, out_time=0, has_RT=True, suspending=False
     -------
     KEY: None, int, or defined value
         1. If allowed_keys is None, return the id of any pressed key
-        2. If allowed_keys is a List (eg. [K_f,K_j]), return the id of allowed pressed key
-        3. If allowed_keys is a Dict (eg. [K_f:'F',K_j:'J']), return the value of allowed pressed key
+        2. If allowed_keys is a List (eg. [key_.F,key_.J]), return the id of allowed pressed key
+        3. If allowed_keys is a Dict (eg. [key_.F:'F',key_.J:'J']), return the value of allowed pressed key
         4. Return None if the time is out and no allowed keypress
     (Only if has_RT is True) past_time: int
         The millisecond count since the function starts.
     '''
-    def wait(keys, mapping, start_tp, out_time):
+    def wait(start_tp, out_time):
         while True:
-            past_time = shared.pg.time.get_ticks() - start_tp
+            shared.win.dispatch_events()
+
+            past_time = shared.time.time() - start_tp
             if out_time > 0 and past_time >= out_time:
                 return 'None', 'None'
 
-            for e in shared.pg.event.get():
+            for e in shared.events:
+                if e['type']=='key_press':
+                    return e['key'], int((e['time']- start_tp)*1000)
+                # elif e['type'] in other_events:
+                #     return e['type'], int((e['time']- start_tp)*1000)
+                # mouse_press
 
-                'get the pressed key'
-                if e.type == KEYDOWN:
-                    k = e.key
-                elif e.type == JOYBUTTONDOWN:
-                    k = e.button
-                elif e.type == MOUSEBUTTONDOWN:  # e.type == MOUSEMOTION, k = e.pos
-                    k = e.button
-                else:
-                    continue
+            shared.time.sleep(0.001)
 
-                'decision'
-                if k == 27:
-                    shared.pg.quit()
-                elif k == K_F12 and not suspending:
-                    suspend_time = suspend()
-                    start_tp += suspend_time
-                elif not keys:  # if allowed_keys is None
-                    return k, past_time
-                elif k in keys:  # if k is in the allowed Keyname(s)
-                    return mapping[k], past_time
+    now = shared.time.time()
+    if not shared.start_tp:
+        shared.start_tp = now
+        
+    shared.events = []
+    shared.allowed_keys, shared.allowed_keys_mapping = setKeyMapping(allowed_keys)  # Mapping allowable key(s)
+    
+    ev, past_time = wait(shared.start_tp, out_time/1000)
 
-            time.sleep(0.001)
-
-    start_tp = shared.pg.time.get_ticks()
-    shared.pg.event.clear()
-
-    keys, mapping = setKeyMapping(allowed_keys)  # Mapping allowable key(s)
-    KEY, past_time = wait(keys, mapping, start_tp, out_time)
+    shared.events = []
+    shared.start_tp = None
     if has_RT:
-        return KEY, past_time
+        return ev, past_time
     else:
-        return KEY
+        return ev

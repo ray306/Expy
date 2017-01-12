@@ -11,14 +11,15 @@ noise_level = environmentNoise(0.5)  # Detect the noise level of environment
 
 'Without file'
 textSlide('Recording：')
-sample_width, sound = recordSound(noise_level, recording_min=2, sounding_max=0.7)
+sound = recordSound(noise_level, rec_length_min=2000, sound_length_max=4000)
 textSlide('Playing：')
 playSound(sound)
 
 'With file'
 textSlide('Recording to file：')
-recordSoundTofile('record', noise_level=noise_level, recording_min=2, sounding_max=0.7)
-
+recordSound(noise_level, rec_length_min=2000, sound_length_max=4000, 
+                                    path='data/record.WAV')
 record = loadSound('data/record.WAV')
 textSlide('Playing from file：')
 playSound(record)
+

@@ -1,5 +1,5 @@
 ## Initialization
-- **start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=(255, 255, 255), background_color=(128, 128, 128), sample_rate=44100, bits=16, channel=2, port='COM1')**
+- **start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=C_white, background_color=C_gray, sample_rate=44100, port='COM1')**
 
 ```
 Initialize the experiment.
@@ -16,25 +16,21 @@ winsize: (width,height) (default:(800, 600))
 mouse_visible: True, or False(default)
     Set the mouse pointer visibility
 normal_font_size: int (default:20) 
-    The size of normal/['normalFont'] text 
+    The size of the text in normal font 
 stim_font_size: int, or None(default) 
-    The size of ['stimFont'] text 
+    The size of the text in stimulus font  
 distance: int (default:60) 
     Distance from eyes to screen (cm)
 diag: int (default:23) 
     The length of the screen diagonal (inch) 
 angel: int (default:2.5) 
     Visual angel of single char (degree)
-font_color: tuple RGB (default:(255, 255, 255)) 
+font_color: tuple RGBA (default:C_white) 
     The color of text
-background_color: tuple RGB (default:(128, 128, 128)) 
+background_color: tuple RGBA (default:C_gray) 
     The color of background
 sample_rate: int (default:44100) 
     Sample rate of sound mixer
-bits: int (default:16) 
-    Bits of sound mixer
-channel: int (default:2) 
-    Channel amount of sound mixer
 port: str, or hex number (default:'COM1') 
     Port name used to send trigger.
     Use str on serial port, and hex on parallel port 
@@ -47,7 +43,7 @@ None
 ---
 ## Stimulus
 ### *Position*
-- **getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, benchmark='center')**
+- **getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, anchor_x='center', anchor_y='center')**
 
 ```
 Caluate the screen position of object
@@ -63,24 +59,27 @@ w: float or int (default: 0)
     If w is float, it represents the width scale on screen,
     if int, it represents the width in pixel.
 h: float or int (default: 0)
-    Similar with x
-benchmark: 'center'(default), 
-           'upper_left', 'upper_right', 'lower_left', 'lower_right', 
-           'upper_center', 'left_center', 'lower_center', 'right_center'
-    The position benchmark on this object to the given x and the given y. 
+    Similar with x 
+anchor_x: str (default:'center')
+    The position benchmark on this object to the given x.
+    Options: 'center', 'left', or 'right'.
+anchor_y: str (default:'center')
+    The position benchmark on this object to the given y.
+    Options: 'center', 'top', or 'bottom'.
+
 
 Returns
 -------
-(x,y): (int,int)
-    The position of the object's upperleft corner
+(x, y): (int, int)
+    The position of the object's lowerleft corner
 
 ```
 
 ### *Text*
-- **drawText(text, font='simhei', size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, benchmark='center', display=True)**
+- **drawText(text, font='simhei', size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', display=True)**
 
 ```
-Draw text on the canvas. The text will show as multiple lines splited by the '\n'. 
+Draw text with complex format on the canvas. The text will show as multiple lines splited by the '\n'. 
 
 Parameters
 ----------
@@ -98,8 +97,12 @@ x: int, or float (default:0.0)
     The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
 y: int, or float (default:0.0)
     The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
-benchmark: str (default:'center')
-    The position benchmark of x and y on the text area.
+anchor_x: str (default:'center')
+    The position benchmark on this object to the given x.
+    Options: 'center', 'left', or 'right'.
+anchor_y: str (default:'center')
+    The position benchmark on this object to the given y.
+    Options: 'center', 'top', or 'bottom'.
 display: True(default), False
     If True, the function will put the canvas onto the screen. 
 
@@ -109,40 +112,133 @@ None
 ```
 
 ### *Shape*
-- **drawRect(w, h, x=0.0, y=0.0, fill=True, color=(255, 255, 255), width=1, benchmark='center', display=True)**
+- **drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True)**
 
 ```
 Draw rectangle on the canvas.
 
 Parameters
 ----------
-todo
+w: float or int (default: 0)
+    The width of rectangle.
+    If w is float, it represents the width scale on screen,
+    if int, it represents the width in pixel.
+h: float or int (default: 0)
+    The height of rectangle.
+    Similar with x. 
+x: int, or float (default:0.0)
+    The x coordinate of rectangle.
+    If x is int, the coordinate would be pixel number to the left margin of screen;
+    If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+y: int, or float (default:0.0)
+    The y coordinate of rectangle.
+    If y is int, the coordinate would be pixel number to the upper margin of screen;
+    If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+fill: True(default), False
+    Whether to fill out the blank in rectangle
+color: RGB tuple, or pre-defined variable (default:'C_white')
+    The font color of text, you can either use an RGB value or a pre-defined color name. 
+    The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+width: int (default: 1)
+    The width of each line
+anchor_x: str (default:'center')
+    The position benchmark on this object to the given x.
+    Options: 'center', 'left', or 'right'.
+anchor_y: str (default:'center')
+    The position benchmark on this object to the given y.
+    Options: 'center', 'top', or 'bottom'.
+display: True(default), False
+    If True, the function will put the canvas onto the screen. 
 
 Returns
 -------
 None
 ```
-- **drawCircle(r, x=0.0, y=0.0, fill=True, color=(255, 255, 255), width=1, benchmark='center', display=True)**
+- **drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True)**
 
 ```
 Draw circle on the canvas.
 
 Parameters
 ----------
-todo
+r: int
+    The radius of circle in pixel.
+x: int, or float (default:0.0)
+    The x coordinate of circle.
+    If x is int, the coordinate would be pixel number to the left margin of screen;
+    If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+y: int, or float (default:0.0)
+    The y coordinate of circle.
+    If y is int, the coordinate would be pixel number to the upper margin of screen;
+    If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+fill: True(default), False
+    Whether to fill out the blank in circle
+color: RGB tuple, or pre-defined variable (default:'C_white')
+    The font color of text, you can either use an RGB value or a pre-defined color name. 
+    The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+width: int (default: 1)
+    The width of each line
+anchor_x: str (default:'center')
+    The position benchmark on this object to the given x.
+    Options: 'center', 'left', or 'right'.
+anchor_y: str (default:'center')
+    The position benchmark on this object to the given y.
+    Options: 'center', 'top', or 'bottom'.
+display: True(default), False
+    If True, the function will put the canvas onto the screen. 
 
 Returns
 -------
 None
 ```
-- **drawLine(points, color=(255, 255, 255), width=1)**
+- **drawPoints(points, color=C_white, size=1, display=True)**
+
+```
+Draw point(s) on the canvas.
+
+Parameters
+----------
+points: list of tuple
+    The x-y points list
+    If the x,y are given as float, they would be interpret as an relative position[-1~+1] to the center on the screen;
+    or if they are given as int, they would be interpret as pixel indicators to the lowerleft corner on the screen.
+    Examples:
+        [(0.0,0.0), (0.5,0), (0.5,0.5)]
+color: RGB tuple, or pre-defined variable (default:'C_white')
+    The font color of text, you can either use an RGB value or a pre-defined color name. 
+    The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+size: int (default: 1)
+    The size of each point
+display: True(default), False
+    If True, the function will put the canvas onto the screen. 
+
+Returns
+-------
+None
+```
+- **drawLines(points, color=C_white, width=1, close=False, display=True)**
 
 ```
 Draw line(s) on the canvas.
 
 Parameters
 ----------
-todo
+points: list of tuple
+    The turning x-y points of lines
+    If the x,y are given as float, they would be interpret as an relative position[-1~+1] to the center on the screen;
+    or if they are given as int, they would be interpret as pixel indicators to the lowerleft corner on the screen.
+    Examples:
+        [(0.0,0.0), (0.5,0), (0.5,0.5)]
+color: RGB tuple, or pre-defined variable (default:'C_white')
+    The font color of text, you can either use an RGB value or a pre-defined color name. 
+    The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+width: int (default: 1)
+    The width of each line
+close: True, False(default)
+    Whether to connect the last point with the first one. 
+    If True, the polygon could be drawn.
+display: True(default), False
+    If True, the function will put the canvas onto the screen.
 
 Returns
 -------
@@ -150,14 +246,41 @@ None
 ```
 
 ### *Picture*
-- **drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, benchmark='center', display=True)**
+- **drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y='center', display=True)**
 
 ```
-Draw picture on the canvas.
+Draw loaded image on the canvas.
 
 Parameters
 ----------
-todo
+path: str
+    The file path of target image
+w: int(default:0), or float 
+    The width of image.
+    If w is float, it represents the width scale on screen;
+    if int, it represents the width in pixel.
+h: int(default:0), or float 
+    The height of image.
+    If w is float, it represents the height scale on screen;
+    if int, it represents the height in pixel.
+x: int, or float (default:0.0)
+    The x coordinate of image.
+    If x is int, the coordinate would be pixel number to the left margin of screen;
+    If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+y: int, or float (default:0.0)
+    The y coordinate of image.
+    If y is int, the coordinate would be pixel number to the upper margin of screen;
+    If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+rotation: int (default:0)
+    The rotation angle of object.
+anchor_x: str (default:'center')
+    The position benchmark on this object to the given x.
+    Options: 'center', 'left', or 'right'.
+anchor_y: str (default:'center')
+    The position benchmark on this object to the given y.
+    Options: 'center', 'top', or 'bottom'.
+display: True(default), False
+    If True, the function will put the canvas onto the screen. 
 
 Returns
 -------
@@ -165,58 +288,94 @@ None
 ```
 
 ### *Sound*
-- **loadSound(path)**
+- **loadSound(path, offset=0, duration=None)**
 
 ```
-Load a wav file, and return data array
-Or load a mp3/ogg file, and return None
+Load a sound file, and return data array (stereo format)
 
 Parameters
 ----------
-todo
+path: str
+    The file path of target sound
+offset: number (default:0)
+    The onset of target sound
+duration: number, or None(default)
+    The duration of target sound
 
 Returns
 -------
-value: np.array (if loaded a wav file), or None (if loaded a mp3/ogg file)
-    The sound data array
-```
-- **loadManySound(dirpath, filenames, ext='wav')**
-
-```
-Read a list of music file, then concatnate them and return data array.
-not support mp3/ogg files
-
-Parameters
-----------
-todo
-
-Returns
--------
-value: np.array
+value: array
     The sound data
 ```
-- **makeSound(freq, duration)**
+
+- **loadManySound(dirpath, filenames, ext='wav', offset=0.0, duration=None)**
 
 ```
-Return a data array of certain sound freq
+Read a list of music file, then concatnate them and return data array (stereo format).
 
 Parameters
 ----------
-todo
+dirpath: str
+    The directory path of target sounds
+filenames: str
+    The filenames of target sounds (without filename extension)
+ext: str
+    The filename extension of target sounds
+offset: number (default:0)
+    The onset of target sounds
+duration: number, or None(default)
+    The duration of target sounds
 
 Returns
 -------
-wave: np.array
-    The sound data array
+value: array
+    The sound data
 ```
-- **playSound(wav=None, blocking=True)**
+- **makeBeep(frequency, duration)**
 
 ```
-Play a loaded file or a data array
+Making a beep (pure-frequency) sound (stereo format).
 
 Parameters
 ----------
-todo
+frequency: number
+    The frequency of sound
+duration: number
+    The duration of sound
+
+Returns
+-------
+value: array
+    The sound data
+```
+- **makeSound(data)**
+
+```
+Read np.array object, then convert it into sound array (stereo format).
+
+Parameters
+----------
+data: np.array
+    The raw sound data array
+
+Returns
+-------
+value: array
+    The sound data
+```
+- **playSound(sound, playing_track=None, blocking=True)**
+
+```
+Play a sound array
+
+Parameters
+----------
+sound: array
+    The sound data
+playing_track: int, str, or None(default)
+    The name of current track
+blocking: True, or False
+    Whether the playing track blocks the experiment
 
 Returns
 -------
@@ -224,6 +383,50 @@ None
 ```
 
 ### *Video*
+- **loadVideo(path)**
+
+```
+Load a video array
+
+Parameters
+----------
+path: str
+    The file path of target video
+
+Returns
+-------
+player: pyglet.media.Player
+    playVideo() could use it 
+```
+
+- **playVideo(video, pauseKey=key_.SPACE, x=0.0, y=0.0, anchor_x='center', anchor_y='center')**
+
+```
+Play a loaded video
+
+Parameters
+----------
+video: pyglet.media.Player
+    The player of target video
+pauseKey: (default: key_.SPACE)
+    The name for pausekey
+x: int, or float (default:0.0)
+    The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+y: int, or float (default:0.0)
+    The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+anchor_x: str (default:'center')
+    The position benchmark on this object to the given x. 
+    Options: 'center', 'left', or 'right'.
+anchor_y: str (default:'center')
+    The position benchmark on this object to the given y.
+    Options: 'center', 'top', or 'bottom'.
+
+
+Returns
+-------
+None
+```
+
 ### *Display controller*
 - **show(out_time=False, clean_screen=True, backup=None)**
 
@@ -233,7 +436,7 @@ Display current canvas buffer, and keep the display during a limited period.
 Parameters
 ----------
 out_time: int(>0), False(default)
-    The time limit of current function. 
+    The time limit of current function. (unit: millisecond) 
 clean_screen: True(default), False
     Whether clear the screen after get the screen or not. 
 backup: None, or a screen backup
@@ -274,7 +477,7 @@ None
 ---
 ## Response
 ### *Keyboard & Mouse & Joystick*
--    **waitForResponse(allowed_keys=None, out_time=0, has_RT=True, suspending=False)**
+-    **waitForResponse(allowed_keys=[], out_time=0, has_RT=True, suspending=False)**
 
 ```
 Waiting for a allowed keypress event during a limited period
@@ -282,12 +485,12 @@ Waiting for a allowed keypress event during a limited period
 
 Parameters
 ----------
-allowed_keys：None(default), Keyname, list, or dict
-   The allowed key(s).
+allowed_keys：[](default), Keyname, list, or dict
+   The allowed keys).
    You can leave nothing, 
-           a Keyname (eg. K_f), 
-           a list of Keyname (eg. [K_f,K_j]), 
-           or a dict of Keyname (eg. [K_f:'F',K_j:'J']) here.
+           a Keyname (eg. key_.F), 
+           a list of Keyname (eg. [key_.F,key_.J]), 
+           or a dict of Keyname (eg. [key_.F:'F',key_.J:'J']) here.
    You could look into the Keyname you want in http://expy.readthedocs.io/en/latest/keymap/
 out_time：int(>0), 0(default)
    The time limit of current function. While the past time exceeds the limitation, the function terminates.
@@ -299,29 +502,51 @@ suspending: True, False(default)
 Returns
 -------
 KEY: None, int, or defined value
-1. If allowed_keys is None, return the id of any pressed key
-2. If allowed_keys is a List (eg. [K_f,K_j]), return the id of allowed pressed key
-3. If allowed_keys is a Dict (eg. [K_f:'F',K_j:'J']), return the value of allowed pressed key
+1. If allowed_key is [], return the id of any pressed key
+2. If allowed_key is a List (eg. [key_.F,key_.J]), return the id of allowed pressed key
+3. If allowed_key is a Dict (eg. [key_.F:'F',key_.J:'J']), return the value of allowed pressed key
 4. Return None if the time is out and no allowed keypress
 (Only if has_RT is True) pastTime: int
     The millisecond count since the function starts.
 ```
 
 ### *Sound Recorder*
-- **environmentNoise(sampling_time)**
+- **environmentNoise(sampling_time, weights=(1.1,3,5,1.1,2,3), chunk=1024)**
 
 ```
-Record the sound in a certain duration as the environment noise, and calcuate its power.
+Record the sound in a certain duration as the environment noise, and calcuate its amplitude and zero-crossing rate.
 
 Parameters
 ----------
-todo
+sampling_time: number
+    The duration of noise sampling
+weights: tuple (default: (1.1,3,5,1.1,2,3))
+    (The weight of noise threshold of zero-crossing rate,
+    The weight of low threshold of zero-crossing rate,
+    The weight of high threshold of zero-crossing rate,
+    The weight of noise threshold of sound amplitude,
+    The weight of low threshold of sound amplitude,
+    The weight of high threshold of sound amplitude)
+chunk: int (default: 1024)
+    The frame size
 
 Returns
 -------
-todo
+zcr0: number
+    The noise threshold of zero-crossing rate
+zcr1: number
+    The low threshold of zero-crossing rate
+zcr2: number
+    The high threshold of zero-crossing rate 
+amp0: number
+    The noise threshold of sound amplitude
+amp1: number
+    The low threshold of sound amplitude
+amp2: number
+    The high threshold of sound amplitude
 ```
-- **recordSound(noise_level, recording_min=0, recording_max=0, sounding_max=0, trim_side='left', feedback=False, chunk=512)**
+- **recordSound(vad_levels, rec_length_min=0, rec_length_max=None, sound_length_max=None,
+    trim_side='both', feedback=False, chunk=1024, playing_track=None, blocking=True, path='')**
 
 ```
 Record sound from the microphone and return the data as an array of signed shorts.
@@ -337,15 +562,45 @@ todo
 - **recordSoundTofile(path, filename, noise_level, recording_min=0, recording_max=0, sounding_max=0, trim_side='left', feedback=False, chunk=512)**
 
 ```
-Record from the microphone and save the sound on disk.
+Record sound from the microphone.
 
 Parameters
 ----------
-todo
-
+vad_levels: tuple
+    (The noise threshold of zero-crossing rate,
+    The low threshold of zero-crossing rate,
+    The high threshold of zero-crossing rate,
+    The noise threshold of sound amplitude,
+    The low threshold of sound amplitude,
+    The high threshold of sound amplitude)
+rec_length_min: number(ms) (default: 0)
+    The millisecond count of minimal recording time
+rec_length_max: number(ms), or None (default)
+    The millisecond count of maximal recording time
+sound_length_max: number(ms), or None (default)
+    The millisecond count of maximal sound length
+trim_side: str (default: 'both')
+    The trimming way of recorded sound
+    Options: 'both', 'left', 'right', 'none'
+feedback: True, or False(default)
+    Whether the sound feedbacks while recording
+chunk: int (default: 1024)
+    The frame size
+playing_track: int, str, or None(default)
+    The name of current track
+blocking: True(default), or False
+    Whether the recording track blocks the experiment
+path: str (default: '')
+    The file path of target sound. If the path is undefined(''), the sound won't be recorded.
 Returns
 -------
-todo
+If recorded:
+    rec_data: np.array
+        The recorded sound array in stereo
+If recorded nothing:
+    []
+If not blocking:
+    None
 ```
 
 ---
@@ -409,17 +664,16 @@ files: list
 ```
 
 ### *Save*
-- **saveResult(block_id, resp, columns=['respKey', 'RT'], stim=None, stim_columns=None)**
+- **saveResult(block_tag, resp, columns=['respKey', 'RT'], stim=None, stim_columns=None)**
 
 ```
-Save experiment result to a file named {subject_id}_{block_id}_result.csv.
+Save experiment result to a file named {subjectID}_{block_tag}_result.csv.
 If stim is not None, the stimuli data would attach to the response result.
-
 
 Parameters
 ----------
-block_id：int
-    The ID of current block
+block_tag：str, or int
+    The tag of current block
 resp：list
     The list of response data
 columns: list
@@ -453,6 +707,22 @@ Return
 None
 ```
 
+-   **shared.changeState(name, value)**
+
+```
+Change the value of a global state
+Parameters
+----------
+name: anything
+    The name of the target state
+value: anything
+    The target value of the target state
+
+Return
+---------
+None
+```
+
 ---
 ## Other Scaffolds
 -   **textSlide(text, font='simhei', size='normal_font_size', background_image=None)**
@@ -475,7 +745,7 @@ Return
 ---------
 None
 ```
--   **getInput(pre_text)**
+-   **getInput(pre_text, out_time=0)**
 
 ```
 Get user input until "ENTER" pressed, then give it to a variable
@@ -485,6 +755,9 @@ Parameters
 ----------
 pre_text：str
     The text that will be displayed before user's input.
+out_time: int(>0) or 0(default)
+    The time limitation of this function.
+    
 
 Return
 ---------
@@ -506,9 +779,9 @@ instruction_text：list of str
 Return
 ---------
 resp: Keyname/int
-    The last pressed key name.
+    The last pressed keyname.
 ```
--   **alert(text, allowed_keys=[K_RETURN], out_time=0)**
+-   **alert(text, allowed_keys=[key_.RETURN], out_time=0)**
 
 ```
 Display a new text slide right now, and keep the screen until user's response.
@@ -518,7 +791,7 @@ Parameters
 ----------
 text：str
     The text on the screen.
-allowed_keys: Keyname, or list of Keyname (default:[K_RETURN])
+allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
     The allowed user's response.
 out_time: int(>0) or 0(default)
     The display time limitation of this function.
@@ -526,13 +799,13 @@ out_time: int(>0) or 0(default)
 Return
 ---------
 resp: Keyname/int
-    The last pressed key name.
+    The last pressed keyname.
 ```
 -   **alertAndGo(text, out_time=3000)**
 
 ```
 Display a new text slide right now, 
-and keep the screen in a given period of time, or until user pressed SPACE or K_RETURN
+and keep the screen in a given period of time, or until user pressed SPACE or key_.RETURN
 
 
 Parameters
@@ -550,7 +823,7 @@ None
 
 ```
 Display a new text slide right now, 
-and keep the screen in a given period of time, or until user pressed SPACE or K_RETURN,
+and keep the screen in a given period of time, or until user pressed SPACE or key_.RETURN,
 then quit the program.
 
 

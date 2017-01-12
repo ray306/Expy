@@ -1,123 +1,183 @@
-import math
-import numpy as np
-import scipy.io.wavfile
-
+import struct
+import io
+from array import array
 from expy import shared
-from expy.response import *
 
+np = shared.np
 
-def loadSound(path):
+def mono2stereo(sound):
+    output = b''
+    if len(sound.shape) == 1:  # Mono
+        interleaved = [int(sound[a]) for a in range(0,len(sound)) for _ in range(2) ]
+        output = array('h', interleaved)
+    # Stereo data is expressed in an interleaved format, left channel sample followed by the right channel sample
+    else: # Stereo
+        for a in range(0,len(sound)):
+            output+=struct.pack('<hh', int(sound[a,0]), int(sound[a,1]))
+    return output
+
+def loadSound(path, offset=0, duration=None):
     '''
-    Load a wav file, and return data array
-    Or load a mp3/ogg file, and return None
+    Load a sound file, and return data array (stereo format)
 
     Parameters
     ----------
-    todo
+    path: str
+        The file path of target sound
+    offset: number (default:0)
+        The onset of target sound
+    duration: number, or None(default)
+        The duration of target sound
 
     Returns
     -------
-    value: np.array (if loaded a wav file), or None (if loaded a mp3/ogg file)
-        The sound data array
-    '''
-    if path[-3:] in ['wav', 'WAV']:
-        sr, sound = scipy.io.wavfile.read(path)
-        if len(sound.shape) == 1:  # Monochannel
-            sound = np.require(np.tile(sound, (2, 1)).T, requirements='C')
-        return sound
-    else:
-        try:
-            shared.pg.mixer.music.load(path)
-        except:
-            raise ValueError('Unsupported sound format or file misssing')
-        return None
-
-def loadManySound(dirpath, filenames, ext='wav'):
-    '''
-    Read a list of music file, then concatnate them and return data array.
-    not support mp3/ogg files
-
-    Parameters
-    ----------
-    todo
-
-    Returns
-    -------
-    value: np.array
+    value: array
         The sound data
     '''
-    if ext in ['wav', 'WAV']:
-        paths = [(dirpath + '/' + file + '.' + ext) for file in filenames]
-        sounds = np.concatenate([scipy.io.wavfile.read(p)[1] for p in paths])
-        if len(sounds.shape) == 1:  # Monochannel
-            sounds = np.require(np.tile(sounds, (2, 1)).T, requirements='C')
-        return sounds
-    else:
-        raise ValueError('Unsupported sound format or file misssing')
+    sound, sr = shared.librosa.core.load(path, sr=shared.setting['sample_rate'], offset=offset, duration=duration)
+    sound = (sound*32767).astype(np.int16)
 
-def makeSound(freq, duration):
+    sound = mono2stereo(sound)
+    return sound
+
+def loadManySound(dirpath, filenames, ext='wav', offset=0.0, duration=None):
     '''
-    Return a data array of certain sound freq
+    Read a list of music file, then concatnate them and return data array (stereo format).
 
     Parameters
     ----------
-    todo
+    dirpath: str
+        The directory path of target sounds
+    filenames: str
+        The filenames of target sounds (without filename extension)
+    ext: str
+        The filename extension of target sounds
+    offset: number (default:0)
+        The onset of target sounds
+    duration: number, or None(default)
+        The duration of target sounds
 
     Returns
     -------
-    wave: np.array
-        The sound data array
+    value: array
+        The sound data
     '''
+    paths = [(dirpath + '/' + file + '.' + ext) for file in filenames]
+    sounds = [shared.librosa.core.load(p, sr=shared.setting['sample_rate'], offset=offset, duration=duration)[0]
+                for p in paths]
+    sound = np.concatenate(sounds)
+    sound = (sound*32767).astype(np.int16)
+
+    sound = mono2stereo(sound)
+    return sound
+
+def makeBeep(frequency, duration):
+    '''
+    Making a beep (pure-frequency) sound (stereo format).
+
+    Parameters
+    ----------
+    frequency: number
+        The frequency of sound
+    duration: number
+        The duration of sound
+
+    Returns
+    -------
+    value: array
+        The sound data
+    '''
+    bits = 16
     sr = shared.setting['sample_rate']
-    bits = shared.setting['bits']
+
     total_sample = int(sr * duration)
-    # setup our numpy array to handle 16 bit ints, which is what we set our
-    # mixer to expect with "bits" up above
-    sound = np.zeros((total_sample, 2), dtype=np.int16)
+    # setup our numpy array to handle 16 bit ints
+    sound = np.zeros(total_sample, dtype=np.int16)
     max_sample = 2**(bits - 1) - 1
 
     # convert the frequences to sinusoid, and put them into the sound object
     for s in range(total_sample):
         t = float(s) / sr    # time in seconds
-        sound[s] = int(round(max_sample * math.sin(2 * math.pi * freq * t)))
+        sound[s] = int(round(max_sample * shared.math.sin(2 * shared.math.pi * frequency * t)))
 
-    # 淡入淡出背景音音轨5ms
-    segment = int(sr * 0.005)
-    start = sound[:, 0][:segment] * np.array(list(range(segment))) // segment
-    start = np.array(start, int)
-    end = sound[:, 0][-segment:] * \
-        np.array(list(range(segment, 0, -1))) // segment
-    end = np.array(end, int)
-    sound[:, 0][:segment] = start
-    sound[:, 0][-segment:] = end
-    sound[:, 1][:segment] = start
-    sound[:, 1][-segment:] = end
+    # # 淡入淡出5ms
+    # segment = int(sr * 0.005)
+    # start = sound[:][:segment] * np.array(list(range(segment))) // segment
+    # start = np.array(start, int)
+    # end = sound[:][-segment:] * \
+    #     np.array(list(range(segment, 0, -1))) // segment
+    # end = np.array(end, int)
+    # sound[:][:segment] = start
+    # sound[:][-segment:] = end
 
-    # pygame environment
-    shared.pg.mixer.pre_init(sr, -bits, 2)
-    wave = shared.pg.sndarray.make_sound(sound)
-    return wave
+    sound = mono2stereo(sound)
+    return sound
 
-def playSound(wav=None, blocking=True):
+def makeSound(data):
     '''
-    Play a loaded file or a data array
+    Read np.array object, then convert it into sound array (stereo format).
 
     Parameters
     ----------
-    todo
+    data: np.array
+        The raw sound data array
+
+    Returns
+    -------
+    value: array
+        The sound data
+    '''
+    output = mono2stereo(data)
+    return output
+
+def playSound(sound, playing_track=None, blocking=True):
+    '''
+    Play a sound array
+
+    Parameters
+    ----------
+    sound: array
+        The sound data
+    playing_track: int, str, or None(default)
+        The name of current track
+    blocking: True(default), or False
+        Whether the playing track blocks the experiment
 
     Returns
     -------
     None
     '''
-    if wav is None:
-        shared.pg.mixer.music.play()
-    else:
-        # indices = np.round( np.arange(0, len(wav), 16000/22050) )
-        # indices = indices[indices < len(wav)].astype(int)
-        # wav = wav[ indices.astype(int) ]
-        shared.pg.sndarray.make_sound(wav).play()
+    if type(playing_track)!=str:
+        playing_track=np.random.randint(99999)
+        
+    shared.changeState(playing_track, True)
+
+    def playSoundSub():
+        output = io.BytesIO(sound)
+
+        chunk = 1024
+        stream = shared.pa.open(format=shared.pyaudio.paInt16, channels=2, rate=shared.setting['sample_rate'],
+                        output=True)
+        
+        while 1:
+            if blocking:
+                shared.win.dispatch_events()
+
+            data = output.read(chunk)
+            if data == b'' or shared.states[playing_track] == False:
+                break
+            stream.write(data)
+
+        shared.changeState(playing_track, False)
+
+        stream.stop_stream()
+        stream.close()
 
     if blocking:
-        while shared.pg.mixer.get_busy():
-            waitForResponse({}, 100)
+        playSoundSub()
+    else:
+        td = shared.threading.Thread(target=playSoundSub)
+        td.start()
+
+
+

@@ -5,7 +5,7 @@ ITI: 500
 [instruction1]
 Welcome to our experiment!
 >
-In this example, you need to respond to the words "left" with the F key ,
+In this example, you need to respond to the words "left" with the F key,
 and respond to the words "right" with the J key. 
 >
 Happy expy!
@@ -16,9 +16,6 @@ Welcome to our experiment!
 In this example, you need to press key to select the word you heard.
 >
 Happy expy!
-----
-[background_color]
-C_gray
 ----
 [font_color]
 C_white

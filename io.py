@@ -109,15 +109,15 @@ def readDir(dirpath, shuffle=True):
     return files
 
 
-def saveResult(block_id, resp, columns=['respKey', 'RT'], stim=None, stim_columns=None):
+def saveResult(block_tag, resp, columns=['respKey', 'RT'], stim=None, stim_columns=None):
     '''
-    Save experiment result to a file named {subjectID}_{block_id}_result.csv.
+    Save experiment result to a file named {subjectID}_{block_tag}_result.csv.
     If stim is not None, the stimuli data would attach to the response result.
 
     Parameters
     ----------
-    block_id：int
-        The ID of current block
+    block_tag：str, or int
+        The tag of current block
     resp：list
         The list of response data
     columns: list
@@ -137,9 +137,9 @@ def saveResult(block_id, resp, columns=['respKey', 'RT'], stim=None, stim_column
     if not stim is None:
         if type(stim) is list:
             stim = pd.DataFrame(stim, columns=stim_columns)
-        result = stim.join(result)
+        result = stim.join(result)           
 
-    result.to_csv('result/%s_%d_result.csv' %(shared.subject,block_id), index=None)
+    result.to_csv('result/%s_%s_result.csv' %(shared.subject,str(block_tag)), index=None)
 
 
 def sendTrigger(data, mode='P'):

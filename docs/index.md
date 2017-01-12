@@ -20,7 +20,6 @@ Expy is designed for psycholinguistic experiments, but it's also suitable for an
 **Disadvantages**:
 
 - Not good at drawing complex shape (e.g.,grating) as stimuli (however, you could draw them as loaded pictures).
-- Not good at video playing.
 
 ---
 ## Documentation
@@ -28,9 +27,6 @@ See http://expy.readthedocs.io/en/latest/ for introduction, tutorials, and refer
 
 ---
 # Installation instructions
-
-Expy has been tested on Python3.5 64bit.
-(Current it might be unfit for older versions like Python2.7. But since Python2 will become obsolete in the years to come, why not drop it anyaway and take Python3 instead?)
 
 The simplest way to install Expy is through the Python Package Index (PyPI), which ensures that all required dependencies are established. This can be achieved by executing the following command:
 
@@ -56,7 +52,7 @@ sudo pip install --upgrade expy
 - numpy
 - pandas
 - scipy
-- pygame
+- pyglet
 - pyaudio
-- wave
+- librosa
 - pyserial

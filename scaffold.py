@@ -1,6 +1,5 @@
 import numpy as np
-from pygame.locals import *
-
+import pyglet.window.key as key_
 from expy import shared
 from .colors import *
 from .stim.draw import *
@@ -49,13 +48,13 @@ def textSlide(text, font='simhei', size='normal_font_size', background_image=Non
     ---------
     None
     '''
-    shared.win.fill(shared.background_color)
+    clear()
     if background_image:
         drawPic(path)    
     drawText(text, font=font, size=size)
     
 
-def getInput(pre_text):
+def getInput(pre_text, out_time=0):
     '''
     Get user input until "ENTER" pressed, then give it to a variable
 
@@ -63,6 +62,8 @@ def getInput(pre_text):
     ----------
     pre_text：str
         The text that will be displayed before user's input.
+    out_time: int(>0) or 0(default)
+        The time limitation of this function.
 
     Return
     ---------
@@ -71,11 +72,12 @@ def getInput(pre_text):
     '''
     textSlide(pre_text)
     text = pre_text
+    shared.start_tp = shared.time.time()
     while 1:
-        inkey = waitForResponse(has_RT=False)
-        if inkey == K_RETURN:
+        inkey = waitForResponse(has_RT=False, out_time=out_time)
+        if inkey in [key_.RETURN, 'None']:
             break
-        elif inkey == K_BACKSPACE:
+        elif inkey == key_.BACKSPACE:
             text = text[0:-1]
         elif inkey <= 127:
             text += (chr(inkey))
@@ -118,15 +120,15 @@ def instruction(instruction_text, has_practice=False):
                       i] + '\n\n\n(按“←”返回上一页，按“→”进入下一页)\n\n(Press "←" to the previous page, or Press "→" to the next page)')
 
         resp = waitForResponse(has_RT=False)
-        if resp == K_LEFT and i > 0:
+        if resp == key_.LEFT and i > 0:
             i -= 1
-        elif resp == K_RIGHT and i < len(intro) - 1:
+        elif resp == key_.RIGHT and i < len(intro) - 1:
             i += 1
-        elif resp in [K_SPACE, K_RETURN] and i == len(intro) - 1:
+        elif resp in [key_.SPACE, key_.RETURN] and i == len(intro) - 1:
             clear()
             return resp
 
-def alert(text, allowed_keys=[K_RETURN], out_time=0):
+def alert(text, allowed_keys=[key_.RETURN], out_time=0):
     '''
     Display a new text slide right now, and keep the screen until user's response.
 
@@ -134,7 +136,7 @@ def alert(text, allowed_keys=[K_RETURN], out_time=0):
     ----------
     text：str
         The text on the screen.
-    allowed_keys: Keyname, or list of Keyname (default:[K_RETURN])
+    allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
         The allowed user's response.
     out_time: int(>0) or 0(default)
         The display time limitation of this function.
@@ -149,16 +151,10 @@ def alert(text, allowed_keys=[K_RETURN], out_time=0):
     clear()
     return resp
 
-def tip(text, allowed_keys=[K_RETURN], out_time=0):
-    '''
-    Override with "alert()"
-    ''' 
-    return alert(text, allowed_keys, out_time)
-
 def alertAndGo(text, out_time=3000):
     '''
     Display a new text slide right now, 
-    and keep the screen in a given period of time, or until user pressed SPACE or K_RETURN
+    and keep the screen in a given period of time, or until user pressed SPACE or key_.RETURN
 
     Parameters
     ----------
@@ -176,7 +172,7 @@ def alertAndGo(text, out_time=3000):
 def alertAndQuit(text, out_time=3000):
     '''
     Display a new text slide right now, 
-    and keep the screen in a given period of time, or until user pressed SPACE or K_RETURN,
+    and keep the screen in a given period of time, or until user pressed SPACE or key_.RETURN,
     then quit the program.
 
     Parameters
@@ -191,7 +187,8 @@ def alertAndQuit(text, out_time=3000):
     None
     '''
     alertAndGo(text, out_time)
-    shared.pg.quit()
+    shared.pa.terminate()
+    shared.pyglet.app.exit()
 
 rest_text = '实验暂停，您可以休息一会\n\
 如果休息结束请按 [空格] 继续实验。\n\
@@ -213,5 +210,6 @@ def restTime(text=rest_text):
     ---------
     None
     '''
-    shared.pg.time.wait(3000)
-    alert(text, K_SPACE)
+    textSlide(text)
+    shared.time.sleep(3)
+    alert(text, key_.SPACE)

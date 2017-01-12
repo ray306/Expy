@@ -14,7 +14,7 @@ show(2000)  # Display current canvas
 ''''''
 
 # Draw text on the canvas, with left center's position
-drawText('Hello! world!', benchmark='left_center')
+drawText('Hello! world!', anchor_x='left',anchor_y='center')
 show(2000)  # Display current canvas
 
 # Draw text on the canvas, with given fontsize
@@ -25,9 +25,9 @@ show(2000)  # Display current canvas
 drawText('Hello world!', color=C_red)
 show(2000)  # Display current canvas
 
-# Draw text on the canvas, with given angle
-drawText('Hello world!', rotation=45)
-show(2000)  # Display current canvas
+# # Draw text on the canvas, with given angle
+# drawText('Hello world!', rotation=45)
+# show(2000)  # Display current canvas
 
 # Draw text on the canvas, with center's position
 drawText('Hello! world!', x=-0.5, y=0.0)

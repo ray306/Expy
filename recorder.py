@@ -1,9 +1,4 @@
-import numpy as np
-import pandas as pd
 import os
-import re
-import os
-from pygame.locals import *
 
 from expy import shared
 
@@ -12,20 +7,7 @@ from sys import byteorder
 from array import array
 from struct import pack
 
-import pyaudio
-import wave
-
-
-def normalize(snd_data):
-    "Average the volume out"
-    MAXIMUM = 16384
-    times = float(MAXIMUM) / max(abs(i) for i in snd_data)
-
-    r = array('h')
-    for i in snd_data:
-        r.append(int(i * times))
-    return r
-
+np = shared.np
 
 def addSilence(snd_data, seconds):
     "Add silence to the start and end of 'snd_data' of length 'seconds' (float)"
@@ -35,296 +17,324 @@ def addSilence(snd_data, seconds):
     r.extend([0 for i in range(int(seconds * shared.setting['sample_rate']))])
     return r
 
-
-def isSilent(snd_data, threshold):
-    "Returns 'True' if below the 'silent' threshold"
-    return max(snd_data) < threshold
-
-
-def trim(snd_data, threshold, side='left'):
-    "Trim the blank spots at the start and end"
+# def trim(snd_data, threshold, side='both'):
+#     "Trim the blank spots at the start and end"
 #     def _trim(snd_data):
+#         snd_data0 = np.array([int(abs(i) > threshold*3) for i in snd_data])
+
 #         snd_started = False
 #         r = array('h')
 
-#         for i in snd_data:
-#             if not snd_started and abs(i)>threshold:
+#         lasting = 4000
+#         for i in range(len(snd_data)):
+#             if not snd_started and snd_data0[i - lasting:i].sum() < (lasting / 20) and snd_data0[i:i + lasting].sum() > (lasting / 3):
 #                 snd_started = True
-#                 r.append(i)
+#                 r.append(snd_data[i])
 
 #             elif snd_started:
-#                 r.append(i)
+#                 r.append(snd_data[i])
 #         return r
 
-    def _trim(snd_data):
-        snd_data0 = np.array([int(abs(i) > threshold) for i in snd_data])
+#     if side == 'left':
+#         # Trim to the left
+#         snd_data = _trim(snd_data)
+#     elif side == 'right':
+#         # Trim to the right
+#         snd_data.reverse()
+#         snd_data = _trim(snd_data)
+#         snd_data.reverse()
+#     elif side == 'both':
+#         # Trim to the left
+#         snd_data = _trim(snd_data)
+#         # Trim to the right
+#         snd_data.reverse()
+#         snd_data = _trim(snd_data)
+#         snd_data.reverse()
+#     elif side == 'none':
+#         pass
 
-        snd_started = False
-        r = array('h')
+#     return snd_data
 
-        lasting = 4000
-        for i in range(len(snd_data)):
-            if not snd_started and snd_data0[i - lasting:i].sum() < (lasting / 20) and snd_data0[i:i + lasting].sum() > (lasting / 3):
-                snd_started = True
-                r.append(snd_data[i])
-
-            elif snd_started:
-                r.append(snd_data[i])
-        return r
-
+def trim(snd_data, onset_frame, end_frame, side='both'):
     if side == 'left':
-        # Trim to the left
-        snd_data = _trim(snd_data)
+        snd_data = snd_data[onset_frame:-1]
     elif side == 'right':
-        # Trim to the right
-        snd_data.reverse()
-        snd_data = _trim(snd_data)
-        snd_data.reverse()
+        snd_data = snd_data[:end_frame]
     elif side == 'both':
-        # Trim to the left
-        snd_data = _trim(snd_data)
-        # Trim to the right
-        snd_data.reverse()
-        snd_data = _trim(snd_data)
-        snd_data.reverse()
+        snd_data = snd_data[onset_frame:end_frame]
     elif side == 'none':
         pass
 
     return snd_data
 
+def measure(curFrame):
+    #过零率
+    tmp1 = curFrame[:-1]
+    tmp2 = curFrame[1:]
+    sings = (tmp1*tmp2<=0)
+    diffs = (tmp1-tmp2)>0.02
+    zcr = np.sum(sings*diffs)
+    #短时能量
+    amp = np.sum(np.abs(curFrame))
+    return zcr, amp
 
-def environmentNoise(sampling_time, chunk=512):
+def environmentNoise(sampling_time, weights=(1.1,3,5,1.1,2,3), chunk=1024):
     """
-    Record the sound in a certain duration as the environment noise, and calcuate its power.
+    Record the sound in a certain duration as the environment noise, and calcuate its amplitude and zero-crossing rate.
 
     Parameters
     ----------
-    todo
+    sampling_time: number
+        The duration of noise sampling
+    weights: tuple (default: (1.1,3,5,1.1,2,3))
+        (The weight of noise threshold of zero-crossing rate,
+        The weight of low threshold of zero-crossing rate,
+        The weight of high threshold of zero-crossing rate,
+        The weight of noise threshold of sound amplitude,
+        The weight of low threshold of sound amplitude,
+        The weight of high threshold of sound amplitude)
+    chunk: int (default: 1024)
+        The frame size
 
     Returns
     -------
-    todo
+    zcr0: number
+        The noise threshold of zero-crossing rate
+    zcr1: number
+        The low threshold of zero-crossing rate
+    zcr2: number
+        The high threshold of zero-crossing rate 
+    amp0: number
+        The noise threshold of sound amplitude
+    amp1: number
+        The low threshold of sound amplitude
+    amp2: number
+        The high threshold of sound amplitude
     """
     def calc_threshold():
-        p = pyaudio.PyAudio()
-        stream = p.open(format=pyaudio.paInt16, channels=1, rate=shared.setting['sample_rate'],
-                        input=True, output=True,
+        stream = shared.pa.open(format=shared.pyaudio.paInt16, channels=1, rate=shared.setting['sample_rate'],
+                        input=True,
                         frames_per_buffer=chunk)
 
         r = array('h')
-
         noise = []
+        zcrs = []
+        amps = []
+
         for i in range(int(sampling_time * shared.setting['sample_rate'] // chunk)):
             # little endian, signed short
             snd_data = array('h', stream.read(chunk))
             if byteorder == 'big':
                 snd_data.byteswap()
             r.extend(snd_data)
-            noise.append(max(snd_data))
 
-        return np.mean(noise[1:])
+            zcr, amp = measure(np.array(snd_data))
+            zcrs.append(zcr)
+            amps.append(amp)
 
-    threshold = -1
-    while threshold < 0:
-        threshold = calc_threshold()
+        stream.stop_stream()
+        stream.close()
 
-    print("environment's noise level:", threshold)
-    return threshold
+        return np.mean(zcrs),np.mean(amps)
 
+    zcr_noise, amp_noise = calc_threshold()
+    zcr0 = zcr_noise*weights[0] # The noise threshold of zero-crossing rate
+    zcr1 = zcr_noise*weights[1] # The low threshold of zero-crossing rate
+    zcr2 = zcr_noise*weights[2] # The high threshold of zero-crossing rate 
+    amp0 = amp_noise*weights[3] # The noise threshold of sound amplitude
+    amp1 = amp_noise*weights[4] # The low threshold of sound amplitude
+    amp2 = amp_noise*weights[5] # The high threshold of sound amplitude
+    
+    print("environment's noise level: (zcr %.3f, amp %.3f)" %(zcr_noise, amp_noise))
+    return zcr0, zcr1, zcr2, amp0, amp1, amp2
 
-# def recordSound(threshold, minRecordTime=0, maxSoundLength=600, feedback=False, chunk=512):
-#     """
-#     Record sound from the microphone and return the data as an array of signed shorts.
-
-#     Parameters
-#     ----------
-#     todo
-
-#     Returns
-#     -------
-#     todo
-#     """
-#     sr = shared.setting['sample_rate']
-
-#     p = pyaudio.PyAudio()
-#     stream = p.open(format=pyaudio.paInt16, channels=1, rate=sr,
-#                     input=True, output=True,
-#                     frames_per_buffer=chunk)
-
-#     num_silent = 0
-#     speech_threshold = 4 * threshold
-#     num_sound = 0
-#     silent_limit = 1 * sr
-
-#     minRecordTime = minRecordTime * sr
-#     maxSoundLength = maxSoundLength * sr
-
-#     onset = 0
-#     onset_detected = False
-
-#     r = array('h')
-#     while num_sound < maxSoundLength and len(r) < (minRecordTime + maxSoundLength) and num_silent < silent_limit:
-#         # little endian, signed short
-#         s = stream.read(chunk)
-#         if feedback:
-#             stream.write(s, chunk)
-
-#         snd_data = array('h', s)
-#         if byteorder == 'big':
-#             snd_data.byteswap()
-#         r.extend(snd_data)
-
-#         # for e in shared.pg.event.get():
-#         #     if e.type == KEYDOWN:
-#         #         k = e.key
-#         #         if k == 27:
-#         #             shared.pg.quit()
-#         #         elif k == K_F12:
-#         #             suspend()
-
-#         if onset_detected:
-#             num_sound += len(snd_data)
-
-#             if isSilent(snd_data, threshold):
-#                 num_silent += len(snd_data)
-#             else:
-#                 num_silent = 0
-#         else:
-#             if max(snd_data) > speech_threshold:
-#                 for idx in range(1, len(r), chunk):
-#                     if np.max(r[-idx - chunk:-idx]) < threshold:
-#                         onset = len(r) - idx - chunk
-#                         onset_detected = True
-#                         break
-
-#     sample_width = p.get_sample_size(pyaudio.paInt16)
-#     stream.stop_stream()
-#     stream.close()
-#     p.terminate()
-
-#     r = trim(r, threshold)
-#     # r = normalize(r)
-#     r = r[:maxSoundLength]
-#     r = np.require(np.tile(r, (2, 1)).T, requirements='C')
-#     # r = addSilence(r, 0.5)
-#     return sample_width, r
-
-def recordSound(noise_level=500, recording_min=0, recording_max=0, sounding_max=0, trim_side='left', feedback=False, chunk=512):
-    # 左边的干净是trim（left）得来的，不是由计算的onset 得来的
+'''https://github.com/halleytl/pyvad/blob/master/vad.py'''
+def recordSound(vad_levels, rec_length_min=0, rec_length_max=None, sound_length_max=None,
+    trim_side='both', feedback=False, chunk=1024, playing_track=None, blocking=True, path=''):
     """
-    Record sound from the microphone and return the data as an array of signed shorts.
+    Record sound from the microphone.
 
     Parameters
     ----------
-    todo
-
+    vad_levels: tuple
+        (The noise threshold of zero-crossing rate,
+        The low threshold of zero-crossing rate,
+        The high threshold of zero-crossing rate,
+        The noise threshold of sound amplitude,
+        The low threshold of sound amplitude,
+        The high threshold of sound amplitude)
+    rec_length_min: number(ms) (default: 0)
+        The millisecond count of minimal recording time
+    rec_length_max: number(ms), or None (default)
+        The millisecond count of maximal recording time
+    sound_length_max: number(ms), or None (default)
+        The millisecond count of maximal sound length
+    trim_side: str (default: 'both')
+        The trimming way of recorded sound
+        Options: 'both', 'left', 'right', 'none'
+    feedback: True, or False(default)
+        Whether the sound feedbacks while recording
+    chunk: int (default: 1024)
+        The frame size
+    playing_track: int, str, or None(default)
+        The name of current track
+    blocking: True(default), or False
+        Whether the recording track blocks the experiment
+    path: str (default: '')
+        The file path of target sound. If the path is undefined(''), the sound won't be recorded.
     Returns
     -------
-    todo
+    If recorded:
+        rec_data: np.array
+            The recorded sound array in stereo
+    If recorded nothing:
+        []
+    If not blocking:
+        None
     """
+    if type(playing_track)!=str:
+        playing_track=np.random.randint(99999)
+
+    shared.changeState(playing_track, True)
+
     sr = shared.setting['sample_rate']
+    
+    rec_length_min = rec_length_min * (sr/1000)
+    if rec_length_max:
+        rec_length_max *=  (sr/1000)
+    if sound_length_max:
+        sound_length_max *= (sr/1000)
 
-    recording_min = recording_min * sr
-    if recording_max > 0:
-        recording_max = recording_max * sr
-    if sounding_max > 0:
-        sounding_max = sounding_max * sr
+    zcr0, zcr1, zcr2, amp0, amp1, amp2 = vad_levels
+    
+    maxsilence = 1.5 * sr // chunk #允许最大静音长度
+    minlen = 0.2 * sr // chunk  #语音的最短长度, 语音长度太短认为是噪声
 
-    p = pyaudio.PyAudio()
-    stream = p.open(format=pyaudio.paInt16, channels=1, rate=sr,
-                    input=True, output=True,
-                    frames_per_buffer=chunk)
+    def recordSoundSub():
+        #初始状态为静音
+        count = 0
+        silence = 0
+        sound_status = 0
+        speech_status = 0
 
-    speech_threshold = 4 * noise_level
-    silence_limit = 1 * sr
+        onset_detected = False
+        onset_frame = 0
+        end_frame = -1
 
-    num_silent = 0
-    num_sound = 0
-    onset = 0
-    onset_detected = False
+        status_record = []
+        status_record2 = []
 
-    rec_data = array('h')
-    while True:
-        # little endian, signed short
-        s = stream.read(chunk)
+        stream = shared.pa.open(format=shared.pyaudio.paInt16, channels=1, rate=sr,
+                        input=True, output=True)
 
-        if feedback:
-            stream.write(s, chunk)
+        rec_data = array('h')
 
-        snd_data = array('h', s)
-        if byteorder == 'big':
-            snd_data.byteswap()
-        rec_data.extend(snd_data)
+        while True:
+            if blocking:
+                shared.win.dispatch_events()
+            # When to stop recording
+            if (rec_length_max and len(rec_data) > rec_length_max) or \
+                (sound_length_max and (len(rec_data)-onset_frame) > sound_length_max) or \
+                (not onset_detected and len(rec_data) > rec_length_min) or \
+                shared.states[playing_track] == False:
+                break
 
-        if onset_detected:
-            num_sound += len(snd_data)
+            # little endian, signed short
+            s = stream.read(chunk)
 
-            if isSilent(snd_data, noise_level):
-                num_silent += len(snd_data)
-            else:
-                num_silent = 0
-        else:
-            if max(snd_data) > speech_threshold:
-                for idx in range(1, len(rec_data), chunk):
-                    if np.max(rec_data[-idx - chunk:-idx]) < noise_level:
-                        onset = len(rec_data) - idx - chunk
-                        onset_detected = True
-                        break
+            if feedback:
+                stream.write(s, chunk)
 
-        for e in shared.pg.event.get():
-            if e.type == KEYDOWN:
-                k = e.key
-                if k == 27:
-                    shared.pg.quit()
-                elif k == K_F12:
-                    suspend()
+            snd_data = array('h', s)
+            if byteorder == 'big':
+                snd_data.byteswap()
+            rec_data.extend(snd_data)
 
-        # When to stop recording
-        if (recording_max > 0 and len(rec_data) > recording_max) or \
-                (sounding_max > 0 and num_sound > sounding_max) or \
-                (len(rec_data) > recording_min and num_silent > silence_limit):
-            rec_data = rec_data[onset:]
-            rec_data = trim(rec_data, noise_level, side=trim_side)
-            if sounding_max>0: 
-                rec_data = rec_data[:int(sounding_max)]
-            break
+            data = np.array(snd_data)
+            zcr, amp = measure(data)
 
-    sample_width = p.get_sample_size(pyaudio.paInt16)
-    stream.stop_stream()
-    stream.close()
-    p.terminate()
+            status = 0
+            # 0= 静音， 1= 可能开始
+            if speech_status in [0, 1]: 
+                # 确定进入语音段
+                if amp > amp2 or zcr > zcr2:     
+                    sound_status = 2
+                    speech_status = 2
+                    silence = 0
+                    count += 1
 
-    # rec_data = normalize(rec_data)
-    # rec_data = addSilence(rec_data, 0.5)
-    rec_data = np.require(np.tile(rec_data, (2, 1)).T, requirements='C')
+                    onset_detected = True
+                    for idx in range(len(status_record)-1, 0, -1):
+                        if idx>0 and status_record[idx-1]==0:
+                            onset_frame = (idx-1)*chunk
+                            break
 
-    return sample_width, rec_data
+                #可能处于语音段 
+                elif (amp > amp0 and zcr > zcr0) or (amp > amp1 or zcr > zcr1): 
+                    sound_status = 1
+                    count += 1
+                #静音状态
+                else:  
+                    sound_status = 0
+                    count = 0
+            # 2 = 语音段
+            elif speech_status == 2:              
+                # 保持在语音段
+                if (amp > amp0 and zcr > zcr0) or (amp > amp1 or zcr > zcr1):
+                    count += 1
+                    sound_status = 2
+                #语音将结束
+                else:
+                    #静音还不够长，尚未结束
+                    silence += 1
+                    if silence < maxsilence:
+                        count += 1
+                        sound_status = 2
+                    #语音长度太短认为是噪声
+                    elif count < minlen:
+                        sound_status = 0
+                        silence = 0
+                        count = 0
+                    #语音结束
+                    else:
+                        end_frame = (len(status_record) - silence)*chunk
+                        sound_status = 3
 
+            status_record.append(sound_status)
+            # status_record2.append('%.1f, %.1f' %(amp/amp0,zcr/zcr0))
+            if sound_status == 3:
+                    break
 
-def recordSoundTofile(filename, path='data', noise_level=500, recording_min=0, recording_max=0, sounding_max=0, trim_side='left', feedback=False, chunk=512):
-    """
-    Record from the microphone and save the sound on disk.
+        shared.changeState(playing_track, False)
+        # print(status_record)
+        # print(onset_frame,status_record,status_record2)
 
-    Parameters
-    ----------
-    todo
+        rec_data = trim(rec_data, onset_frame, end_frame, trim_side)
+        # rec_data = rec_data[onset_frame:end_frame]
+        
+        if sound_length_max: 
+            rec_data = rec_data[:int(sound_length_max)]
+        # rec_data = trim(rec_data, noise_level[1]//chunk, side=trim_side)
 
-    Returns
-    -------
-    todo
-    """
-    try:
-        sample_width, data = recordSound(
-            noise_level, recording_min, recording_max, sounding_max, trim_side, feedback, chunk)
+        stream.stop_stream()
+        stream.close()
 
-        data = pack('<' + ('h' * len(data[:, 0])), *data[:, 0])
+        if len(rec_data)==0:
+            print('Recorded nothing')
+            return []
 
-        wf = wave.open('%s/%s.wav' %(path, filename), 'wb')
-        wf.setnchannels(1)
-        wf.setsampwidth(sample_width)
-        wf.setframerate(shared.setting['sample_rate'])
-        wf.writeframes(data)
-        wf.close()
-        return True
-    except:
-        return False
+        # rec_data = addSilence(rec_data, 0.5)
+        rec_data = np.require(np.tile(rec_data, (2, 1)).T, requirements='C')
+        # rec_data = np.require(np.array([rec_data[::2], rec_data[1::2]]).T, requirements='C')
+        
+        if path!='':
+            shared.librosa.output.write_wav(path, rec_data, sr, norm=False)
+
+        return rec_data
+
+    if blocking:
+        rec_data = recordSoundSub()
+        return rec_data
+    else:
+        td = shared.threading.Thread(target=recordSoundSub)
+        td.start()

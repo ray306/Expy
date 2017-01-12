@@ -13,13 +13,13 @@ for w in 'ABCDE12345':
 
 ## *Visual Experiment*
 ```python
-from expy import * # Import the needed functions
-start() # Initiate the experiment environment
+from expy import *  # Import the needed functions
+start()  # Initiate the experiment environment
 
 def trial(word, pos):
     drawText(word, x=pos)  # Draw text on the canvas and display it
 
-    key, rt = waitForResponse({K_f: 'Left', K_j: 'Right'}) # Waiting for pressing 'F' or 'J'
+    key, rt = waitForResponse({key_.F: 'Left', key_.J: 'Right'}) # Waiting for pressing 'F' or 'J'
     if key == word:
         alertAndGo('Correct!', 1000)  # Display something in 1s
     else:
@@ -27,7 +27,8 @@ def trial(word, pos):
 
     show(500)  # Pause (Keep displaying in 500ms)
 
-alert('In this example, you need to respond to the words "left" with the F key , and respond to the words "right" with the J key. ') # Display something until pressing 'SPACE' or 'ENTER'
+
+instruction(shared.setting['instruction1'])
 alertAndGo('The experiment will start after 3s.') # Display something in 3s(default)
 
 stimuli = [('Left', -0.5), ('Right', 0.5), ('Right', -0.5),
@@ -41,8 +42,8 @@ alertAndQuit('Done!')  # Display something in 3s(default), and quit the program
 
 ## *Auditory Experiment*
 ```python
-from expy import * # Import the needed functions
-start() # Initiate the experiment environment
+from expy import *  # Import the needed functions
+start()  # Initiate the experiment environment
 
 def trial(stim):
     sound = loadSound('data/' + stim + '.WAV')  # Load the wav file
@@ -50,7 +51,7 @@ def trial(stim):
 
     textSlide('Please press F for "ba", or press J for "da"')  # Display something
     
-    key, rt = waitForResponse({K_f: 'ba', K_j: 'da'}) # Waiting for pressing 'F' or 'J'
+    key, rt = waitForResponse({key_.F: 'ba', key_.J: 'da'}) # Waiting for pressing 'F' or 'J'
 
     if key == stim:
         alertAndGo('Correct!', 1000)  # Display something in 1s
@@ -59,7 +60,8 @@ def trial(stim):
 
     show(500)  # Pause (Keep displaying in 500ms)
 
-alert('In this example, you need to press key to select the word you heard.') # Display something until pressing 'SPACE' or 'ENTER'
+
+instruction(shared.setting['instruction2'])
 alertAndGo('The experiment will start after 3s.')  # Display something in 3s(default)
 
 for stim in ['ba', 'da', 'da', 'ba']:

@@ -1,7 +1,42 @@
-# todo
-- todo: format text draw function
+# Todo
+- Format text draw function
 - Added the parameter "rotate" to all the `drawXXX`
 - Unit of measurement
+- Log
+
+# 0.9.7.2
+- Removed parllel port module in Linux and MacOSX
+- Time unit changed to millisecond in `recordSound`
+
+# 0.9.7.1
+- Fixed bugs
+
+# 0.9.7
+- [**Important**] Changed the backend! Rewrite all the code!
+- Added the controller function `shared.changeState(idx, value)`
+- Coordinate change: (0, 0) means lower-left at screen
+- The change of position benchmark definition in `drawXXX`: 
+    - [old way] anchor="upper_left"
+    - [new_way] anchor_x='left',anchor_y='top'
+- Added video support
+    - Method `loadVideo`: it supports a lot of video format if you installed AVbin (http://avbin.github.io/AVbin/Download.html)
+    - Method `playVideo`: you can control the play stream
+- `environmentNoise`
+    - Now `environmentNoise` measures zero-crossing rate and amplitude of noise
+    - Now `environmentNoise` supports pre-defining the VAD weights via the parameter "weights"
+    - Now `environmentNoise` returns the VAD parameters
+- `recordSound`
+    - Fixed the bug of `recordSound` about the voice activity detection
+    - Added "vad_levels" to `environmentNoise` and removed the "noise_level"
+    - Added the parameter "blocking" to `recordSound`, and so you can continue the experiment procedure while recording
+    - Added the parameter "path" to `recordSound` and removed the method `recordSoundToFile`
+    - Added the parameter "playing_track" to `recordSound`, and so you can control the recording outside.
+- Changed the backend of sound playing! Now Expy supports a lot of sound file format if you installed FFmpeg (https://ffmpeg.org/download.html)
+- Added the parameter "playing_track" to `playSound`, and so you can control the playing outside
+- Now `saveResult` supports string and int as the value of "block_tag"
+- Renamed the `drawLine` to `drawLines`
+- Added the parameter "out_time" to `getInput`
+- Silenced the effect of parameter "rotate" to all the `drawXXX`. I will active them in a future version.
 
 # 0.9.6.1
 - Renamed all the functions to the CamelCase
@@ -9,14 +44,14 @@
 # 0.9.6
 - Renamed the `tip` to `alert`
 - Rewrite `recordSound` and `recordSoundToFile`
-- Renamed all the parameters to the PascalCase
+- Renamed all the parameters to the UnderlineCase
 
 # 0.9.5.3
 - Fixed a bug on parallel port
 
 # 0.9.5.2
 - `drawLine` allowed relative position
-- Changed "allowed_keys" in `tip`'s default value to [K_RETURN]
+- Changed "allowed_keys" in `tip`'s default value to [key.RETURN]
 - Now the `show` won't stop if you press SPACE (it only will when RETURN)
 - `loadManySound` allowed mono channel
 

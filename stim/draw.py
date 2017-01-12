@@ -1,11 +1,11 @@
 import numpy as np
-import pygame as pg
+import math
 
 from expy import shared
 from expy.colors import *
 
 
-def getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, benchmark='center'):
+def getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, anchor_x='center',anchor_y='center'):
     '''
     Caluate the screen position of object
 
@@ -20,16 +20,19 @@ def getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, benchmar
         If w is float, it represents the width scale on screen,
         if int, it represents the width in pixel.
     h: float or int (default: 0)
-        Similar with x
-    benchmark: 'center'(default), 
-               'upper_left', 'upper_right', 'lower_left', 'lower_right', 
-               'upper_center', 'left_center', 'lower_center', 'right_center'
-        The position benchmark on this object to the given x and the given y. 
+        Similar with x 
+    anchor_x: str (default:'center')
+        The position benchmark on this object to the given x.
+        Options: 'center', 'left', or 'right'.
+    anchor_y: str (default:'center')
+        The position benchmark on this object to the given y.
+        Options: 'center', 'top', or 'bottom'.
+
 
     Returns
     -------
-    (x,y): (int,int)
-        The position of the object's upperleft corner
+    (x, y): (int, int)
+        The position of the object's lowerleft corner
 
     '''
     if type(x) is float:
@@ -38,62 +41,27 @@ def getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, benchmar
     if w < 1:
         w, h = w * shared.win_width, h * shared.win_height
 
-    if benchmark == 'center':
-        return int(x - w / 2), int(y - h / 2)
-    elif benchmark == 'upper_left':
-        return int(x), int(y)
-    elif benchmark == 'upper_right':
-        return int(x - w), int(y)
-    elif benchmark == 'lower_left':
-        return int(x), int(y - h)
-    elif benchmark == 'lower_right':
-        return int(x - w), int(y - h)
-    elif benchmark == 'upper_center':
-        return int(x - w / 2), int(y)
-    elif benchmark == 'left_center':
-        return int(x), int(y - h / 2)
-    elif benchmark == 'lower_center':
-        return int(x - w / 2), int(y - h)
-    elif benchmark == 'right_center':
-        return int(x - w), int(y - h / 2)
-    raise ValueError('Unsupported position benchmark')
+    if anchor_x == 'center':
+        x = x - w / 2
+    elif anchor_x == 'right':
+        x = x - w
+    elif anchor_x == 'left':
+        x = x
+    else:
+        raise ValueError('Unsupported position benchmark')
 
+    if anchor_y == 'center':
+        y = y - h / 2
+    elif anchor_y == 'top':
+        y = y - h
+    elif anchor_y == 'bottom':
+        y = y
+    else:
+        raise ValueError('Unsupported position benchmark')
 
-# def drawText(text, fontname='stimFont', x=0.0, y=0.0, benchmark='center', display=True):
-#     '''
-# Draw text on the canvas. The text will show as multiple lines splited by
-# the '\n'.
+    return int(x), int(y)
 
-#     Parameters
-#     ----------
-#     todo
-
-#     Returns
-#     -------
-#     None
-#     '''
-#     FONT = shared.font[fontname]
-
-#     if not '\n' in text:
-#         target = FONT.render(text, True, shared.font_color)
-#         x, y = getPos(x, y, w=target.get_width(),
-#                       h=target.get_height(), benchmark=benchmark)
-#         shared.win.blit(target, (x, y))
-
-#     else:
-#         lines = text.split('\n')
-
-#         targets = [FONT.render(l, True, shared.font_color) for l in lines]
-#         maxWidth = max([t.get_width() for t in targets])
-#         for ind, target in enumerate(targets):
-#             y_offset = (len(lines) - 1 - ind * 2) * (target.get_height() / shared.win_height)
-#             pos_x, pos_y = getPos(x, y - y_offset, w=maxWidth, h=0, benchmark=benchmark)
-#             shared.win.blit(target, (pos_x, pos_y))
-
-#     if display:
-#         shared.pg.display.flip()
-
-def drawText(text, font='simhei', size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, benchmark='center', display=True):
+def drawText(text, font='simhei', size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', display=True):
     '''
     Draw text with complex format on the canvas. The text will show as multiple lines splited by the '\n'. 
 
@@ -106,15 +74,20 @@ def drawText(text, font='simhei', size='stim_font_size', color=C_white, rotation
     size:int, or str (default:'stim_font_size')
         The font size of text, you can either use a number or a pre-defined number name.
     color: RGB tuple, or pre-defined variable (default:'C_white')
-        The font color of text, you can either use an RGB value or a pre-defined color name. The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+        The font color of text, you can either use an RGB value or a pre-defined color name. 
+        The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
     rotation: int (default:0)
         The rotation angle of text.
     x: int, or float (default:0.0)
         The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
     y: int, or float (default:0.0)
         The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
-    benchmark: str (default:'center')
-        The position benchmark of x and y on the text area.
+    anchor_x: str (default:'center')
+        The position benchmark on this object to the given x.
+        Options: 'center', 'left', or 'right'.
+    anchor_y: str (default:'center')
+        The position benchmark on this object to the given y.
+        Options: 'center', 'top', or 'bottom'.
     display: True(default), False
         If True, the function will put the canvas onto the screen. 
 
@@ -130,86 +103,198 @@ def drawText(text, font='simhei', size='stim_font_size', color=C_white, rotation
     else:
         raise ValueError(str(size) + ' cannot be regarded as a font size')
 
-    if font in shared.font:
-        FONT = shared.font[font]
-        FONT.rotation = rotation
-    else:
-        raise ValueError(font + ' cannot be regarded as a font')
+    x, y = getPos(x, y)
+
+    # t = shared.time.time()
 
     'Draw'
     if not '\n' in text:
-        target, (left, top, w, h) = FONT.render(
-            text, fgcolor=color, size=(size, size))
-        pos_x, pos_y = getPos(x, y, w, h, benchmark=benchmark)
-        shared.win.blit(target, (pos_x, pos_y))
+        label = shared.pyglet.text.Label(text,
+                          color=color,
+                          font_name=font, font_size=size,
+                          x=x, y=y,
+                          anchor_x=anchor_x, anchor_y=anchor_y)
+        # print('2',time.time()-t)
+        # t = shared.time.time()
+        label.draw()
+
     else:
         lines = text.split('\n')
-        rendered = [FONT.render(l, fgcolor=color, size=(size, size))
-                    for l in lines]
-        maxWidth = max([w for target, (left, top, w, h) in rendered])
-
-        for ind, (target, (left, top, w, h)) in enumerate(rendered):
-            # h*1.5: 1.5x row spacing
-            y_offset = (len(lines) - 1 - ind * 2) * \
-                ((h * 1.5) / shared.win_height)
-            pos_x, pos_y = getPos(
-                x, y - y_offset, w=maxWidth, h=0, benchmark=benchmark)
-            shared.win.blit(target, (pos_x, pos_y))
-
+        row_spacing = 0.5 #0.5x row spacing
+        y_offset_all = - ((1+row_spacing)*len(lines)-row_spacing) *size/2
+        for ind, target in enumerate(lines):
+            y_offset = y_offset_all + (1+row_spacing)*ind*size
+            label = shared.pyglet.text.Label(target,
+                            color=color,
+                          font_name=font, font_size=size,
+                          x=x, y=y-y_offset,
+                          anchor_x=anchor_x, anchor_y=anchor_y)
+            label.draw()
+    # print('3',shared.time.time()-t)
+    # t = shared.time.time()
+    
     if display:
-        shared.pg.display.flip()
+        shared.win.flip()
+        # print('4',time.time()-t)
+        # t = time.time()
+    else:
+        shared.need_update = True
 
 
-def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, benchmark='center', display=True):
+def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True):
     '''
     Draw rectangle on the canvas.
 
     Parameters
     ----------
-    todo
+    w: float or int (default: 0)
+        The width of rectangle.
+        If w is float, it represents the width scale on screen,
+        if int, it represents the width in pixel.
+    h: float or int (default: 0)
+        The height of rectangle.
+        Similar with x. 
+    x: int, or float (default:0.0)
+        The x coordinate of rectangle.
+        If x is int, the coordinate would be pixel number to the left margin of screen;
+        If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    y: int, or float (default:0.0)
+        The y coordinate of rectangle.
+        If y is int, the coordinate would be pixel number to the upper margin of screen;
+        If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    fill: True(default), False
+        Whether to fill out the blank in rectangle
+    color: RGB tuple, or pre-defined variable (default:'C_white')
+        The font color of text, you can either use an RGB value or a pre-defined color name. 
+        The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+    width: int (default: 1)
+        The width of each line
+    anchor_x: str (default:'center')
+        The position benchmark on this object to the given x.
+        Options: 'center', 'left', or 'right'.
+    anchor_y: str (default:'center')
+        The position benchmark on this object to the given y.
+        Options: 'center', 'top', or 'bottom'.
+    display: True(default), False
+        If True, the function will put the canvas onto the screen. 
 
     Returns
     -------
     None
     '''
-    x, y = getPos(x, y, w=w, h=h, benchmark=benchmark)
-    #colour, (x, y), size, thickness
+    x, y = getPos(x, y, w=w, h=h, anchor_x='center', anchor_y='center')
+
+    points = [x, y, x+w, y, x+w, y+h, x, y+h]
+
     if fill:
-        width = 0
-    shared.pg.draw.rect(shared.win, color, (x, y, w, h), width)
-    # target = shared.pg.transform.rotate(target, 45)
+        shared.pyglet.graphics.draw_indexed(4, shared.gl.GL_TRIANGLES,
+            [0, 1, 2, 0, 2, 3],
+            ('v2i', points),
+            ('c4B', color*4)
+        )
+    else:
+        shared.pyglet.gl.glLineWidth(width)
+        shared.pyglet.graphics.draw(4, shared.gl.GL_LINE_LOOP,
+            ('v2i', points),
+            ('c4B', color*4)
+        )
+
     if display:
-        shared.pg.display.flip()
+        shared.win.flip()
+    else:
+        shared.need_update = True
 
 
-def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, benchmark='center', display=True):
+def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True):
     '''
     Draw circle on the canvas.
 
     Parameters
     ----------
-    todo
+    r: int
+        The radius of circle in pixel.
+    x: int, or float (default:0.0)
+        The x coordinate of circle.
+        If x is int, the coordinate would be pixel number to the left margin of screen;
+        If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    y: int, or float (default:0.0)
+        The y coordinate of circle.
+        If y is int, the coordinate would be pixel number to the upper margin of screen;
+        If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    fill: True(default), False
+        Whether to fill out the blank in circle
+    color: RGB tuple, or pre-defined variable (default:'C_white')
+        The font color of text, you can either use an RGB value or a pre-defined color name. 
+        The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+    width: int (default: 1)
+        The width of each line
+    anchor_x: str (default:'center')
+        The position benchmark on this object to the given x.
+        Options: 'center', 'left', or 'right'.
+    anchor_y: str (default:'center')
+        The position benchmark on this object to the given y.
+        Options: 'center', 'top', or 'bottom'.
+    display: True(default), False
+        If True, the function will put the canvas onto the screen. 
 
     Returns
     -------
     None
     '''
-    x, y = getPos(x, y, w=0, h=0, benchmark=benchmark)
+    x, y = getPos(x, y, w=0, h=0, anchor_x='center', anchor_y='center')
+
     if fill:
-        width = 0
-    shared.pg.draw.circle(shared.win, color, (x, y), r, width)
+        numPoints = int(2*r*math.pi)
+        s = math.sin(2*math.pi / numPoints)
+        c = math.cos(2*math.pi / numPoints)
+
+        dx, dy = r, 0
+
+        shared.gl.glBegin(shared.gl.GL_TRIANGLE_FAN)
+        shared.gl.glVertex2f(x, y)
+        for i in range(numPoints+1):
+            shared.gl.glVertex2f(x+dx, y+dy)
+            dx, dy = (dx*c - dy*s), (dy*c + dx*s)
+        shared.gl.glEnd()
+    else:
+        numPoints = int(2*r*math.pi)
+        verts = []
+        for i in range(numPoints):
+            angle = math.radians(float(i)/numPoints * 360.0)
+            verts += [r*math.cos(angle)+x, r*math.sin(angle)+y]
+
+        circle = shared.pyglet.graphics.vertex_list(numPoints, 
+            ('v2f', verts), 
+            ('c4B', color*numPoints))
+        shared.gl.glClear(shared.pyglet.gl.GL_COLOR_BUFFER_BIT)
+        # shared.gl.glColor4b(*color)
+        circle.draw(shared.gl.GL_LINE_LOOP)
+
 
     if display:
-        shared.pg.display.flip()
+        shared.win.flip()
+    else:
+        shared.need_update = True
 
-
-def drawLine(points, color=C_white, width=1, display=True):
+def drawPoints(points, color=C_white, size=1, display=True):
     '''
-    Draw line(s) on the canvas.
+    Draw point(s) on the canvas.
 
     Parameters
     ----------
-    todo
+    points: list of tuple
+        The x-y points list
+        If the x,y are given as float, they would be interpret as an relative position[-1~+1] to the center on the screen;
+        or if they are given as int, they would be interpret as pixel indicators to the lowerleft corner on the screen.
+        Examples:
+            [(0.0,0.0), (0.5,0), (0.5,0.5)]
+    color: RGB tuple, or pre-defined variable (default:'C_white')
+        The font color of text, you can either use an RGB value or a pre-defined color name. 
+        The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+    size: int (default: 1)
+        The size of each point
+    display: True(default), False
+        If True, the function will put the canvas onto the screen. 
 
     Returns
     -------
@@ -218,39 +303,132 @@ def drawLine(points, color=C_white, width=1, display=True):
     new_points = []
     for x,y in points:
         if type(x) is float:
-            new_points.append((
-                (0.5 + x / 2) * shared.win_width, 
-                (0.5 + y / 2) * shared.win_height))
+            new_points += [(0.5 + x / 2) * shared.win_width, 
+                (0.5 + y / 2) * shared.win_height]
         else:
-            new_points.append((x,y))
+            new_points += [x,y]
 
-    shared.pg.draw.lines(shared.win, color, False, new_points, width)
+    shared.gl.glPointSize(size)
+    shared.pyglet.graphics.draw(len(new_points)//2, shared.gl.GL_POINTS,
+        ('v2i', new_points),
+        ('c4B', color*(len(new_points)//2))
+    )
 
     if display:
-        shared.pg.display.flip()
+        shared.win.flip()
+    else:
+        shared.need_update = True
 
-
-def drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, benchmark='center', display=True):
+def drawLines(points, color=C_white, width=1, close=False, display=True):
     '''
-    Draw picture on the canvas.
+    Draw line(s) on the canvas.
 
     Parameters
     ----------
-    todo
+    points: list of tuple
+        The turning x-y points of lines
+        If the x,y are given as float, they would be interpret as an relative position[-1~+1] to the center on the screen;
+        or if they are given as int, they would be interpret as pixel indicators to the lowerleft corner on the screen.
+        Examples:
+            [(0.0,0.0), (0.5,0), (0.5,0.5)]
+    color: RGB tuple, or pre-defined variable (default:'C_white')
+        The font color of text, you can either use an RGB value or a pre-defined color name. 
+        The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+    width: int (default: 1)
+        The width of each line
+    close: True, False(default)
+        Whether to connect the last point with the first one. 
+        If True, the polygon could be drawn.
+    display: True(default), False
+        If True, the function will put the canvas onto the screen.
 
     Returns
     -------
     None
     '''
-    im = shared.pg.image.load(path).convert()
-    if rotate != 0:
-        im = shared.pg.transform.rotate(im, rotate)
-    if w > 0 and h > 0:
-        im = shared.pg.transform.scale(im, (w, h))
-    else:
-        w, h = im.get_rect().size
-    x, y = getPos(x, y, w, h, benchmark=benchmark)
-    shared.win.blit(im, (x, y))
+    new_points = []
+    if close:
+        points += points[0]
+    for x,y in points:
+        if type(x) is float:
+            new_points += [(0.5 + x / 2) * shared.win_width, 
+                (0.5 + y / 2) * shared.win_height]
+        else:
+            new_points += [x,y]
+
+    shared.pyglet.gl.glLineWidth(width)
+    shared.pyglet.graphics.draw(len(new_points)//2, shared.gl.GL_LINE_STRIP,
+        ('v2i', new_points),
+        ('c4B', color*(len(new_points)//2))
+    )
 
     if display:
-        shared.pg.display.flip()
+        shared.win.flip()
+    else:
+        shared.need_update = True
+
+def drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y='center', display=True):
+    '''
+    Draw loaded image on the canvas.
+
+    Parameters
+    ----------
+    path: str
+        The file path of target image
+    w: int(default:0), or float 
+        The width of image.
+        If w is float, it represents the width scale on screen;
+        if int, it represents the width in pixel.
+    h: int(default:0), or float 
+        The height of image.
+        If w is float, it represents the height scale on screen;
+        if int, it represents the height in pixel.
+    x: int, or float (default:0.0)
+        The x coordinate of image.
+        If x is int, the coordinate would be pixel number to the left margin of screen;
+        If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    y: int, or float (default:0.0)
+        The y coordinate of image.
+        If y is int, the coordinate would be pixel number to the upper margin of screen;
+        If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    rotation: int (default:0)
+        The rotation angle of object.
+    anchor_x: str (default:'center')
+        The position benchmark on this object to the given x.
+        Options: 'center', 'left', or 'right'.
+    anchor_y: str (default:'center')
+        The position benchmark on this object to the given y.
+        Options: 'center', 'top', or 'bottom'.
+    display: True(default), False
+        If True, the function will put the canvas onto the screen. 
+
+    Returns
+    -------
+    None
+    '''
+    im = shared.pyglet.image.load(path)
+
+    if type(w) is float:
+        w = (0.5 + w / 2) * shared.win_width
+    if type(h) is float:
+        h = (0.5 + h / 2) * shared.win_height
+
+    if w > 0 and h > 0:
+        im = im.get_texture()   
+        shared.gl.glTexParameteri(
+            shared.gl.GL_TEXTURE_2D, 
+            shared.gl.GL_TEXTURE_MAG_FILTER, 
+            shared.gl.GL_NEAREST)                                                                                                                               
+        im.width = w                                                                                                                                                                 
+        im.height = h
+    else:
+        w, h = im.width, im.height
+
+    x, y = getPos(x, y, w, h, anchor_x='center', anchor_y='center')
+
+    im.blit(x,y,0)
+
+    if display:
+        shared.win.flip()
+    else:
+        shared.need_update = True

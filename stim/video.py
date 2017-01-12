@@ -1,67 +1,83 @@
 from expy import shared
 from expy.response import *
-# import pyglet
-# import time
+from .draw import getPos
 
-# # Load a video file
-# def loadVideo(path):
-#     source = pyglet.media.load(path)
-#     format = source.video_format
-#     if not format:
-#         raise ValueError('Unsupported file type')
+def loadVideo(path):
+    '''
+    Load a video array
 
-#     return source
+    Parameters
+    ----------
+    path: str
+        The file path of target video
 
-# # Play a loaded file
-# def playVideo(source, pauseKey={},area=None):
-#     format = source.video_format
-#     width=format.width
-#     height=format.height
+    Returns
+    -------
+    player: pyglet.media.Player
+        playVideo() could use it 
+    '''
+    source = shared.pyglet.media.load(path)
 
-#     start = time.time()
-#     duration = source.duration
+    format = source.video_format
+    if not format:
+        raise ValueError('Unsupported file type')
 
-#     while 1:
-#         ts = source.get_next_video_timestamp()
-#         fm = source.get_next_video_frame()
-#         if fm:
-#             rawimage = fm.get_image_data()
-#             pixels = rawimage.get_data(rawimage.format, rawimage.pitch)
+    player = shared.pyglet.media.Player()
+    player.queue(source)
 
-#             video = shared.pg.image.frombuffer(pixels, (width, height), rawimage.format)
+    return player
 
-#             #Blit the image to the screen
-#             shared.win.blit(video, (10, 10))
+def playVideo(video, pauseKey=key_.SPACE, x=0.0, y=0.0, anchor_x='center', anchor_y='center'):
+    '''
+    Play a loaded video
 
-#             ts = source.get_next_video_timestamp()
+    Parameters
+    ----------
+    video: pyglet.media.Player
+        The player of target video
+    pauseKey: (default: key_.SPACE)
+        The name for pausekey
+    x: int, or float (default:0.0)
+        The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    y: int, or float (default:0.0)
+        The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    anchor_x: str (default:'center')
+        The position benchmark on this object to the given x.
+        Options: 'center', 'left', or 'right'.
+    anchor_y: str (default:'center')
+        The position benchmark on this object to the given y.
+        Options: 'center', 'top', or 'bottom'.
 
-#             waitT = start+ts-time.time()
-#             if waitT>0 and ts<=duration:
-#                 key,rt = waitForResponse({}, waitT*1000)
-#             elif ts>duration:
-#                 break
-#             else:
-#                 print(rawimage.width, rawimage.height)
-#             shared.pg.display.flip()
+    Returns
+    -------
+    None
+    '''
+    source = video.source
+    duration = source.duration
+    pos = getPos(x, y, source.video_format.width, 
+        source.video_format.height, anchor_x=anchor_x,anchor_y=anchor_x)
 
-# # Load a MPEG file
-# def loadVideo(path):
-#     video = shared.pg.movie.Movie(path)
-#     return video
+    @shared.win.event
+    def on_draw():
+        shared.win.clear()
+        if source and source.video_format:
+            video.get_texture().blit(pos[0],pos[1])
 
-# #
-# def getVideoInfo(video):
-#     return video.get_length(),video.get_size()
+    video.play()
 
-# # Play a loaded file
-# def playVideo(video, pauseKey={},area=None):
-#     video.set_display(shared.win,area)
+    startT = shared.time.time()
+    while shared.time.time() - startT < duration:
+        shared.pyglet.clock.tick()
+        shared.win.dispatch_events()
 
-#     video.play()
-#     while video.get_busy():
-#         key,time = waitForResponse({}, 100)
-#         if key==pauseKey:
-#             video.pause()
-#             waitForResponse(pauseKey, 100)
-#             video.pause()
-#
+        if len(shared.events)>0 and shared.events[0]['type']=='key_press' and shared.events[0]['key'] == pauseKey:
+            shared.events = []
+            video.pause()
+            key,rt = waitForResponse([pauseKey])
+            video.play()
+            startT += rt/1000
+
+        shared.win.dispatch_event('on_draw')
+        shared.win.flip()
+
+    shared.win.clear()

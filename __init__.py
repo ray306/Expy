@@ -1,12 +1,10 @@
 # coding:utf-8
 import io
 import os
-from pygame.locals import *
-from pygame import freetype
 import numpy as np
-import pandas as pd
 import random
 import time
+import pyglet.window.key as key_
 
 from . import shared
 from .colors import *
@@ -20,7 +18,7 @@ from .recorder import *
 from .scaffold import *
 from .extend import *
 
-def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=(255, 255, 255), background_color=(128, 128, 128), sample_rate=44100, bits=16, channel=2, port='COM1'):
+def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=C_white, background_color=C_gray, sample_rate=44100, port='COM1'):
     '''
     Initialize the experiment.
     Note: todo.
@@ -45,16 +43,12 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
         The length of the screen diagonal (inch) 
     angel: int (default:2.5) 
         Visual angel of single char (degree)
-    font_color: tuple RGB (default:(255, 255, 255)) 
+    font_color: tuple RGBA (default:C_white) 
         The color of text
-    background_color: tuple RGB (default:(128, 128, 128)) 
+    background_color: tuple RGBA (default:C_gray) 
         The color of background
     sample_rate: int (default:44100) 
         Sample rate of sound mixer
-    bits: int (default:16) 
-        Bits of sound mixer
-    channel: int (default:2) 
-        Channel amount of sound mixer
     port: str, or hex number (default:'COM1') 
         Port name used to send trigger.
         Use str on serial port, and hex on parallel port 
@@ -73,7 +67,7 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
 
     for k, v in shared.setting.items():
         if k in ['fullscreen', 'font_color', 'winsize', 'mouse_visible', 'background_color', 'distance', 'diag', 'angel',
-                 'sample_rate', 'bit', 'channel', 'port'] or k[-10:] == '_font_size':
+                 'sample_rate', 'port'] or k[-10:] == '_font_size':
             func_var[k] = eval('%s' % v[0])
         else:
             func_var[k] = eval('%s' % v)
@@ -82,37 +76,51 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
 
     'Color'
     shared.font_color = shared.setting['font_color']
-    shared.background_color = shared.setting['background_color']
-
-    'Mouse pointer visibility'
-    # Set the pointer visibility
-    shared.pg.mouse.set_visible(shared.setting['mouse_visible'])
-    shared.pg.mixer.quit()
-
-    'Sound mixer'
-    # Initate the mixer
-    shared.pg.mixer.init(shared.setting[
-                         'sample_rate'], -shared.setting['bits'], shared.setting['channel'])
+    shared.background_color = tuple(i/255 for i in shared.setting['background_color'])
 
     'Window'
     # Initate the window
     if shared.setting['fullscreen'] == True:
-        shared.win = shared.pg.display.set_mode(
-            (shared.win_width, shared.win_height), FULLSCREEN | HWSURFACE | DOUBLEBUF)
+        shared.win = shared.pyglet.window.Window(fullscreen=True)
+        shared.win_width = shared.win.width
+        shared.win_height = shared.win.height
     else:
-        shared.win = shared.pg.display.set_mode(
-            shared.setting['winsize'], HWSURFACE | DOUBLEBUF)
         shared.win_width = shared.setting['winsize'][0]
         shared.win_height = shared.setting['winsize'][1]
-    clear()  # Reset screen color
+        shared.win = shared.pyglet.window.Window(width=shared.win_width, height=shared.win_height)
+    shared.pyglet.gl.glClearColor(*shared.background_color)
+
+    shared.win.dispatch_events()
+    shared.win.clear()  # Reset screen color
+    shared.win.switch_to()
+
+    'Mouse pointer visibility'
+    # Set the pointer visibility
+    if not mouse_visible:
+        shared.win.set_exclusive_mouse(True)
+        shared.win.set_mouse_platform_visible(False)
 
     'Joystick'
     # Initate the joystick
     try:
-        joystick = shared.pg.joystick.Joystick(0)
-        joystick.init()
+        joysticks = shared.pyglet.input.get_joysticks()[0]
+        joystick.open()
     except:
         pass
+
+    'Sound (OpenAL)'
+    # def sound_stream():
+    #     shared.stream = shared.pa.open(format=shared.pyaudio.paInt16, 
+    #                         channels=2, rate=shared.setting['sample_rate'],
+    #                         input=True, output=True)
+    #     while 1:
+    # shared.sound_process = Process(target=sound_stream, args=(shared.q,))
+    # shared.sound_process.start()
+    # if shared.has_openal:
+    #     pass
+        # device = shared.alc.alcOpenDevice(None)
+        # context = shared.alc.alcCreateContext(device, None)
+        # shared.alc.alcMakeContextCurrent(context)
 
     'Font'
     # Get the font size attribute of normal text, stimulus, or others
@@ -126,11 +134,7 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
     # Find out all the .ttf files and load them.
     for f in os.listdir(shared.path):
         if f[-4:] == '.ttf':
-            shared.font[f[:-4]] = freetype.Font(shared.path + f)
-
-    # for k, v in shared.font.copy().items():
-    #     shared.font[
-    #         k[:-4]] = shared.pg.font.Font(shared.path + "simhei.ttf", shared.font[k])
+            shared.pyglet.font.add_file(shared.path + f)
 
     'Port (only serial port needs port name pre-define)'
     try:
@@ -138,3 +142,46 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
         shared.ser.open()
     except:
         print('Could not open serial port')
+
+    # shared.watchdog.start()
+    # print('Watchdog started')
+    
+    @shared.win.event
+    def on_mouse_press(x, y, button, modifiers):
+        for event in shared.allowed_mouse_events:
+            if x in event['x'] and y in event['y'] and button == event['button']:
+                e = {'type':'mouse_press',
+                     'button':button,
+                     'pos':(x,y),
+                     'time':time.time()}
+                shared.events.append(e)
+                return
+
+    @shared.win.event
+    def on_key_press(k, modifiers):
+        'decision'
+        if k == key_.ESCAPE:
+            shared.pa.terminate()
+            shared.win.close()
+            exit()
+        elif k == key_.F12 and not shared.suspending:
+            shared.suspending = True
+            suspend_time = suspend()
+            shared.suspending = False
+            shared.start_tp += suspend_time
+        if len(shared.allowed_keys)==0:  # if allowed_keys is None
+            e = {'type':'key_press',
+                 'key':k,
+                 'time':time.time()}
+            shared.events.append(e)
+        elif k in shared.allowed_keys:  # if k is in the allowed Keyname(s)
+            e = {'type':'key_press',
+                 'key':shared.allowed_keys_mapping[k],
+                 'time':time.time()}
+            shared.events.append(e)   
+
+    @shared.win.event
+    def on_close():
+        shared.pa.terminate()
+        exit()
+
