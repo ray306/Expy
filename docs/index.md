@@ -8,7 +8,7 @@
 Expy is an easy-yet-powerful experiment framework builder for psychology. It's aimed at setting up an experiment without struggling with the manual production of stimuli, data loading and storing, or the other time-consuming works, by using various module functions.
 Expy is designed for psycholinguistic experiments, but it's also suitable for any other experiments.
 
-**Advantanges**:
+**Highlights**:
 
 - Various stimuli modules (not need for preparation of massive stimuli pictures).
 - Various procedure-controlling modules (instruction, alert, rest-stage, etc.)
@@ -17,7 +17,7 @@ Expy is designed for psycholinguistic experiments, but it's also suitable for an
 - Sending triggers easily.
 - Easy pause or exit from the program.
 
-**Disadvantages**:
+**limitation**:
 
 - Not good at drawing complex shape (e.g.,grating) as stimuli (however, you could draw them as loaded pictures).
 
@@ -47,7 +47,18 @@ or:
 sudo pip install --upgrade expy
 ```
 
-###*Required Dependencies*
+If you are using Mac, please run the following commands in your terminal:
+```
+xcode-select --install
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install portaudio
+```
+
+If you want to play video in Expy, you should install AVbin (https://avbin.github.io/AVbin/Download.html)
+If you want to play a lot of media formats (e.g. mp3) in Expy, you installed FFmpeg (https://ffmpeg.org/download.html)
+
+
+### *Required Dependencies*
 
 - numpy
 - pandas
