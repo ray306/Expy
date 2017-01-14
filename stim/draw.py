@@ -1,11 +1,11 @@
-import numpy as np
-import math
-
 from expy import shared
 from expy.colors import *
 
+np = shared.np
+math = shared.math
 
-def getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, anchor_x='center',anchor_y='center'):
+
+def getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, anchor_x='center', anchor_y='center'):
     '''
     Caluate the screen position of object
 
@@ -61,7 +61,8 @@ def getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, anchor_x
 
     return int(x), int(y)
 
-def drawText(text, font='simhei', size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', display=True):
+
+def drawText(text, font=shared.default_font, size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', display=True):
     '''
     Draw text with complex format on the canvas. The text will show as multiple lines splited by the '\n'. 
 
@@ -69,23 +70,23 @@ def drawText(text, font='simhei', size='stim_font_size', color=C_white, rotation
     ----------
     text: str
         The content of text.
-    font: str (default:'simhei')
+    font: str (default: shared.default_font)
         The font name of text.
-    size:int, or str (default:'stim_font_size')
+    size:int, or str (default: 'stim_font_size')
         The font size of text, you can either use a number or a pre-defined number name.
     color: RGB tuple, or pre-defined variable (default:'C_white')
         The font color of text, you can either use an RGB value or a pre-defined color name. 
         The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
-    rotation: int (default:0)
+    rotation: int (default: 0)
         The rotation angle of text.
-    x: int, or float (default:0.0)
+    x: int, or float (default: 0.0)
         The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
-    y: int, or float (default:0.0)
+    y: int, or float (default: 0.0)
         The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
-    anchor_x: str (default:'center')
+    anchor_x: str (default: 'center')
         The position benchmark on this object to the given x.
         Options: 'center', 'left', or 'right'.
-    anchor_y: str (default:'center')
+    anchor_y: str (default: 'center')
         The position benchmark on this object to the given y.
         Options: 'center', 'top', or 'bottom'.
     display: True(default), False
@@ -110,29 +111,30 @@ def drawText(text, font='simhei', size='stim_font_size', color=C_white, rotation
     'Draw'
     if not '\n' in text:
         label = shared.pyglet.text.Label(text,
-                          color=color,
-                          font_name=font, font_size=size,
-                          x=x, y=y,
-                          anchor_x=anchor_x, anchor_y=anchor_y)
+                                         color=color,
+                                         font_name=font, font_size=size,
+                                         x=x, y=y,
+                                         anchor_x=anchor_x, anchor_y=anchor_y)
         # print('2',time.time()-t)
         # t = shared.time.time()
         label.draw()
 
     else:
         lines = text.split('\n')
-        row_spacing = 0.5 #0.5x row spacing
-        y_offset_all = - ((1+row_spacing)*len(lines)-row_spacing) *size/2
+        row_spacing = 0.5  # 0.5x row spacing
+        y_offset_all = - ((1 + row_spacing) * len(lines) -
+                          row_spacing) * size / 2
         for ind, target in enumerate(lines):
-            y_offset = y_offset_all + (1+row_spacing)*ind*size
+            y_offset = y_offset_all + (1 + row_spacing) * ind * size
             label = shared.pyglet.text.Label(target,
-                            color=color,
-                          font_name=font, font_size=size,
-                          x=x, y=y-y_offset,
-                          anchor_x=anchor_x, anchor_y=anchor_y)
+                                             color=color,
+                                             font_name=font, font_size=size,
+                                             x=x, y=y - y_offset,
+                                             anchor_x=anchor_x, anchor_y=anchor_y)
             label.draw()
     # print('3',shared.time.time()-t)
     # t = shared.time.time()
-    
+
     if display:
         shared.win.flip()
         # print('4',time.time()-t)
@@ -184,20 +186,20 @@ def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='ce
     '''
     x, y = getPos(x, y, w=w, h=h, anchor_x='center', anchor_y='center')
 
-    points = [x, y, x+w, y, x+w, y+h, x, y+h]
+    points = [x, y, x + w, y, x + w, y + h, x, y + h]
 
     if fill:
         shared.pyglet.graphics.draw_indexed(4, shared.gl.GL_TRIANGLES,
-            [0, 1, 2, 0, 2, 3],
-            ('v2i', points),
-            ('c4B', color*4)
-        )
+                                            [0, 1, 2, 0, 2, 3],
+                                            ('v2i', points),
+                                            ('c4B', color * 4)
+                                            )
     else:
         shared.pyglet.gl.glLineWidth(width)
         shared.pyglet.graphics.draw(4, shared.gl.GL_LINE_LOOP,
-            ('v2i', points),
-            ('c4B', color*4)
-        )
+                                    ('v2i', points),
+                                    ('c4B', color * 4)
+                                    )
 
     if display:
         shared.win.flip()
@@ -244,37 +246,37 @@ def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='cen
     x, y = getPos(x, y, w=0, h=0, anchor_x='center', anchor_y='center')
 
     if fill:
-        numPoints = int(2*r*math.pi)
-        s = math.sin(2*math.pi / numPoints)
-        c = math.cos(2*math.pi / numPoints)
+        numPoints = int(2 * r * math.pi)
+        s = math.sin(2 * math.pi / numPoints)
+        c = math.cos(2 * math.pi / numPoints)
 
         dx, dy = r, 0
 
         shared.gl.glBegin(shared.gl.GL_TRIANGLE_FAN)
         shared.gl.glVertex2f(x, y)
-        for i in range(numPoints+1):
-            shared.gl.glVertex2f(x+dx, y+dy)
-            dx, dy = (dx*c - dy*s), (dy*c + dx*s)
+        for i in range(numPoints + 1):
+            shared.gl.glVertex2f(x + dx, y + dy)
+            dx, dy = (dx * c - dy * s), (dy * c + dx * s)
         shared.gl.glEnd()
     else:
-        numPoints = int(2*r*math.pi)
+        numPoints = int(2 * r * math.pi)
         verts = []
         for i in range(numPoints):
-            angle = math.radians(float(i)/numPoints * 360.0)
-            verts += [r*math.cos(angle)+x, r*math.sin(angle)+y]
+            angle = math.radians(float(i) / numPoints * 360.0)
+            verts += [r * math.cos(angle) + x, r * math.sin(angle) + y]
 
-        circle = shared.pyglet.graphics.vertex_list(numPoints, 
-            ('v2f', verts), 
-            ('c4B', color*numPoints))
+        circle = shared.pyglet.graphics.vertex_list(numPoints,
+                                                    ('v2f', verts),
+                                                    ('c4B', color * numPoints))
         shared.gl.glClear(shared.pyglet.gl.GL_COLOR_BUFFER_BIT)
         # shared.gl.glColor4b(*color)
         circle.draw(shared.gl.GL_LINE_LOOP)
-
 
     if display:
         shared.win.flip()
     else:
         shared.need_update = True
+
 
 def drawPoints(points, color=C_white, size=1, display=True):
     '''
@@ -301,23 +303,24 @@ def drawPoints(points, color=C_white, size=1, display=True):
     None
     '''
     new_points = []
-    for x,y in points:
+    for x, y in points:
         if type(x) is float:
-            new_points += [(0.5 + x / 2) * shared.win_width, 
-                (0.5 + y / 2) * shared.win_height]
+            new_points += [(0.5 + x / 2) * shared.win_width,
+                           (0.5 + y / 2) * shared.win_height]
         else:
-            new_points += [x,y]
+            new_points += [x, y]
 
     shared.gl.glPointSize(size)
-    shared.pyglet.graphics.draw(len(new_points)//2, shared.gl.GL_POINTS,
-        ('v2i', new_points),
-        ('c4B', color*(len(new_points)//2))
-    )
+    shared.pyglet.graphics.draw(len(new_points) // 2, shared.gl.GL_POINTS,
+                                ('v2i', new_points),
+                                ('c4B', color * (len(new_points) // 2))
+                                )
 
     if display:
         shared.win.flip()
     else:
         shared.need_update = True
+
 
 def drawLines(points, color=C_white, width=1, close=False, display=True):
     '''
@@ -349,23 +352,24 @@ def drawLines(points, color=C_white, width=1, close=False, display=True):
     new_points = []
     if close:
         points += points[0]
-    for x,y in points:
+    for x, y in points:
         if type(x) is float:
-            new_points += [(0.5 + x / 2) * shared.win_width, 
-                (0.5 + y / 2) * shared.win_height]
+            new_points += [(0.5 + x / 2) * shared.win_width,
+                           (0.5 + y / 2) * shared.win_height]
         else:
-            new_points += [x,y]
+            new_points += [x, y]
 
     shared.pyglet.gl.glLineWidth(width)
-    shared.pyglet.graphics.draw(len(new_points)//2, shared.gl.GL_LINE_STRIP,
-        ('v2i', new_points),
-        ('c4B', color*(len(new_points)//2))
-    )
+    shared.pyglet.graphics.draw(len(new_points) // 2, shared.gl.GL_LINE_STRIP,
+                                ('v2i', new_points),
+                                ('c4B', color * (len(new_points) // 2))
+                                )
 
     if display:
         shared.win.flip()
     else:
         shared.need_update = True
+
 
 def drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y='center', display=True):
     '''
@@ -414,19 +418,19 @@ def drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y=
         h = (0.5 + h / 2) * shared.win_height
 
     if w > 0 and h > 0:
-        im = im.get_texture()   
+        im = im.get_texture()
         shared.gl.glTexParameteri(
-            shared.gl.GL_TEXTURE_2D, 
-            shared.gl.GL_TEXTURE_MAG_FILTER, 
-            shared.gl.GL_NEAREST)                                                                                                                               
-        im.width = w                                                                                                                                                                 
+            shared.gl.GL_TEXTURE_2D,
+            shared.gl.GL_TEXTURE_MAG_FILTER,
+            shared.gl.GL_NEAREST)
+        im.width = w
         im.height = h
     else:
         w, h = im.width, im.height
 
     x, y = getPos(x, y, w, h, anchor_x='center', anchor_y='center')
 
-    im.blit(x,y,0)
+    im.blit(x, y, 0)
 
     if display:
         shared.win.flip()

@@ -4,6 +4,7 @@ import ctypes
 import serial
 import time
 import threading
+import platform
 
 import pyglet
 from pyglet import gl
@@ -34,7 +35,7 @@ states = dict()
 allowed_keys = []
 allowed_keys_mapping = dict()
 
-allowed_mouse_events = [] # {'x':range(), 'y':range(), 'button':..}
+allowed_mouse_events = []  # {'x':range(), 'y':range(), 'button':..}
 
 suspending = False
 
@@ -42,6 +43,7 @@ start_tp = 0
 
 'Sound'
 lock = threading.Lock()
+
 
 def changeState(name, value):
     '''
@@ -67,12 +69,16 @@ def changeState(name, value):
 subject = ''
 start_block = 1
 
+setting = dict()
+timing = dict()
+
 font = dict()
 background_color = None
 font_color = None
-
-setting = dict()
-timing = dict()
+if platform.system() in ["Windows",'Linux']:
+    default_font = 'simhei'
+else:
+    default_font = 'hei'
 
 'sound'
 pa = pyaudio.PyAudio()
@@ -86,9 +92,8 @@ pa = pyaudio.PyAudio()
 #     has_openal = True
 
 'port'
-import platform
-if platform.system()=="Windows":
-    if platform.architecture()[0]=='64bit':
+if platform.system() == "Windows":
+    if platform.architecture()[0] == '64bit':
         port_dll = ctypes.windll.LoadLibrary(path + "inpoutx64.dll")
     else:
         port_dll = ctypes.windll.LoadLibrary(path + "inpout32.dll")
@@ -96,6 +101,3 @@ else:
     port_dll = None
 
 ser = serial.Serial(baudrate=115200)
-
-
-

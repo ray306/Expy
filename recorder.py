@@ -1,5 +1,3 @@
-import os
-
 from expy import shared
 
 # http://stackoverflow.com/questions/892199/detect-record-audio-in-python

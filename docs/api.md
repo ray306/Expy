@@ -76,7 +76,7 @@ Returns
 ```
 
 ### *Text*
-- **drawText(text, font='simhei', size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', display=True)**
+- **drawText(text, font=shared.default_font, size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', display=True)**
 
 ```
 Draw text with complex format on the canvas. The text will show as multiple lines splited by the '\n'. 
@@ -85,26 +85,27 @@ Parameters
 ----------
 text: str
     The content of text.
-font: str (default:'simhei')
+font: str (default: shared.default_font)
     The font name of text.
-size:int, or str (default:'stim_font_size')
+size:int, or str (default: 'stim_font_size')
     The font size of text, you can either use a number or a pre-defined number name.
 color: RGB tuple, or pre-defined variable (default:'C_white')
-    The font color of text, you can either use an RGB value or a pre-defined color name. The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
-rotation: int (default:0)
+    The font color of text, you can either use an RGB value or a pre-defined color name. 
+    The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+rotation: int (default: 0)
     The rotation angle of text.
-x: int, or float (default:0.0)
+x: int, or float (default: 0.0)
     The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
-y: int, or float (default:0.0)
+y: int, or float (default: 0.0)
     The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
-anchor_x: str (default:'center')
+anchor_x: str (default: 'center')
     The position benchmark on this object to the given x.
     Options: 'center', 'left', or 'right'.
-anchor_y: str (default:'center')
+anchor_y: str (default: 'center')
     The position benchmark on this object to the given y.
     Options: 'center', 'top', or 'bottom'.
 display: True(default), False
-    If True, the function will put the canvas onto the screen. 
+    If True, the function will put the canvas onto the screen.
 
 Returns
 -------

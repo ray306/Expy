@@ -1,10 +1,10 @@
-import numpy as np
 import pandas as pd
-import os
 import re
-import os
 
 from expy import shared
+
+np = shared.np
+os = shared.os
 
 
 def readSetting(filepath='setting.txt'):

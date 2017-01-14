@@ -4,6 +4,9 @@
 - Unit of measurement
 - Log
 
+# 0.9.7.3
+- Fixed the display issue of default font under MacOSX
+
 # 0.9.7.2
 - Removed parllel port module in Linux and MacOSX
 - Time unit changed to millisecond in `recordSound`

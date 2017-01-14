@@ -1,4 +1,3 @@
-import numpy as np
 import pyglet.window.key as key_
 from expy import shared
 from .colors import *
@@ -6,6 +5,8 @@ from .stim.draw import *
 from .stim.display import *
 from .io import *
 from .response import *
+
+np = shared.np
 
 
 def timing(name):
@@ -72,7 +73,8 @@ def getInput(pre_text, out_time=0):
     '''
     textSlide(pre_text)
     text = pre_text
-    shared.start_tp = shared.time.time()
+    if not shared.start_tp:
+        shared.start_tp = shared.time.time()
     while 1:
         inkey = waitForResponse(has_RT=False, out_time=out_time)
         if inkey in [key_.RETURN, 'None']:
