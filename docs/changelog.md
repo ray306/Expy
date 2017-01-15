@@ -3,6 +3,11 @@
 - Added the parameter "rotate" to all the `drawXXX`
 - Unit of measurement
 - Log
+- Add position parameters for `textSlide` and `textSlide` based methods.
+
+# 0.9.7.4
+- Fixed the `clear`
+- Add position parameters for `textSlide` and `textSlide` based methods.
 
 # 0.9.7.3
 - Fixed the display issue of default font under MacOSX

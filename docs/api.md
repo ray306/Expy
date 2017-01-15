@@ -726,7 +726,7 @@ None
 
 ---
 ## Other Scaffolds
--   **textSlide(text, font='simhei', size='normal_font_size', background_image=None)**
+-   **textSlide(text, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
 
 ```
 Display a new text slide right now.
@@ -735,10 +735,25 @@ Parameters
 ----------
 text：str
     The text on the screen.
-font: str (default:'simhei')
+font: str (default:'shared.default_font')
     The fontname of the text.
-size: str (default:'normal_font_size')
-    The fontsize of the text.
+size:int, or str (default: 'normal_font_size')
+    The font size of text, you can either use a number or a pre-defined number name.
+color: RGB tuple, or pre-defined variable (default:'C_white')
+    The font color of text, you can either use an RGB value or a pre-defined color name. 
+    The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+rotation: int (default: 0)
+    The rotation angle of text.
+x: int, or float (default: 0.0)
+    The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+y: int, or float (default: 0.0)
+    The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+anchor_x: str (default: 'center')
+    The position benchmark on this object to the given x.
+    Options: 'center', 'left', or 'right'.
+anchor_y: str (default: 'center')
+    The position benchmark on this object to the given y.
+    Options: 'center', 'top', or 'bottom'.
 background_image: str, or None(default)
     The path of background picture.
     
@@ -746,7 +761,7 @@ Return
 ---------
 None
 ```
--   **getInput(pre_text, out_time=0)**
+-   **getInput(pre_text, out_time=0, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
 
 ```
 Get user input until "ENTER" pressed, then give it to a variable
@@ -758,7 +773,27 @@ pre_text：str
     The text that will be displayed before user's input.
 out_time: int(>0) or 0(default)
     The time limitation of this function.
-    
+font: str (default:'shared.default_font')
+    The fontname of the text.
+size:int, or str (default: 'normal_font_size')
+    The font size of text, you can either use a number or a pre-defined number name.
+color: RGB tuple, or pre-defined variable (default:'C_white')
+    The font color of text, you can either use an RGB value or a pre-defined color name. 
+    The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+rotation: int (default: 0)
+    The rotation angle of text.
+x: int, or float (default: 0.0)
+    The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+y: int, or float (default: 0.0)
+    The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+anchor_x: str (default: 'center')
+    The position benchmark on this object to the given x.
+    Options: 'center', 'left', or 'right'.
+anchor_y: str (default: 'center')
+    The position benchmark on this object to the given y.
+    Options: 'center', 'top', or 'bottom'.
+background_image: str, or None(default)
+    The path of background picture.
 
 Return
 ---------
@@ -782,7 +817,7 @@ Return
 resp: Keyname/int
     The last pressed keyname.
 ```
--   **alert(text, allowed_keys=[key_.RETURN], out_time=0)**
+-   **alert(text, allowed_keys=[key_.RETURN], out_time=0, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
 
 ```
 Display a new text slide right now, and keep the screen until user's response.
@@ -796,13 +831,34 @@ allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
     The allowed user's response.
 out_time: int(>0) or 0(default)
     The display time limitation of this function.
+font: str (default:'shared.default_font')
+    The fontname of the text.
+size:int, or str (default: 'normal_font_size')
+    The font size of text, you can either use a number or a pre-defined number name.
+color: RGB tuple, or pre-defined variable (default:'C_white')
+    The font color of text, you can either use an RGB value or a pre-defined color name. 
+    The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+rotation: int (default: 0)
+    The rotation angle of text.
+x: int, or float (default: 0.0)
+    The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+y: int, or float (default: 0.0)
+    The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+anchor_x: str (default: 'center')
+    The position benchmark on this object to the given x.
+    Options: 'center', 'left', or 'right'.
+anchor_y: str (default: 'center')
+    The position benchmark on this object to the given y.
+    Options: 'center', 'top', or 'bottom'.
+background_image: str, or None(default)
+    The path of background picture.
 
 Return
 ---------
 resp: Keyname/int
     The last pressed keyname.
 ```
--   **alertAndGo(text, out_time=3000)**
+-   **alertAndGo(text, allowed_keys=[key_.RETURN], out_time=3000, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
 
 ```
 Display a new text slide right now, 
@@ -813,14 +869,37 @@ Parameters
 ----------
 text：str
     The text on the screen.
-out_time: int(>0) or 0(default)
+allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
+    The allowed user's response.
+out_time: out_time: int(>0) (default: 3000)
     The display time limitation of this function.
+font: str (default:'shared.default_font')
+    The fontname of the text.
+size:int, or str (default: 'normal_font_size')
+    The font size of text, you can either use a number or a pre-defined number name.
+color: RGB tuple, or pre-defined variable (default:'C_white')
+    The font color of text, you can either use an RGB value or a pre-defined color name. 
+    The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+rotation: int (default: 0)
+    The rotation angle of text.
+x: int, or float (default: 0.0)
+    The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+y: int, or float (default: 0.0)
+    The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+anchor_x: str (default: 'center')
+    The position benchmark on this object to the given x.
+    Options: 'center', 'left', or 'right'.
+anchor_y: str (default: 'center')
+    The position benchmark on this object to the given y.
+    Options: 'center', 'top', or 'bottom'.
+background_image: str, or None(default)
+    The path of background picture.
 
 Return
 ---------
 None
 ```
--   **alertAndQuit(text, out_time=3000)**
+-   **alertAndQuit(text, allowed_keys=[key_.RETURN], out_time=3000, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
 
 ```
 Display a new text slide right now, 
@@ -832,8 +911,31 @@ Parameters
 ----------
 text：str
     The text on the screen.
-out_time: int(>0) or 0(default)
+allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
+    The allowed user's response.
+out_time: out_time: int(>0) (default: 3000)
     The display time limitation of this function.
+font: str (default:'shared.default_font')
+    The fontname of the text.
+size:int, or str (default: 'normal_font_size')
+    The font size of text, you can either use a number or a pre-defined number name.
+color: RGB tuple, or pre-defined variable (default:'C_white')
+    The font color of text, you can either use an RGB value or a pre-defined color name. 
+    The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+rotation: int (default: 0)
+    The rotation angle of text.
+x: int, or float (default: 0.0)
+    The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+y: int, or float (default: 0.0)
+    The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+anchor_x: str (default: 'center')
+    The position benchmark on this object to the given x.
+    Options: 'center', 'left', or 'right'.
+anchor_y: str (default: 'center')
+    The position benchmark on this object to the given y.
+    Options: 'center', 'top', or 'bottom'.
+background_image: str, or None(default)
+    The path of background picture.
 
 Return
 ---------

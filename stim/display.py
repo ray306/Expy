@@ -18,6 +18,7 @@ def clear():
     # shared.win.fill(shared.background_color)
     # shared.pg.display.flip()
     shared.win.clear()
+    shared.win.flip()
 
 def show(out_time=False, clean_screen=True, backup=None):
     '''

@@ -30,7 +30,7 @@ def timing(name):
     else:
         return np.random.randint(val[0], val[1])
 
-def textSlide(text, font='simhei', size='normal_font_size', background_image=None):
+def textSlide(text, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
     '''
     Display a new text slide right now.
 
@@ -38,10 +38,25 @@ def textSlide(text, font='simhei', size='normal_font_size', background_image=Non
     ----------
     text：str
         The text on the screen.
-    font: str (default:'simhei')
+    font: str (default:'shared.default_font')
         The fontname of the text.
-    size: str (default:'normal_font_size')
-        The fontsize of the text.
+    size:int, or str (default: 'normal_font_size')
+        The font size of text, you can either use a number or a pre-defined number name.
+    color: RGB tuple, or pre-defined variable (default:'C_white')
+        The font color of text, you can either use an RGB value or a pre-defined color name. 
+        The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+    rotation: int (default: 0)
+        The rotation angle of text.
+    x: int, or float (default: 0.0)
+        The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    y: int, or float (default: 0.0)
+        The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    anchor_x: str (default: 'center')
+        The position benchmark on this object to the given x.
+        Options: 'center', 'left', or 'right'.
+    anchor_y: str (default: 'center')
+        The position benchmark on this object to the given y.
+        Options: 'center', 'top', or 'bottom'.
     background_image: str, or None(default)
         The path of background picture.
         
@@ -52,10 +67,10 @@ def textSlide(text, font='simhei', size='normal_font_size', background_image=Non
     clear()
     if background_image:
         drawPic(path)    
-    drawText(text, font=font, size=size)
+    drawText(text, font, size, color, rotation, x, y, anchor_x, anchor_y)
     
 
-def getInput(pre_text, out_time=0):
+def getInput(pre_text, out_time=0, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
     '''
     Get user input until "ENTER" pressed, then give it to a variable
 
@@ -65,13 +80,34 @@ def getInput(pre_text, out_time=0):
         The text that will be displayed before user's input.
     out_time: int(>0) or 0(default)
         The time limitation of this function.
+    font: str (default:'shared.default_font')
+        The fontname of the text.
+    size:int, or str (default: 'normal_font_size')
+        The font size of text, you can either use a number or a pre-defined number name.
+    color: RGB tuple, or pre-defined variable (default:'C_white')
+        The font color of text, you can either use an RGB value or a pre-defined color name. 
+        The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+    rotation: int (default: 0)
+        The rotation angle of text.
+    x: int, or float (default: 0.0)
+        The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    y: int, or float (default: 0.0)
+        The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    anchor_x: str (default: 'center')
+        The position benchmark on this object to the given x.
+        Options: 'center', 'left', or 'right'.
+    anchor_y: str (default: 'center')
+        The position benchmark on this object to the given y.
+        Options: 'center', 'top', or 'bottom'.
+    background_image: str, or None(default)
+        The path of background picture.
 
     Return
     ---------
     input_text: str
         The content of user's input.
     '''
-    textSlide(pre_text)
+    textSlide(pre_text, font, size, color, rotation, x, y, anchor_x, anchor_y, background_image)
     text = pre_text
     if not shared.start_tp:
         shared.start_tp = shared.time.time()
@@ -83,7 +119,7 @@ def getInput(pre_text, out_time=0):
             text = text[0:-1]
         elif inkey <= 127:
             text += (chr(inkey))
-        textSlide(text)
+        textSlide(text, font, size, color, rotation, x, y, anchor_x, anchor_y, background_image)
     input_text = text[len(pre_text):]
     clear()
     return input_text
@@ -130,7 +166,7 @@ def instruction(instruction_text, has_practice=False):
             clear()
             return resp
 
-def alert(text, allowed_keys=[key_.RETURN], out_time=0):
+def alert(text, allowed_keys=[key_.RETURN], out_time=0, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
     '''
     Display a new text slide right now, and keep the screen until user's response.
 
@@ -142,18 +178,39 @@ def alert(text, allowed_keys=[key_.RETURN], out_time=0):
         The allowed user's response.
     out_time: int(>0) or 0(default)
         The display time limitation of this function.
+    font: str (default:'shared.default_font')
+        The fontname of the text.
+    size:int, or str (default: 'normal_font_size')
+        The font size of text, you can either use a number or a pre-defined number name.
+    color: RGB tuple, or pre-defined variable (default:'C_white')
+        The font color of text, you can either use an RGB value or a pre-defined color name. 
+        The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+    rotation: int (default: 0)
+        The rotation angle of text.
+    x: int, or float (default: 0.0)
+        The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    y: int, or float (default: 0.0)
+        The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    anchor_x: str (default: 'center')
+        The position benchmark on this object to the given x.
+        Options: 'center', 'left', or 'right'.
+    anchor_y: str (default: 'center')
+        The position benchmark on this object to the given y.
+        Options: 'center', 'top', or 'bottom'.
+    background_image: str, or None(default)
+        The path of background picture.
         
     Return
     ---------
     resp: Keyname/int
         The last pressed key name.
     '''
-    textSlide(text)
+    textSlide(text, font, size, color, rotation, x, y, anchor_x, anchor_y, background_image)
     resp = waitForResponse(allowed_keys, out_time, has_RT=False)
     clear()
     return resp
 
-def alertAndGo(text, out_time=3000):
+def alertAndGo(text, allowed_keys=[key_.RETURN], out_time=3000, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
     '''
     Display a new text slide right now, 
     and keep the screen in a given period of time, or until user pressed SPACE or key_.RETURN
@@ -162,16 +219,39 @@ def alertAndGo(text, out_time=3000):
     ----------
     text：str
         The text on the screen.
-    out_time: int(>0) or 0(default)
+    allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
+        The allowed user's response.
+    out_time: out_time: int(>0) (default: 3000)
         The display time limitation of this function.
+    font: str (default:'shared.default_font')
+        The fontname of the text.
+    size:int, or str (default: 'normal_font_size')
+        The font size of text, you can either use a number or a pre-defined number name.
+    color: RGB tuple, or pre-defined variable (default:'C_white')
+        The font color of text, you can either use an RGB value or a pre-defined color name. 
+        The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+    rotation: int (default: 0)
+        The rotation angle of text.
+    x: int, or float (default: 0.0)
+        The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    y: int, or float (default: 0.0)
+        The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    anchor_x: str (default: 'center')
+        The position benchmark on this object to the given x.
+        Options: 'center', 'left', or 'right'.
+    anchor_y: str (default: 'center')
+        The position benchmark on this object to the given y.
+        Options: 'center', 'top', or 'bottom'.
+    background_image: str, or None(default)
+        The path of background picture.
         
     Return
     ---------
     None
     '''
-    alert(text, out_time=out_time)
+    alert(text, allowed_keys, out_time, font, size, color, rotation, x, y, anchor_x, anchor_y, background_image)
 
-def alertAndQuit(text, out_time=3000):
+def alertAndQuit(text, allowed_keys=[key_.RETURN], out_time=3000, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
     '''
     Display a new text slide right now, 
     and keep the screen in a given period of time, or until user pressed SPACE or key_.RETURN,
@@ -181,14 +261,37 @@ def alertAndQuit(text, out_time=3000):
     ----------
     text：str
         The text on the screen.
-    out_time: int(>0) or 0(default)
+    allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
+        The allowed user's response.
+    out_time: out_time: int(>0) (default: 3000)
         The display time limitation of this function.
+    font: str (default:'shared.default_font')
+        The fontname of the text.
+    size:int, or str (default: 'normal_font_size')
+        The font size of text, you can either use a number or a pre-defined number name.
+    color: RGB tuple, or pre-defined variable (default:'C_white')
+        The font color of text, you can either use an RGB value or a pre-defined color name. 
+        The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+    rotation: int (default: 0)
+        The rotation angle of text.
+    x: int, or float (default: 0.0)
+        The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    y: int, or float (default: 0.0)
+        The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    anchor_x: str (default: 'center')
+        The position benchmark on this object to the given x.
+        Options: 'center', 'left', or 'right'.
+    anchor_y: str (default: 'center')
+        The position benchmark on this object to the given y.
+        Options: 'center', 'top', or 'bottom'.
+    background_image: str, or None(default)
+        The path of background picture.
         
     Return
     ---------
     None
     '''
-    alertAndGo(text, out_time)
+    alert(text, allowed_keys, out_time, font, size, color, rotation, x, y, anchor_x, anchor_y, background_image)
     shared.pa.terminate()
     shared.pyglet.app.exit()
 
