@@ -1,4 +1,4 @@
-import struct
+﻿import struct
 import io
 from array import array
 from expy import shared
@@ -141,7 +141,7 @@ def playSound(sound, playing_track=None, blocking=True):
     playing_track: int, str, or None(default)
         The name of current track
     blocking: True(default), or False
-        Whether the playing track blocks the experiment
+        Whether the experiment procedure would be blocked by the current function
 
     Returns
     -------

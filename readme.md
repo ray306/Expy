@@ -1,4 +1,4 @@
-# Overview
+﻿# Overview
 
 [![PyPI Version][pypi-v-image]][pypi-v-link]
 
@@ -87,8 +87,7 @@ A standard experiment contains 3 levels:
 - Run(Session)
 - Block
 - Trial
-  So we suggest that your code should have hierarchical structure, as the example below：
-```python
+  So we suggest that your code should have hierarchical structure, as the example below锛?```python
 from expy import *
 start()
 

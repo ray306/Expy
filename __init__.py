@@ -1,4 +1,4 @@
-# coding:utf-8
+﻿# coding:utf-8
 import io
 
 from . import shared
@@ -17,6 +17,7 @@ os = shared.os
 np = shared.np
 time = shared.time
 key_ = shared.key_
+mouse_ = shared.mouse_
 
 
 def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=C_white, background_color=C_gray, sample_rate=44100, port='COM1'):
@@ -151,8 +152,8 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
 
     @shared.win.event
     def on_mouse_press(x, y, button, modifiers):
-        for event in shared.allowed_mouse_events:
-            if x in event['x'] and y in event['y'] and button == event['button']:
+        for event in shared.allowed_mouse_clicks:
+            if x in event.x and y in event.y and button == event.button:
                 e = {'type': 'mouse_press',
                      'button': button,
                      'pos': (x, y),
@@ -160,18 +161,21 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
                 shared.events.append(e)
                 return
 
+        shared.figure_released = False
+
     @shared.win.event
     def on_key_press(k, modifiers):
         'decision'
         if k == key_.ESCAPE:
             shared.pa.terminate()
             shared.win.close()
-            exit()
+            shared.pyglet.app.exit()
         elif k == key_.F12 and not shared.suspending:
             shared.suspending = True
+            start_tp_raw = shared.start_tp
             suspend_time = suspend()
             shared.suspending = False
-            shared.start_tp += suspend_time
+            shared.start_tp = start_tp_raw + suspend_time
         if len(shared.allowed_keys) == 0:  # if allowed_keys is None
             e = {'type': 'key_press',
                  'key': k,
@@ -183,7 +187,24 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
                  'time': time.time()}
             shared.events.append(e)
 
+        shared.figure_released = False
+
+    @shared.win.event
+    def on_key_release(k, modifiers):
+        shared.end_tp = time.time()
+        shared.figure_released = True
+
+    @shared.win.event
+    def on_mouse_release(x, y, button, modifiers):
+        shared.end_tp = time.time()
+        shared.figure_released = True
+
+    # @shared.win.event
+    # def on_mouse_drag(x, y, dx, dy, buttons, modifiers):
+    #     pass
+
     @shared.win.event
     def on_close():
         shared.pa.terminate()
-        exit()
+        shared.win.close()
+        shared.pyglet.app.exit()

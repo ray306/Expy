@@ -1,7 +1,8 @@
 # coding:utf-8
 ##### package test #####
 import sys
-sys.path.append('../../')
+# sys.path.append('../../')
+sys.path = ['../../']+sys.path
 ################
 
 from expy import *  # Import the needed functions

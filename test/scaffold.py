@@ -1,13 +1,14 @@
 # coding:utf-8
 ##### package test #####
 import sys
-sys.path.append('../../')
+# sys.path.append('../../')
+sys.path = ['../../']+sys.path
 ################
 
 from expy import *  # Import the needed functions
 start()  # Initiate the experiment environment
 
-# Get user input until "ENTER" pressed, then give it to a variable
+Get user input until "ENTER" pressed, then give it to a variable
 something = getInput('enter something:')
 
 # Show something until "RETURN" pressed
@@ -20,7 +21,7 @@ instruction(['This is the first page of instruction>', 'second page>', 'last pag
 restTime()  
 
 # Show something during a limited period, and continue
-alertAndGo('Show something for 3000ms', 3000)
+alertAndGo('Show something for 3000ms', 6000)
 
 # Show something during a limited period, and quit the program
 alertAndQuit('Show something for 3000ms, and quit')

@@ -1,9 +1,8 @@
-from expy import shared
+﻿from expy import shared
 from expy.colors import *
 
 np = shared.np
 math = shared.math
-
 
 def getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, anchor_x='center', anchor_y='center'):
     '''
@@ -59,7 +58,10 @@ def getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, anchor_x
     else:
         raise ValueError('Unsupported position benchmark')
 
-    return int(x), int(y)
+    if w>0:
+        return int(x), int(y), int(w), int(h)
+    else:
+        return int(x), int(y)
 
 
 def drawText(text, font=shared.default_font, size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', display=True):
@@ -90,7 +92,8 @@ def drawText(text, font=shared.default_font, size='stim_font_size', color=C_whit
         The position benchmark on this object to the given y.
         Options: 'center', 'top', or 'bottom'.
     display: True(default), False
-        If True, the function will put the canvas onto the screen. 
+        If True, the function will put the canvas onto the screen immediately (with a potential delay);
+        otherwise, the canvas will be put until `show` function.
 
     Returns
     -------
@@ -184,7 +187,7 @@ def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='ce
     -------
     None
     '''
-    x, y = getPos(x, y, w=w, h=h, anchor_x='center', anchor_y='center')
+    x, y, w, h = getPos(x, y, w=w, h=h, anchor_x='center', anchor_y='center')
 
     points = [x, y, x + w, y, x + w, y + h, x, y + h]
 
@@ -243,7 +246,7 @@ def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='cen
     -------
     None
     '''
-    x, y = getPos(x, y, w=0, h=0, anchor_x='center', anchor_y='center')
+    x, y = getPos(x, y, anchor_x='center', anchor_y='center')
 
     if fill:
         numPoints = int(2 * r * math.pi)
@@ -428,7 +431,7 @@ def drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y=
     else:
         w, h = im.width, im.height
 
-    x, y = getPos(x, y, w, h, anchor_x='center', anchor_y='center')
+    x, y, w, h = getPos(x, y, w, h, anchor_x='center', anchor_y='center')
 
     im.blit(x, y, 0)
 

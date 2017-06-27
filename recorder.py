@@ -1,3 +1,4 @@
+﻿# coding:utf-8
 from expy import shared
 
 # http://stackoverflow.com/questions/892199/detect-record-audio-in-python
@@ -77,7 +78,7 @@ def measure(curFrame):
     return zcr, amp
 
 def environmentNoise(sampling_time, weights=(1.1,3,5,1.1,2,3), chunk=1024):
-    """
+    '''
     Record the sound in a certain duration as the environment noise, and calcuate its amplitude and zero-crossing rate.
 
     Parameters
@@ -108,7 +109,7 @@ def environmentNoise(sampling_time, weights=(1.1,3,5,1.1,2,3), chunk=1024):
         The low threshold of sound amplitude
     amp2: number
         The high threshold of sound amplitude
-    """
+    '''
     def calc_threshold():
         stream = shared.pa.open(format=shared.pyaudio.paInt16, channels=1, rate=shared.setting['sample_rate'],
                         input=True,
@@ -147,9 +148,8 @@ def environmentNoise(sampling_time, weights=(1.1,3,5,1.1,2,3), chunk=1024):
     return zcr0, zcr1, zcr2, amp0, amp1, amp2
 
 '''https://github.com/halleytl/pyvad/blob/master/vad.py'''
-def recordSound(vad_levels, rec_length_min=0, rec_length_max=None, sound_length_max=None,
-    trim_side='both', feedback=False, chunk=1024, playing_track=None, blocking=True, path=''):
-    """
+def recordSound(vad_levels, rec_length_min=0, rec_length_max=None, sound_length_max=None, trim_side='both', feedback=False, chunk=1024, playing_track=None, blocking=True, path=''):
+    '''
     Record sound from the microphone.
 
     Parameters
@@ -177,7 +177,7 @@ def recordSound(vad_levels, rec_length_min=0, rec_length_max=None, sound_length_
     playing_track: int, str, or None(default)
         The name of current track
     blocking: True(default), or False
-        Whether the recording track blocks the experiment
+        Whether the experiment procedure would be blocked by the current function
     path: str (default: '')
         The file path of target sound. If the path is undefined(''), the sound won't be recorded.
     Returns
@@ -189,7 +189,7 @@ def recordSound(vad_levels, rec_length_min=0, rec_length_max=None, sound_length_
         []
     If not blocking:
         None
-    """
+    '''
     if type(playing_track)!=str:
         playing_track=np.random.randint(99999)
 

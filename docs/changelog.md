@@ -2,12 +2,23 @@
 - Format text draw function
 - Added the parameter "rotate" to all the `drawXXX`
 - Unit of measurement
-- Log
 - Add position parameters for `textSlide` and `textSlide` based methods.
+
+# 0.9.7.6
+- Fixed issues of closing function on MacOSX
+- Fixed an issue of suspending
+- Added function `makeNoise`
+- Exchanged the parameter locations of *out_time* and *allowed_keys* in `alert`, `alertAndGo`, `alertAndQuit`
+
+# 0.9.7.5
+- Added function `log` that can record current event and its time from onset.
+- Added function `whilePressing` that allow something keeping while pressing.
+- Added parameter `action_while_pressing` to `waitForResponse`. Now `waitForResponse` supported action while pressing and could record the pressed duration.
+- Added parameter `allowed_clicks` to `waitForResponse`. Now `waitForResponse` supported mouse events.
 
 # 0.9.7.4
 - Fixed the `clear`
-- Add position parameters for `textSlide` and `textSlide` based methods.
+- Added position parameters for `textSlide` and `textSlide` based methods.
 
 # 0.9.7.3
 - Fixed the display issue of default font under MacOSX

@@ -17,6 +17,16 @@ In this example, you need to press key to select the word you heard.
 >
 Happy expy!
 ----
+[introduction]
+欢迎参加我们的实验！
+>
+在这个实验中，我们将会给您听一组录音。
+您需要按键判断听到的每段录音中有没有出现错误的词。
+每次判断之后，我们会播放下一段录音。
+>
+每6分钟我们会提供一段休息时间，除休息之外的整个实验时间约30分钟。
+祝您实验愉快！
+----
 [font_color]
 C_white
 ----

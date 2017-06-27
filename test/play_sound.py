@@ -1,7 +1,8 @@
 # coding:utf-8
 ##### package test #####
 import sys
-sys.path.append('../../')
+# sys.path.append('../../')
+sys.path = ['../../']+sys.path
 ################
 
 from expy import *  # Import the needed functions
@@ -24,3 +25,7 @@ show(1000)
 
 sound = makeBeep(440, 0.5)
 playSound(sound)
+
+sound = makeNoise(1)
+playSound(sound)
+

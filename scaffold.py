@@ -1,3 +1,5 @@
+﻿# coding:utf-8
+
 import pyglet.window.key as key_
 from expy import shared
 from .colors import *
@@ -17,7 +19,7 @@ def timing(name):
 
     Parameters
     ----------
-    name：str
+    name: str
         The name of timing parameter.
         
     Return
@@ -36,7 +38,7 @@ def textSlide(text, font=shared.default_font, size='normal_font_size', color=C_w
 
     Parameters
     ----------
-    text：str
+    text: str
         The text on the screen.
     font: str (default:'shared.default_font')
         The fontname of the text.
@@ -76,7 +78,7 @@ def getInput(pre_text, out_time=0, font=shared.default_font, size='normal_font_s
 
     Parameters
     ----------
-    pre_text：str
+    pre_text: str
         The text that will be displayed before user's input.
     out_time: int(>0) or 0(default)
         The time limitation of this function.
@@ -131,7 +133,7 @@ def instruction(instruction_text, has_practice=False):
 
     Parameters
     ----------
-    instruction_text：list of str
+    instruction_text: list of str
         The text that will be displayed as instruction.
 
     Return
@@ -166,13 +168,13 @@ def instruction(instruction_text, has_practice=False):
             clear()
             return resp
 
-def alert(text, allowed_keys=[key_.RETURN], out_time=0, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
+def alert(text, out_time=0, allowed_keys=[key_.RETURN], font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
     '''
     Display a new text slide right now, and keep the screen until user's response.
 
     Parameters
     ----------
-    text：str
+    text: str
         The text on the screen.
     allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
         The allowed user's response.
@@ -210,14 +212,14 @@ def alert(text, allowed_keys=[key_.RETURN], out_time=0, font=shared.default_font
     clear()
     return resp
 
-def alertAndGo(text, allowed_keys=[key_.RETURN], out_time=3000, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
+def alertAndGo(text, out_time=3000, allowed_keys=[key_.RETURN], font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
     '''
     Display a new text slide right now, 
     and keep the screen in a given period of time, or until user pressed SPACE or key_.RETURN
 
     Parameters
     ----------
-    text：str
+    text: str
         The text on the screen.
     allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
         The allowed user's response.
@@ -249,9 +251,9 @@ def alertAndGo(text, allowed_keys=[key_.RETURN], out_time=3000, font=shared.defa
     ---------
     None
     '''
-    alert(text, allowed_keys, out_time, font, size, color, rotation, x, y, anchor_x, anchor_y, background_image)
+    alert(text, out_time, allowed_keys, font, size, color, rotation, x, y, anchor_x, anchor_y, background_image)
 
-def alertAndQuit(text, allowed_keys=[key_.RETURN], out_time=3000, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
+def alertAndQuit(text, out_time=3000, allowed_keys=[key_.RETURN], font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
     '''
     Display a new text slide right now, 
     and keep the screen in a given period of time, or until user pressed SPACE or key_.RETURN,
@@ -259,7 +261,7 @@ def alertAndQuit(text, allowed_keys=[key_.RETURN], out_time=3000, font=shared.de
 
     Parameters
     ----------
-    text：str
+    text: str
         The text on the screen.
     allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
         The allowed user's response.
@@ -291,9 +293,11 @@ def alertAndQuit(text, allowed_keys=[key_.RETURN], out_time=3000, font=shared.de
     ---------
     None
     '''
-    alert(text, allowed_keys, out_time, font, size, color, rotation, x, y, anchor_x, anchor_y, background_image)
+    alert(text, out_time, allowed_keys, font, size, color, rotation, x, y, anchor_x, anchor_y, background_image)
     shared.pa.terminate()
     shared.pyglet.app.exit()
+    shared.win.close()
+    
 
 rest_text = '实验暂停，您可以休息一会\n\
 如果休息结束请按 [空格] 继续实验。\n\
@@ -304,11 +308,11 @@ def restTime(text=rest_text):
     Suspend the experiment and ask participant to rest:
     1. Display a blank screen in 3s,
     2. Display a new text slide which tells user to rest, 
-    3. eep the screen until user pressed SPACE.
+    3. keep the screen until user pressed SPACE.
 
     Parameters
     ----------
-    text：str
+    text: str
         The text on the screen.
         
     Return

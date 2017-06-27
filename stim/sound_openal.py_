@@ -1,4 +1,4 @@
-''' https://groups.google.com/forum/#!topic/pyglet-users/hKj-x_LCLx8 '''
+﻿''' https://groups.google.com/forum/#!topic/pyglet-users/hKj-x_LCLx8 '''
 
 import struct
 import ctypes
@@ -147,12 +147,12 @@ class Player(object):
         al.alGetSourcei(self.source, al.AL_BYTE_OFFSET, self.state)
         return float(self.state.value)/float(self.queue[0].length)
 
-    rolloff = property(_get_rolloff, _set_rolloff,doc="""get/set rolloff factor""")
-    volume = property(_get_volume, _set_volume,doc="""get/set volume""")
-    pitch = property(_get_pitch, _set_pitch, doc="""get/set pitch""")
-    loop = property(_get_loop, _set_loop, doc="""get/set loop state""")
-    position = property(_get_position, _set_position,doc="""get/set position""")
-    seek = property(_get_seek, _set_seek, doc="""get/set the current play position""")
+    rolloff = property(_get_rolloff, _set_rolloff,doc='''get/set rolloff factor''')
+    volume = property(_get_volume, _set_volume,doc='''get/set volume''')
+    pitch = property(_get_pitch, _set_pitch, doc='''get/set pitch''')
+    loop = property(_get_loop, _set_loop, doc='''get/set loop state''')
+    position = property(_get_position, _set_position,doc='''get/set position''')
+    seek = property(_get_seek, _set_seek, doc='''get/set the current play position''')
 
 
 # #load a listener to load and play sounds.
@@ -177,7 +177,7 @@ class Player(object):
 #         alc.alcDestroyContext(self.context)
 #         alc.alcCloseDevice(self.device)
 
-#     position = property(_get_position, _set_position,doc="""get/set position""")
+#     position = property(_get_position, _set_position,doc='''get/set position''')
 
 def mono2stereo(sound):
     output = (ctypes.c_short * (len(sound) * 2))()
@@ -224,7 +224,7 @@ def makeBeep(frequency, duration):
         t = float(s) / sr    # time in seconds
         sound[s] = int(round(max_sample * shared.math.sin(2 * shared.math.pi * frequency * t)))
 
-    # # 淡入淡出5ms
+    # # 娣″叆娣″嚭5ms
     # segment = int(sr * 0.005)
     # start = sound[:][:segment] * np.array(list(range(segment))) // segment
     # start = np.array(start, int)

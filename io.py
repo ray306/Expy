@@ -1,4 +1,4 @@
-import pandas as pd
+﻿import pandas as pd
 import re
 
 from expy import shared
@@ -14,7 +14,7 @@ def readSetting(filepath='setting.txt'):
 
     Parameters
     ----------
-    filepath：str (default:'setting.txt')
+    filepath: str (default:'setting.txt')
         The path of the setting file.
 
     Returns
@@ -58,7 +58,7 @@ def readStimuli(filepath, query=None, sheetname=0, return_list=True):
 
     Parameters
     ----------
-    filepath：str
+    filepath: str
         The path of the data file
     query: str, None(default)
         The query expression (e.g. 'block==1' or 'block>1 and cond=="A"')
@@ -93,7 +93,7 @@ def readDir(dirpath, shuffle=True):
 
     Parameters
     ----------
-    dirpath：str
+    dirpath: str
         The path of target directory
     shuffle: True, False(default)
         Whether shuffle the list or not 
@@ -109,17 +109,18 @@ def readDir(dirpath, shuffle=True):
     return files
 
 
-def saveResult(block_tag, resp, columns=['respKey', 'RT'], stim=None, stim_columns=None):
+def saveResult(resp, block_tag='', columns=['respKey', 'RT'], stim=None, stim_columns=None):
     '''
     Save experiment result to a file named {subjectID}_{block_tag}_result.csv.
+    The subjectID equals to "shared.subject", and you could set it by `shared.subject = getInput('please enter the ID:')`.
     If stim is not None, the stimuli data would attach to the response result.
 
     Parameters
     ----------
-    block_tag：str, or int
-        The tag of current block
-    resp：list
+    resp: list
         The list of response data
+    block_tag: str (default:''), or int
+        The tag of current block
     columns: list
         The names of response data columns
     stim: pandas.DataFrame, or list
@@ -133,14 +134,33 @@ def saveResult(block_tag, resp, columns=['respKey', 'RT'], stim=None, stim_colum
     '''
     if not os.path.exists('result'):
         os.mkdir('result')
+    # if len(resp[0]) != columns:
+    #     columns = [str(i) for i in range(len(resp[0]))]
+    #     print('Columns count not matches the result!')
+
     result = pd.DataFrame(resp, columns=columns)
     if not stim is None:
         if type(stim) is list:
             stim = pd.DataFrame(stim, columns=stim_columns)
         result = stim.join(result)           
 
-    result.to_csv('result/%s_%s_result.csv' %(shared.subject,str(block_tag)), index=None)
+    result.to_csv('result/%s_%s_result.csv' %(shared.subject, str(block_tag)), index=None)
 
+def log(event):
+    '''
+    Record the log to 'log.txt' in the working directory.
+
+    Parameters
+    ----------
+    event: str
+        The event which to be logged
+
+    Return
+    ---------
+    None
+    '''
+    with open('log.txt','a') as f:
+        f.write('%s\t%f\n' %(event, (shared.time.time()-shared.onset)))
 
 def sendTrigger(data, mode='P'):
     '''

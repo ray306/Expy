@@ -13,7 +13,7 @@ A standard experiment contains 3 levels:
 - Run(Session)
 - Block
 - Trial
-  So we suggest that your code should have hierarchical structure, as the example below：
+  So we suggest that your code should have hierarchical structure, as the example below: 
 ```python
 from expy import *
 start()
@@ -143,17 +143,17 @@ playSound(sound)
 noise_level = environmentNoise(0.5)  # Detect the noise level of environment
 
 'Without file'
-textSlide('Recording：')
+textSlide('Recording: ')
 sound = recordSound(noise_level, rec_length_min=2000, sound_length_max=4000)
-textSlide('Playing：')
+textSlide('Playing: ')
 playSound(sound)
 
 'With file'
-textSlide('Recording to file：')
+textSlide('Recording to file: ')
 recordSound(noise_level, rec_length_min=2000, sound_length_max=4000, 
                                     path='data/record.WAV')
 record = loadSound('data/record.WAV')
-textSlide('Playing from file：')
+textSlide('Playing from file: ')
 playSound(record)
 ```
 
@@ -161,26 +161,26 @@ playSound(record)
 ```python
 drawText('请按下键盘上的任意键')  # Draw text on the canvas and display it
 key,rt = waitForResponse()  # Waiting for pressing and get the pressed key
-alertAndGo('您刚刚按下了%d，用时：%dms' % (key, rt))  # Display the keypress
+alertAndGo('您刚刚按下了%d，用时: %dms' % (key, rt))  # Display the keypress
 
 'Key limited by "allowed_keys". Please look into "Key mapping" for some detail'
 drawText('除了键盘上的K或J，别的按键都不会起作用')  # Draw text on the canvas and display it
 key,rt = waitForResponse([key_.K, key_.J])  # Waiting for pressing 'K' or 'J', and get the pressed key's id.
-alertAndGo('您刚刚按下了%s，用时：%dms' % (key,rt))  # Display the keypress
+alertAndGo('您刚刚按下了%s，用时: %dms' % (key,rt))  # Display the keypress
 
 drawText('除了键盘上的K或J，别的按键都不会起作用')  # Draw text on the canvas and display it
 key,rt = waitForResponse({key_.K: 'K', key_.J: 'J'})  # Waiting for pressing 'K' or 'J', and get the pressed key's name.
-alertAndGo('您刚刚按下了%s，用时：%dms' % (key,rt))  # Display the keypress
+alertAndGo('您刚刚按下了%s，用时: %dms' % (key,rt))  # Display the keypress
 
 drawText('除了键盘上的K，别的按键都不会起作用')  # Draw text on the canvas and display it
 key,rt = waitForResponse(key_.K)  # Waiting for pressing 'K', and get the pressed key's id.
-alertAndGo('您刚刚按下了%d，用时：%dms' % (key,rt))  # Display the keypress
+alertAndGo('您刚刚按下了%d，用时: %dms' % (key,rt))  # Display the keypress
 
 'Time limited by "out_time"'
 drawText('请在1秒内按下键盘上的K或J')  # Draw text on the canvas and display it
 key,rt = waitForResponse({key_.K: 'K', key_.J: 'J'}, out_time=1000)  # Waiting for pressing 'K' or 'J' in 1000ms.
 if type(rt)==int:
-    alertAndGo('您刚刚按下了%s，用时：%dms' % (key,rt))  # Display the keypress
+    alertAndGo('您刚刚按下了%s，用时: %dms' % (key,rt))  # Display the keypress
 else:
     alertAndGo('超时')
 

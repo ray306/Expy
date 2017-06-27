@@ -1,5 +1,7 @@
 ## Initialization
+
 - **start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=C_white, background_color=C_gray, sample_rate=44100, port='COM1')**
+
 
 ```
 Initialize the experiment.
@@ -43,7 +45,9 @@ None
 ---
 ## Stimulus
 ### *Position*
+
 - **getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, anchor_x='center', anchor_y='center')**
+
 
 ```
 Caluate the screen position of object
@@ -76,7 +80,9 @@ Returns
 ```
 
 ### *Text*
+
 - **drawText(text, font=shared.default_font, size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', display=True)**
+
 
 ```
 Draw text with complex format on the canvas. The text will show as multiple lines splited by the '\n'. 
@@ -105,7 +111,8 @@ anchor_y: str (default: 'center')
     The position benchmark on this object to the given y.
     Options: 'center', 'top', or 'bottom'.
 display: True(default), False
-    If True, the function will put the canvas onto the screen.
+    If True, the function will put the canvas onto the screen immediately (with a potential delay);
+    otherwise, the canvas will be put until `show` function.
 
 Returns
 -------
@@ -113,7 +120,9 @@ None
 ```
 
 ### *Shape*
+
 - **drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True)**
+
 
 ```
 Draw rectangle on the canvas.
@@ -155,7 +164,10 @@ Returns
 -------
 None
 ```
+
+
 - **drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True)**
+
 
 ```
 Draw circle on the canvas.
@@ -192,7 +204,10 @@ Returns
 -------
 None
 ```
+
+
 - **drawPoints(points, color=C_white, size=1, display=True)**
+
 
 ```
 Draw point(s) on the canvas.
@@ -217,7 +232,10 @@ Returns
 -------
 None
 ```
+
+
 - **drawLines(points, color=C_white, width=1, close=False, display=True)**
+
 
 ```
 Draw line(s) on the canvas.
@@ -247,7 +265,9 @@ None
 ```
 
 ### *Picture*
+
 - **drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y='center', display=True)**
+
 
 ```
 Draw loaded image on the canvas.
@@ -289,7 +309,9 @@ None
 ```
 
 ### *Sound*
+
 - **loadSound(path, offset=0, duration=None)**
+
 
 ```
 Load a sound file, and return data array (stereo format)
@@ -309,7 +331,9 @@ value: array
     The sound data
 ```
 
+
 - **loadManySound(dirpath, filenames, ext='wav', offset=0.0, duration=None)**
+
 
 ```
 Read a list of music file, then concatnate them and return data array (stereo format).
@@ -332,7 +356,10 @@ Returns
 value: array
     The sound data
 ```
+
+
 - **makeBeep(frequency, duration)**
+
 
 ```
 Making a beep (pure-frequency) sound (stereo format).
@@ -349,7 +376,10 @@ Returns
 value: array
     The sound data
 ```
+
+
 - **makeSound(data)**
+
 
 ```
 Read np.array object, then convert it into sound array (stereo format).
@@ -364,7 +394,10 @@ Returns
 value: array
     The sound data
 ```
+
+
 - **playSound(sound, playing_track=None, blocking=True)**
+
 
 ```
 Play a sound array
@@ -375,8 +408,8 @@ sound: array
     The sound data
 playing_track: int, str, or None(default)
     The name of current track
-blocking: True, or False
-    Whether the playing track blocks the experiment
+blocking: True(default), or False
+    Whether the experiment procedure would be blocked by the current function
 
 Returns
 -------
@@ -384,7 +417,9 @@ None
 ```
 
 ### *Video*
+
 - **loadVideo(path)**
+
 
 ```
 Load a video array
@@ -400,7 +435,9 @@ player: pyglet.media.Player
     playVideo() could use it 
 ```
 
+
 - **playVideo(video, pauseKey=key_.SPACE, x=0.0, y=0.0, anchor_x='center', anchor_y='center')**
+
 
 ```
 Play a loaded video
@@ -416,12 +453,11 @@ x: int, or float (default:0.0)
 y: int, or float (default:0.0)
     The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
 anchor_x: str (default:'center')
-    The position benchmark on this object to the given x. 
+    The position benchmark on this object to the given x.
     Options: 'center', 'left', or 'right'.
 anchor_y: str (default:'center')
     The position benchmark on this object to the given y.
     Options: 'center', 'top', or 'bottom'.
-
 
 Returns
 -------
@@ -429,7 +465,9 @@ None
 ```
 
 ### *Display controller*
+
 - **show(out_time=False, clean_screen=True, backup=None)**
+
 
 ```
 Display current canvas buffer, and keep the display during a limited period.
@@ -447,7 +485,10 @@ Returns
 -------
 None
 ```
+
+
 - **clear()**
+
 
 ```
 Clear the screen
@@ -460,7 +501,10 @@ Returns
 -------
 None
 ```
+
+
 - **getScreen(clean_screen=True)**
+
 
 ```
 Get a backup of current canvas
@@ -478,7 +522,9 @@ None
 ---
 ## Response
 ### *Keyboard & Mouse & Joystick*
--    **waitForResponse(allowed_keys=[], out_time=0, has_RT=True, suspending=False)**
+
+- **waitForResponse(allowed_keys=[], out_time=0, has_RT=True, allowed_clicks=[], action_while_pressing=None ,suspending=False)**
+
 
 ```
 Waiting for a allowed keypress event during a limited period
@@ -486,33 +532,49 @@ Waiting for a allowed keypress event during a limited period
 
 Parameters
 ----------
-allowed_keys：[](default), Keyname, list, or dict
-   The allowed keys).
-   You can leave nothing, 
-           a Keyname (eg. key_.F), 
-           a list of Keyname (eg. [key_.F,key_.J]), 
-           or a dict of Keyname (eg. [key_.F:'F',key_.J:'J']) here.
-   You could look into the Keyname you want in http://expy.readthedocs.io/en/latest/keymap/
-out_time：int(>0), 0(default)
-   The time limit of current function. While the past time exceeds the limitation, the function terminates.
-has_RT：True(default), False
-   Return a past time or not
+allowed_keys: None(default), Keyname, list, or dict
+    The allowed key(s).
+    You can leave nothing, 
+            a Keyname (eg. key_.F), 
+            a list of Keyname (eg. [key_.F,key_.J]), 
+            or a dict of Keyname (eg. [key_.F:'F',key_.J:'J']) here.
+    You could look into the Keyname you want in http://expy.readthedocs.io/en/latest/keymap/
+out_time: int(>0), 0(default)
+    The time limit of current function. While the past time exceeds the limitation, the function terminates.
+has_RT: True(default), False
+    Return a past time or not
+allowed_clicks: None(default), ClickRange object, list, or dict
+    The allowed mouse click event(s).
+    You can leave nothing, 
+            a ClickRange object (eg. C1), 
+            a list of ClickRange object (eg. [C1, C2]), 
+            or a dict of ClickRange object (eg. {C1:'F',C2:'J'}) here.
+action_while_pressing: None(default), tuple
+    If None, the pressing will be ingored.
+    Otherwise, the tuple will be unpacked. 
+        The first element is the function, and the rest are(is) the paramenter(s) of the function.
+
 suspending: True, False(default)
-   Label the suspend state. If true, the F12 wouldn't suspend the program.
+    Label the suspend state. If true, the F12 wouldn't suspend the program.
 
 Returns
 -------
 KEY: None, int, or defined value
-1. If allowed_key is [], return the id of any pressed key
-2. If allowed_key is a List (eg. [key_.F,key_.J]), return the id of allowed pressed key
-3. If allowed_key is a Dict (eg. [key_.F:'F',key_.J:'J']), return the value of allowed pressed key
-4. Return None if the time is out and no allowed keypress
-(Only if has_RT is True) pastTime: int
-    The millisecond count since the function starts.
+    1. If allowed_keys is None, return the id of any pressed key
+    2. If allowed_keys is a List (eg. [key_.F,key_.J]), return the id of allowed pressed key
+    3. If allowed_keys is a Dict (eg. [key_.F:'F',key_.J:'J']), return the value of allowed pressed key
+    4. Return None if the time is out and no allowed keypress
+(Only if has_RT is True)
+    (Only if action_while_pressing is None) RT: int
+        The millisecond count since the function starts.
+    (Only if action_while_pressing is tuple) RT: (int, int)
+        The millisecond count until pressed, and the millisecond count while pressing.
 ```
 
 ### *Sound Recorder*
+
 - **environmentNoise(sampling_time, weights=(1.1,3,5,1.1,2,3), chunk=1024)**
+
 
 ```
 Record the sound in a certain duration as the environment noise, and calcuate its amplitude and zero-crossing rate.
@@ -546,21 +608,10 @@ amp1: number
 amp2: number
     The high threshold of sound amplitude
 ```
-- **recordSound(vad_levels, rec_length_min=0, rec_length_max=None, sound_length_max=None,
-    trim_side='both', feedback=False, chunk=1024, playing_track=None, blocking=True, path='')**
 
-```
-Record sound from the microphone and return the data as an array of signed shorts.
 
-Parameters
-----------
-todo
+- **recordSound(vad_levels, rec_length_min=0, rec_length_max=None, sound_length_max=None, trim_side='both', feedback=False, chunk=1024, playing_track=None, blocking=True, path='')**
 
-Returns
--------
-todo
-```
-- **recordSoundTofile(path, filename, noise_level, recording_min=0, recording_max=0, sounding_max=0, trim_side='left', feedback=False, chunk=512)**
 
 ```
 Record sound from the microphone.
@@ -590,7 +641,7 @@ chunk: int (default: 1024)
 playing_track: int, str, or None(default)
     The name of current track
 blocking: True(default), or False
-    Whether the recording track blocks the experiment
+    Whether the experiment procedure would be blocked by the current function
 path: str (default: '')
     The file path of target sound. If the path is undefined(''), the sound won't be recorded.
 Returns
@@ -607,16 +658,17 @@ If not blocking:
 ---
 ## IO
 ### *Read*
+
 - **readSetting(filepath='setting.txt')**
+
 
 ```
 Read the setting file and put the items into a dict.
 If the 'timing_set' is in the file, create a "timing" in the dict to put the timing parameter.
 
-
 Parameters
 ----------
-filepath：str (default:'setting.txt')
+filepath: str (default:'setting.txt')
     The path of the setting file.
 
 Returns
@@ -624,14 +676,17 @@ Returns
 setting: dict
     todo.
 ```
+
+
 - **readStimuli(filepath, query=None, sheetname=0, return_list=True)**
+
 
 ```
 Get the stimuli from a csv/excel file
 
 Parameters
 ----------
-filepath：str
+filepath: str
     The path of the data file
 query: str, None(default)
     The query expression (e.g. 'block==1' or 'block>1 and cond=="A"')
@@ -645,15 +700,17 @@ Returns
 stimuli: list of rows(pandas.Series), or whole table (pandas.DataFrame)
     The selected stimuli data
 ```
+
+
 - **readDir(dirpath, shuffle=True)**
+
 
 ```
 List the files in a directory
 
-
 Parameters
 ----------
-dirpath：str
+dirpath: str
     The path of target directory
 shuffle: True, False(default)
     Whether shuffle the list or not 
@@ -665,18 +722,21 @@ files: list
 ```
 
 ### *Save*
-- **saveResult(block_tag, resp, columns=['respKey', 'RT'], stim=None, stim_columns=None)**
+
+- **saveResult(resp, block_tag='', columns=['respKey', 'RT'], stim=None, stim_columns=None)**
+
 
 ```
 Save experiment result to a file named {subjectID}_{block_tag}_result.csv.
+The subjectID equals to "shared.subject", and you could set it by `shared.subject = getInput('please enter the ID:')`.
 If stim is not None, the stimuli data would attach to the response result.
 
 Parameters
 ----------
-block_tag：str, or int
-    The tag of current block
-resp：list
+resp: list
     The list of response data
+block_tag: str (default:''), or int
+    The tag of current block
 columns: list
     The names of response data columns
 stim: pandas.DataFrame, or list
@@ -689,12 +749,31 @@ Return
 None
 ```
 
+### *Record the log*
+
+- **log(event)**
+
+
+```
+Record the log to 'log.txt' in the working directory.
+
+Parameters
+----------
+event: str
+    The event which to be logged
+
+Return
+---------
+None
+```
+
 ### *Send trigger*
+
 - **sendTrigger(data, mode='P')**
+
 
 ```
 Send trigger
-
 
 Parameters
 ----------
@@ -708,32 +787,18 @@ Return
 None
 ```
 
--   **shared.changeState(name, value)**
-
-```
-Change the value of a global state
-Parameters
-----------
-name: anything
-    The name of the target state
-value: anything
-    The target value of the target state
-
-Return
----------
-None
-```
-
 ---
 ## Other Scaffolds
--   **textSlide(text, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
+
+- **textSlide(text, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
+
 
 ```
 Display a new text slide right now.
 
 Parameters
 ----------
-text：str
+text: str
     The text on the screen.
 font: str (default:'shared.default_font')
     The fontname of the text.
@@ -761,15 +826,17 @@ Return
 ---------
 None
 ```
--   **getInput(pre_text, out_time=0, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
+
+
+- **getInput(pre_text, out_time=0, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
+
 
 ```
 Get user input until "ENTER" pressed, then give it to a variable
 
-
 Parameters
 ----------
-pre_text：str
+pre_text: str
     The text that will be displayed before user's input.
 out_time: int(>0) or 0(default)
     The time limitation of this function.
@@ -800,32 +867,36 @@ Return
 input_text: str
     The content of user's input.
 ```
--   **instruction(instruction_text, has_practice=False)**
+
+
+- **instruction(instruction_text, has_practice=False)**
+
 
 ```
 Show the instruction of experiment
 (press 'left' to back, 'right' to continue)
 
-
 Parameters
 ----------
-instruction_text：list of str
+instruction_text: list of str
     The text that will be displayed as instruction.
 
 Return
 ---------
 resp: Keyname/int
-    The last pressed keyname.
+    The last pressed key name.
 ```
--   **alert(text, allowed_keys=[key_.RETURN], out_time=0, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
+
+
+- **alert(text, out_time=0, allowed_keys=[key_.RETURN], font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
+
 
 ```
 Display a new text slide right now, and keep the screen until user's response.
 
-
 Parameters
 ----------
-text：str
+text: str
     The text on the screen.
 allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
     The allowed user's response.
@@ -852,22 +923,24 @@ anchor_y: str (default: 'center')
     Options: 'center', 'top', or 'bottom'.
 background_image: str, or None(default)
     The path of background picture.
-
+    
 Return
 ---------
 resp: Keyname/int
-    The last pressed keyname.
+    The last pressed key name.
 ```
--   **alertAndGo(text, allowed_keys=[key_.RETURN], out_time=3000, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
+
+
+- **alertAndGo(text, out_time=3000, allowed_keys=[key_.RETURN], font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
+
 
 ```
 Display a new text slide right now, 
 and keep the screen in a given period of time, or until user pressed SPACE or key_.RETURN
 
-
 Parameters
 ----------
-text：str
+text: str
     The text on the screen.
 allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
     The allowed user's response.
@@ -894,22 +967,24 @@ anchor_y: str (default: 'center')
     Options: 'center', 'top', or 'bottom'.
 background_image: str, or None(default)
     The path of background picture.
-
+    
 Return
 ---------
 None
 ```
--   **alertAndQuit(text, allowed_keys=[key_.RETURN], out_time=3000, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
+
+
+- **alertAndQuit(text, out_time=3000, allowed_keys=[key_.RETURN], font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
+
 
 ```
 Display a new text slide right now, 
 and keep the screen in a given period of time, or until user pressed SPACE or key_.RETURN,
 then quit the program.
 
-
 Parameters
 ----------
-text：str
+text: str
     The text on the screen.
 allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
     The allowed user's response.
@@ -936,13 +1011,15 @@ anchor_y: str (default: 'center')
     Options: 'center', 'top', or 'bottom'.
 background_image: str, or None(default)
     The path of background picture.
-
+    
 Return
 ---------
 None
 ```
 
--   **restTime(text=rest_text)**
+
+- **restTime(text=rest_text)**
+
 
 ```
 Suspend the experiment and ask participant to rest:
@@ -950,20 +1027,13 @@ Suspend the experiment and ask participant to rest:
 2. Display a new text slide which tells user to rest, 
 3. keep the screen until user pressed SPACE.
 
-rest_text = '实验暂停，您可以休息一会\n\
-如果休息结束请按 [空格] 继续实验。\n\
-Now you could have a rest,\n \
-please press [SPACE] key when you decide to continue.\n'
-
-
 Parameters
 ----------
-text：str
+text: str
     The text on the screen.
-
+    
 Return
 ---------
 None
 ```
 
-```

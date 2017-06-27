@@ -1,4 +1,4 @@
-# coding:utf-8
+﻿# coding:utf-8
 import os
 import ctypes
 import serial
@@ -9,6 +9,7 @@ import platform
 import pyglet
 from pyglet import gl
 import pyglet.window.key as key_
+import pyglet.window.mouse as mouse_
 
 import librosa
 import pyaudio
@@ -30,16 +31,25 @@ need_update = False
 
 'event varibles'
 events = []
+events2 = []
 states = dict()
 
 allowed_keys = []
 allowed_keys_mapping = dict()
 
-allowed_mouse_events = []  # {'x':range(), 'y':range(), 'button':..}
+allowed_mouse_clicks = []  # {'x':range(), 'y':range(), 'button':..}
+allowed_mouse_clicks_mapping = dict()
 
 suspending = False
 
+figure_released = True
+
 start_tp = 0
+end_tp = 0
+
+onset = time.time()
+with open('log.txt','a') as f:
+    f.write('###\nOnset\t%s\n' %(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(onset)) ))
 
 'Sound'
 lock = threading.Lock()
@@ -75,6 +85,7 @@ timing = dict()
 font = dict()
 background_color = None
 font_color = None
+
 if platform.system() in ["Windows",'Linux']:
     default_font = 'simhei'
 else:
