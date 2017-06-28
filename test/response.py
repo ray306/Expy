@@ -1,4 +1,4 @@
-# coding:utf-8
+﻿# coding:utf-8
 import sys
 # sys.path.append('../../')
 sys.path = ['../../']+sys.path
@@ -44,39 +44,3 @@ drawText('请用鼠标左键点击方块',y=-0.5)  # Draw text on the canvas and
 drawRect(w =0.1, h=0.1, color=C_white) # Draw a button
 (button, (x, y)), rt = waitForResponse(allowed_clicks=ClickRange((-0.1,0.1),(-0.1,0.1),mouse_.LEFT))  # Waiting for mouse click and get the click
 alertAndGo('您刚刚在（X=%d，Y=%d）处按下了%d，用时: %dms' % (x, y, button, rt))  # Display the event
-
-
-# import win32api
-# import win32con
-# from threading import Thread
-
-# from multiprocessing import Process, Queue
-
-# import time
-
-# # def press():
-# #     import win32api
-# #     import win32con
-# #     import time
-# #     now = time.time()
-# #     while 1:
-# #         if time.time()-now>1:
-# #             win32api.keybd_event(49,0,0,0)
-# #             win32api.keybd_event(49,0,win32con.KEYEVENTF_KEYUP,0) 
-# #             now = time.time()
-# #         time.sleep(0.001)
-
-# # t = Process(target=press)
-# # t.start()
-
-# drawText('请按下键盘上的K或J')
-# show()
-# while 1:
-#     shared.win.dispatch_events()
-    
-#     for e in shared.events:
-#         print(e['time'])
-#         shared.events = []
-#     time.sleep(0.001)
-
-

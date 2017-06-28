@@ -27,7 +27,7 @@ def readSetting(filepath='setting.txt'):
     with open(filepath) as f:
         try:
             for s in re.compile(r'[-]{2,}').split(f.read()):
-                if len(s) > 0:
+                if len(s) > 0 and s != '\n':
                     if s[0] == '\n':
                         s = s[1:]
                     if s[-1] == '\n':

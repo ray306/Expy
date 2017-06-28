@@ -4,6 +4,9 @@
 - Unit of measurement
 - Add position parameters for `textSlide` and `textSlide` based methods.
 
+# 0.9.7.7
+- Fixed an issue of reading setting file.
+
 # 0.9.7.6
 - Fixed issues of closing function on MacOSX
 - Fixed an issue of suspending

@@ -1,4 +1,4 @@
-# coding:utf-8
+﻿# coding:utf-8
 ##### package test #####
 import sys
 # sys.path.append('../../')
@@ -20,7 +20,7 @@ print('alldata:\n', alldata)
 print('block2:\n', block2)
 
 'Save result'
-saveResult(block_tag=1, resp=[1, 2, 3, 4], columns=['resp'])
-saveResult(block_tag=2, resp=[1, 2, 3, 4], columns=['resp'], stim=block2)
-saveResult(block_tag=3, resp=[(1, 0), (2, 0), (3, 0), (4, 0)], columns=[
+saveResult(resp=[1, 2, 3, 4], block_tag=1, columns=['resp'])
+saveResult(resp=[1, 2, 3, 4], block_tag=2 columns=['resp'], stim=block2)
+saveResult(resp=[(1, 0), (2, 0), (3, 0), (4, 0)], block_tag=3, columns=[
            'resp1', 'resp2'], stim=block2)

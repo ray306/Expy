@@ -1,4 +1,4 @@
-# coding:utf-8
+﻿# coding:utf-8
 ##### package test #####
 import sys
 # sys.path.append('../../')
@@ -7,12 +7,9 @@ sys.path = ['../../']+sys.path
 
 from expy import *  # Import the needed functions
 
-
 'Parallel Port'
 start(port=0xC100)
 sendTrigger(0, mode='P')
-# shared.port_dll.Out32(0xC100,0) # 0xC100 is the port, 0 is the data
-
 
 'Serial Port'
 start(port='COM1')

@@ -33,7 +33,10 @@ for trialList in blockList:
 
 ## *Visual*
 ### Show text
+
 ```python
+start()  # Initiate the experiment environment
+
 '''General usage'''
 # Draw text on the canvas
 drawText('Hello world!')
@@ -65,10 +68,13 @@ show(2000)  # Display current canvas
 
 # Display text on a new slide, it's functionally equals to clear+drawText+show,
 textSlide('Hello\nworld\nagain!')
-
 ```
+
 ### Show picture
+
 ```python
+start()  # Initiate the experiment environment
+
 '''General usage'''
 # Draw a picture on the canvas center
 drawPic('data/demo.jpg')
@@ -92,8 +98,12 @@ drawPic('data/demo.jpg', w=400, h=300, x=0.5, y=0.5, anchor_x='left',anchor_y='c
 show(3000)  # Display current canvas
 
 ```
+
 ### Show shape
+
 ```python
+start(background_color=C_green)  # Initiate the experiment environment
+
 # Draw a circle on the canvas
 drawCircle(60, fill=True)
 show(1500)  # Display current canvas
@@ -109,17 +119,25 @@ show(1500)
 # Draw lines on the canvas
 drawLines([(x - 100, y - 100), (x+50, y), (x + 100, y - 100)])
 show(1500)  # Display current canvas
+
 ```
 
 ## *Video*
+
 ```python
+start(fullscreen=False)  # Initiate the experiment environment
+
 video = loadVideo('data/demo.mpg')
 playVideo(video)
+
 ```
 
 ## *Auditory*
 ### Play sound
+
 ```python
+start(sample_rate=44100)  # Initiate the experiment environment
+
 '''General usage'''
 sound = loadSound('data/demo.WAV')  # Load the wav file
 playSound(sound)  # Play the wav file
@@ -137,9 +155,18 @@ show(1000)
 
 sound = makeBeep(440, 0.5)
 playSound(sound)
+
+sound = makeNoise(1)
+playSound(sound)
+
+
 ```
+
 ### *Sound Recording*
+
 ```python
+start()  # Initiate the experiment environment
+
 noise_level = environmentNoise(0.5)  # Detect the noise level of environment
 
 'Without file'
@@ -155,44 +182,61 @@ recordSound(noise_level, rec_length_min=2000, sound_length_max=4000,
 record = loadSound('data/record.WAV')
 textSlide('Playing from file: ')
 playSound(record)
+
+
 ```
 
 ## *Response*
+
 ```python
-drawText('è¯·æŒ‰ä¸‹é”®ç›˜ä¸Šçš„ä»»æ„é”®')  # Draw text on the canvas and display it
+start(mouse_visible=True)  # Initiate the experiment environment
+
+drawText('Çë°´ÏÂ¼üÅÌÉÏµÄÈÎÒâ¼ü')  # Draw text on the canvas and display it
 key,rt = waitForResponse()  # Waiting for pressing and get the pressed key
-alertAndGo('æ‚¨åˆšåˆšæŒ‰ä¸‹äº†%dï¼Œç”¨æ—¶: %dms' % (key, rt))  # Display the keypress
+alertAndGo('Äú¸Õ¸Õ°´ÏÂÁË%d£¬ÓÃÊ±: %dms' % (key, rt))  # Display the keypress
 
 'Key limited by "allowed_keys". Please look into "Key mapping" for some detail'
-drawText('é™¤äº†é”®ç›˜ä¸Šçš„Kæˆ–Jï¼Œåˆ«çš„æŒ‰é”®éƒ½ä¸ä¼šèµ·ä½œç”¨')  # Draw text on the canvas and display it
+drawText('³ýÁË¼üÅÌÉÏµÄK»òJ£¬±ðµÄ°´¼ü¶¼²»»áÆð×÷ÓÃ')  # Draw text on the canvas and display it
 key,rt = waitForResponse([key_.K, key_.J])  # Waiting for pressing 'K' or 'J', and get the pressed key's id.
-alertAndGo('æ‚¨åˆšåˆšæŒ‰ä¸‹äº†%sï¼Œç”¨æ—¶: %dms' % (key,rt))  # Display the keypress
+alertAndGo('Äú¸Õ¸Õ°´ÏÂÁË%s£¬ÓÃÊ±: %dms' % (key,rt))  # Display the keypress
 
-drawText('é™¤äº†é”®ç›˜ä¸Šçš„Kæˆ–Jï¼Œåˆ«çš„æŒ‰é”®éƒ½ä¸ä¼šèµ·ä½œç”¨')  # Draw text on the canvas and display it
+drawText('³ýÁË¼üÅÌÉÏµÄK»òJ£¬±ðµÄ°´¼ü¶¼²»»áÆð×÷ÓÃ')  # Draw text on the canvas and display it
 key,rt = waitForResponse({key_.K: 'K', key_.J: 'J'})  # Waiting for pressing 'K' or 'J', and get the pressed key's name.
-alertAndGo('æ‚¨åˆšåˆšæŒ‰ä¸‹äº†%sï¼Œç”¨æ—¶: %dms' % (key,rt))  # Display the keypress
+alertAndGo('Äú¸Õ¸Õ°´ÏÂÁË%s£¬ÓÃÊ±: %dms' % (key,rt))  # Display the keypress
 
-drawText('é™¤äº†é”®ç›˜ä¸Šçš„Kï¼Œåˆ«çš„æŒ‰é”®éƒ½ä¸ä¼šèµ·ä½œç”¨')  # Draw text on the canvas and display it
+drawText('³ýÁË¼üÅÌÉÏµÄK£¬±ðµÄ°´¼ü¶¼²»»áÆð×÷ÓÃ')  # Draw text on the canvas and display it
 key,rt = waitForResponse(key_.K)  # Waiting for pressing 'K', and get the pressed key's id.
-alertAndGo('æ‚¨åˆšåˆšæŒ‰ä¸‹äº†%dï¼Œç”¨æ—¶: %dms' % (key,rt))  # Display the keypress
+alertAndGo('Äú¸Õ¸Õ°´ÏÂÁË%d£¬ÓÃÊ±: %dms' % (key,rt))  # Display the keypress
 
 'Time limited by "out_time"'
-drawText('è¯·åœ¨1ç§’å†…æŒ‰ä¸‹é”®ç›˜ä¸Šçš„Kæˆ–J')  # Draw text on the canvas and display it
+drawText('ÇëÔÚ1ÃëÄÚ°´ÏÂ¼üÅÌÉÏµÄK»òJ')  # Draw text on the canvas and display it
 key,rt = waitForResponse({key_.K: 'K', key_.J: 'J'}, out_time=1000)  # Waiting for pressing 'K' or 'J' in 1000ms.
 if type(rt)==int:
-    alertAndGo('æ‚¨åˆšåˆšæŒ‰ä¸‹äº†%sï¼Œç”¨æ—¶: %dms' % (key,rt))  # Display the keypress
+    alertAndGo('Äú¸Õ¸Õ°´ÏÂÁË%s£¬ÓÃÊ±: %dms' % (key,rt))  # Display the keypress
 else:
-    alertAndGo('è¶…æ—¶')
+    alertAndGo('³¬Ê±')
 
 'Get only key without RT) by falsing the "has_RT"'
-drawText('è¯·æŒ‰ä¸‹é”®ç›˜ä¸Šçš„Kæˆ–J')  # Draw text on the canvas and display it
+drawText('Çë°´ÏÂ¼üÅÌÉÏµÄK»òJ')  # Draw text on the canvas and display it
 key = waitForResponse({key_.K: 'K', key_.J: 'J'}, has_RT=False)  # Waiting for pressing 'K' or 'J', no RT returned.
-alertAndGo('æ‚¨åˆšåˆšæŒ‰ä¸‹äº†' + key) # Display the keypress
+alertAndGo('Äú¸Õ¸Õ°´ÏÂÁË' + key) # Display the keypress
+
+drawText('Çë°´ÏÂ¼üÅÌÉÏµÄK»òJ£¬²¢¹ýÒ»»áÔÙËÉ¿ª')  # Draw text on the canvas and display it
+key, (RT, pressed_time) = waitForResponse([key_.K, key_.J], action_while_pressing=(print,0))
+alertAndGo('Äú¸Õ¸Õ°´ÏÂÁË%d£¬°´¼üÇ°ÓÃÊ±: %dms£¬°´¼üÓÃÊ±%dms' % (key, RT, pressed_time))  # Display the keypress
+
+drawText('ÇëÓÃÊó±ê×ó¼üµã»÷·½¿é',y=-0.5)  # Draw text on the canvas and display it
+drawRect(w =0.1, h=0.1, color=C_white) # Draw a button
+(button, (x, y)), rt = waitForResponse(allowed_clicks=ClickRange((-0.1,0.1),(-0.1,0.1),mouse_.LEFT))  # Waiting for mouse click and get the click
+alertAndGo('Äú¸Õ¸ÕÔÚ£¨X=%d£¬Y=%d£©´¦°´ÏÂÁË%d£¬ÓÃÊ±: %dms' % (x, y, button, rt))  # Display the event
 ```
 
 ## *Scaffold functions*
+
 ```python
-# Get user input until "ENTER" pressed, then give it to a variable
+start()  # Initiate the experiment environment
+
+Get user input until "ENTER" pressed, then give it to a variable
 something = getInput('enter something:')
 
 # Show something until "RETURN" pressed
@@ -205,29 +249,36 @@ instruction(['This is the first page of instruction>', 'second page>', 'last pag
 restTime()  
 
 # Show something during a limited period, and continue
-alertAndGo('Show something for 3000ms', 3000)
+alertAndGo('Show something for 3000ms', 6000)
 
 # Show something during a limited period, and quit the program
 alertAndQuit('Show something for 3000ms, and quit')
 ```
 
 ## *Get external parameters*
+
 ```python
+
 start()  # Calling start() will do the readSetting() implicitly
 # readSetting() # Or you can directly load setting from "setting.txt"
 
 'Using "shared.setting" dictionary to get the pre-defined value'
-print(shared.setting['background_color']) # Print the setting of 'background_color' part 
-print(shared.setting['timing_set']) # Print the setting of 'timing_set' part 
+print(shared.setting['background_color'])  # Print the setting of 'background_color' part
+print(shared.setting['timing_set'])  # Print the setting of 'timing_set' part
 
 'Calling "timing" function to get a certain time value'
-print(timing('ITI')) # Print 'ITI' value (we specify 500 for it in "setting.txt")
-print(timing('fix')) # Print 'fix' value (we specify 800~1400 range for it in "setting.txt")
-print(timing('fix')) # Print 'fix' value (we specify 800~1400 range for it in "setting.txt")
+print(timing('ITI'))  # Print 'ITI' value (we specify 500 for it in "setting.txt")
+# Print 'fix' value (we specify 800~1400 range for it in "setting.txt")
+print(timing('fix'))
+# Print 'fix' value (we specify 800~1400 range for it in "setting.txt")
+print(timing('fix'))
+
 ```
 
 ## *Read or Write*
+
 ```python
+
 'List the filenames of a dir'
 filelist = readDir('data', shuffle=True)
 print(filelist)
@@ -241,24 +292,48 @@ print('alldata:\n', alldata)
 print('block2:\n', block2)
 
 'Save result'
-saveResult(block_tag=1, resp=[1, 2, 3, 4], columns=['resp'])
-saveResult(block_tag=2, resp=[1, 2, 3, 4], columns=['resp'], stim=block2)
-saveResult(block_tag=3, resp=[(1, 0), (2, 0), (3, 0), (4, 0)], columns=['resp1', 'resp2'], stim=block2)
+saveResult(resp=[1, 2, 3, 4], block_tag=1, columns=['resp'])
+saveResult(resp=[1, 2, 3, 4], block_tag=2 columns=['resp'], stim=block2)
+saveResult(resp=[(1, 0), (2, 0), (3, 0), (4, 0)], block_tag=3, columns=[
+           'resp1', 'resp2'], stim=block2)
+
 ```
 
 ## *Send trigger*
+
 ```python
+
 'Parallel Port'
 start(port=0xC100)
-sendTrigger(0,mode='P')
+sendTrigger(0, mode='P')
 
 'Serial Port'
 start(port='COM1')
-sendTrigger('something',mode='S')
+sendTrigger('something', mode='S')
+
+# import serial
+# ser = serial.Serial(baudrate=115200)
+# ser.port = 'COM1' # set the port
+# try:
+#     ser.open()
+# except:
+#     print('Could not open port')
+
+# ser.write(b'something') # send a string directly
+
+# tg = 'something'
+# ser.write(bytes(tg,encoding='utf8')) # send a string which might change
+
+# n=int('0b00010001',2)
+# ser.write(n.to_bytes((n.bit_length()+7)//8, 'big')) # send a binary code
+
 ```
 
 ## *Preload screen*
+
 ```python
+start()  # Initiate the experiment environment
+
 drawText('Hello', display=False)  # Draw text on the canvas
 s1 = getScreen()  # Get current canvas, then clean the canvas
 
@@ -271,4 +346,5 @@ s3 = getScreen()  # Get current canvas, then clean the canvas
 show(3000, backup=s1)  # Display backup canvas
 show(3000, backup=s2)  # Display backup canvas
 show(3000, backup=s3)  # Display backup canvas
+
 ```

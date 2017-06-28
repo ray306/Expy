@@ -1,19 +1,18 @@
 ## Simple example (An RSPV demo)
 
 ```python
-# coding:utf-8
-from expy import * # Import the needed functions
-start() # Initiate the experiment environment
+start()  # Initiate the experiment environment
 
 for w in 'ABCDE12345':
-    drawText(w) # Draw something on the canvas
-    show(200) # Keep displaying in 200ms
+    drawText(w)  # Draw something on the canvas(not the screen)
+    show(200)  # Display current canvas on the screen, and keep for 200ms
 ```
+
 ---
 
 ## *Visual Experiment*
+
 ```python
-from expy import *  # Import the needed functions
 start()  # Initiate the experiment environment
 
 def trial(word, pos):
@@ -38,11 +37,12 @@ for word, pos in stimuli:
     trial(word, pos)  # Call the trial function with different parameters
 
 alertAndQuit('Done!')  # Display something in 3s(default), and quit the program
+
 ```
 
 ## *Auditory Experiment*
+
 ```python
-from expy import *  # Import the needed functions
 start()  # Initiate the experiment environment
 
 def trial(stim):
@@ -68,4 +68,5 @@ for stim in ['ba', 'da', 'da', 'ba']:
     trial(stim)  # Call the trial function with different parameters
 
 alertAndQuit('Done!')  # Display something in 3s(default), and quit the program
+
 ```
