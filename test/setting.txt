@@ -1,6 +1,6 @@
 [timing_set]
-fix: 800-1400
-ITI: 500
+fix: 0.4-1.4
+ITI: 0.5
 ----
 [instruction1]
 Welcome to our experiment!

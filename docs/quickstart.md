@@ -1,11 +1,12 @@
 ## Simple example (An RSPV demo)
 
 ```python
+from expy import *  # Import the needed functions
 start()  # Initiate the experiment environment
 
 for w in 'ABCDE12345':
     drawText(w)  # Draw something on the canvas(not the screen)
-    show(200)  # Display current canvas on the screen, and keep for 200ms
+    show(0.2)  # Display current canvas on the screen, and keep for 0.2s
 ```
 
 ---
@@ -13,6 +14,7 @@ for w in 'ABCDE12345':
 ## *Visual Experiment*
 
 ```python
+from expy import *  # Import the needed functions
 start()  # Initiate the experiment environment
 
 def trial(word, pos):
@@ -20,11 +22,11 @@ def trial(word, pos):
 
     key, rt = waitForResponse({key_.F: 'Left', key_.J: 'Right'}) # Waiting for pressing 'F' or 'J'
     if key == word:
-        alertAndGo('Correct!', 1000)  # Display something in 1s
+        alertAndGo('Correct!', 1)  # Display something in 1s
     else:
-        alertAndGo('Wrong!', 1000)
+        alertAndGo('Wrong!', 1)
 
-    show(500)  # Pause (Keep displaying in 500ms)
+    show(0.5)  # Pause (Keep displaying in 0.5s)
 
 
 instruction(shared.setting['instruction1'])
@@ -43,6 +45,7 @@ alertAndQuit('Done!')  # Display something in 3s(default), and quit the program
 ## *Auditory Experiment*
 
 ```python
+from expy import *  # Import the needed functions
 start()  # Initiate the experiment environment
 
 def trial(stim):
@@ -54,11 +57,11 @@ def trial(stim):
     key, rt = waitForResponse({key_.F: 'ba', key_.J: 'da'}) # Waiting for pressing 'F' or 'J'
 
     if key == stim:
-        alertAndGo('Correct!', 1000)  # Display something in 1s
+        alertAndGo('Correct!', 1)  # Display something in 1s
     else:
-        alertAndGo('Wrong!', 1000)
+        alertAndGo('Wrong!', 1)
 
-    show(500)  # Pause (Keep displaying in 500ms)
+    show(0.5)  # Pause (Keep displaying in 0.5s)
 
 
 instruction(shared.setting['instruction2'])

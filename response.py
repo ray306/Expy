@@ -100,7 +100,7 @@ def suspend():
     Returns
     -------
     past time: int
-        The millisecond count since the function starts.
+        The second count since the function starts.
     '''
     onset = shared.time.time()
     screenshot = shared.pyglet.image.get_buffer_manager().get_color_buffer().get_image_data()
@@ -125,16 +125,16 @@ def wait(out_time):
             return 'None', 'None'
         for e in shared.events:
             if e['type']=='key_press':
-                return e['key'], int((e['time']- shared.start_tp)*1000)
+                return e['key'], e['time']- shared.start_tp
             elif e['type']=='mouse_press':
-                return (e['button'], e['pos']), int((e['time']- shared.start_tp)*1000)
+                return (e['button'], e['pos']), e['time']- shared.start_tp
         shared.time.sleep(0.1)
 
 def whilePressing(job, *param):
     while not shared.figure_released:
         shared.win.dispatch_events()
         job(*param)
-    return int((shared.end_tp - shared.start_tp)*1000)
+    return shared.end_tp - shared.start_tp
 
 def waitForResponse(allowed_keys=[], out_time=0, has_RT=True, allowed_clicks=[], action_while_pressing=None ,suspending=False):
     '''
@@ -150,7 +150,7 @@ def waitForResponse(allowed_keys=[], out_time=0, has_RT=True, allowed_clicks=[],
                 a list of Keyname (eg. [key_.F,key_.J]), 
                 or a dict of Keyname (eg. [key_.F:'F',key_.J:'J']) here.
         You could look into the Keyname you want in http://expy.readthedocs.io/en/latest/keymap/
-    out_time: int(>0), 0(default)
+    out_time: num(>0), 0(default)
         The time limit of current function. While the past time exceeds the limitation, the function terminates.
     has_RT: True(default), False
         Return a past time or not
@@ -177,9 +177,9 @@ def waitForResponse(allowed_keys=[], out_time=0, has_RT=True, allowed_clicks=[],
         4. Return None if the time is out and no allowed keypress
     (Only if has_RT is True)
         (Only if action_while_pressing is None) RT: int
-            The millisecond count since the function starts.
+            The second count since the function starts.
         (Only if action_while_pressing is tuple) RT: (int, int)
-            The millisecond count until pressed, and the millisecond count while pressing.
+            The second count until pressed, and the second count while pressing.
     '''
 
 
@@ -191,7 +191,7 @@ def waitForResponse(allowed_keys=[], out_time=0, has_RT=True, allowed_clicks=[],
     shared.allowed_keys, shared.allowed_keys_mapping = setKeyMapping(allowed_keys)  # Mapping allowable key(s)
     shared.allowed_mouse_clicks, shared.allowed_mouse_clicks_mapping = setClickMapping(allowed_clicks)
 
-    ev, RT = wait(out_time/1000)
+    ev, RT = wait(out_time)
     
 
     if type(action_while_pressing) is tuple:

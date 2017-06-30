@@ -20,7 +20,7 @@ start()
 
 def trial(stim):
     draw(stim)
-    show(1000)
+    show(1)
 
 def block(trialList):
     for stim in trialList:

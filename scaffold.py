@@ -27,10 +27,10 @@ def timing(name):
     value: int
     '''
     val = shared.setting['timing'][name]
-    if type(val) == int:
+    if type(val) == float:
         return val
     else:
-        return np.random.randint(val[0], val[1])
+        return np.random.randint(int(val[0]*1000), int(val[1]*1000))/1000
 
 def textSlide(text, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
     '''
@@ -80,7 +80,7 @@ def getInput(pre_text, out_time=0, font=shared.default_font, size='normal_font_s
     ----------
     pre_text: str
         The text that will be displayed before user's input.
-    out_time: int(>0) or 0(default)
+    out_time: num(>0) or 0(default)
         The time limitation of this function.
     font: str (default:'shared.default_font')
         The fontname of the text.
@@ -178,7 +178,7 @@ def alert(text, out_time=0, allowed_keys=[key_.RETURN], font=shared.default_font
         The text on the screen.
     allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
         The allowed user's response.
-    out_time: int(>0) or 0(default)
+    out_time: num(>0) or 0(default)
         The display time limitation of this function.
     font: str (default:'shared.default_font')
         The fontname of the text.
@@ -212,7 +212,7 @@ def alert(text, out_time=0, allowed_keys=[key_.RETURN], font=shared.default_font
     clear()
     return resp
 
-def alertAndGo(text, out_time=3000, allowed_keys=[key_.RETURN], font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
+def alertAndGo(text, out_time=3, allowed_keys=[key_.RETURN], font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
     '''
     Display a new text slide right now, 
     and keep the screen in a given period of time, or until user pressed SPACE or key_.RETURN
@@ -223,7 +223,7 @@ def alertAndGo(text, out_time=3000, allowed_keys=[key_.RETURN], font=shared.defa
         The text on the screen.
     allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
         The allowed user's response.
-    out_time: out_time: int(>0) (default: 3000)
+    out_time: out_time: num(>0) (default: 3)
         The display time limitation of this function.
     font: str (default:'shared.default_font')
         The fontname of the text.
@@ -253,7 +253,7 @@ def alertAndGo(text, out_time=3000, allowed_keys=[key_.RETURN], font=shared.defa
     '''
     alert(text, out_time, allowed_keys, font, size, color, rotation, x, y, anchor_x, anchor_y, background_image)
 
-def alertAndQuit(text, out_time=3000, allowed_keys=[key_.RETURN], font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
+def alertAndQuit(text, out_time=3, allowed_keys=[key_.RETURN], font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
     '''
     Display a new text slide right now, 
     and keep the screen in a given period of time, or until user pressed SPACE or key_.RETURN,
@@ -265,7 +265,7 @@ def alertAndQuit(text, out_time=3000, allowed_keys=[key_.RETURN], font=shared.de
         The text on the screen.
     allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
         The allowed user's response.
-    out_time: out_time: int(>0) (default: 3000)
+    out_time: out_time: num(>0) (default: 3)
         The display time limitation of this function.
     font: str (default:'shared.default_font')
         The fontname of the text.
@@ -300,9 +300,7 @@ def alertAndQuit(text, out_time=3000, allowed_keys=[key_.RETURN], font=shared.de
     
 
 rest_text = '实验暂停，您可以休息一会\n\
-如果休息结束请按 [空格] 继续实验。\n\
-Now you could have a rest,\n \
-please press [SPACE] key when you decide to continue.\n'
+Now you could have a rest.\n '
 def restTime(text=rest_text):
     '''
     Suspend the experiment and ask participant to rest:
@@ -321,4 +319,7 @@ def restTime(text=rest_text):
     '''
     textSlide(text)
     shared.time.sleep(3)
-    alert(text, key_.SPACE)
+    shared.win.dispatch_events()
+    shared.events = []
+    text2 = text + '如果休息结束请按 [空格] 继续实验。\nplease press [SPACE] key when you decide to continue.\n'
+    alert(text2, 0, key_.SPACE)

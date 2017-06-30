@@ -17,6 +17,6 @@ s2 = getScreen(clean_screen=False)  # Get current canvas, and keep it
 drawText('........', display=False)  # Draw text on the canvas
 s3 = getScreen()  # Get current canvas, then clean the canvas
 
-show(3000, backup=s1)  # Display backup canvas
-show(3000, backup=s2)  # Display backup canvas
-show(3000, backup=s3)  # Display backup canvas
+show(3, backup=s1)  # Display backup canvas
+show(3, backup=s2)  # Display backup canvas
+show(3, backup=s3)  # Display backup canvas

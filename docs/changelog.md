@@ -4,6 +4,12 @@
 - Unit of measurement
 - Add position parameters for `textSlide` and `textSlide` based methods.
 
+# 0.9.8
+- [**Important**] Unified the units of time. Now we use SECONDs in all functions.
+- Added parameter `saveas` to `saveResult`. Now the `saveResult` support Excel file.
+- Now `saveResult` supported update the result.
+- Fixed an issue of `restTime`
+
 # 0.9.7.7
 - Fixed an issue of reading setting file.
 

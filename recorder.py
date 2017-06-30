@@ -161,12 +161,12 @@ def recordSound(vad_levels, rec_length_min=0, rec_length_max=None, sound_length_
         The noise threshold of sound amplitude,
         The low threshold of sound amplitude,
         The high threshold of sound amplitude)
-    rec_length_min: number(ms) (default: 0)
-        The millisecond count of minimal recording time
-    rec_length_max: number(ms), or None (default)
-        The millisecond count of maximal recording time
-    sound_length_max: number(ms), or None (default)
-        The millisecond count of maximal sound length
+    rec_length_min: number(s) (default: 0)
+        The second count of minimal recording time
+    rec_length_max: number(s), or None (default)
+        The second count of maximal recording time
+    sound_length_max: number(s), or None (default)
+        The second count of maximal sound length
     trim_side: str (default: 'both')
         The trimming way of recorded sound
         Options: 'both', 'left', 'right', 'none'
@@ -197,11 +197,11 @@ def recordSound(vad_levels, rec_length_min=0, rec_length_max=None, sound_length_
 
     sr = shared.setting['sample_rate']
     
-    rec_length_min = rec_length_min * (sr/1000)
+    rec_length_min = rec_length_min * sr
     if rec_length_max:
-        rec_length_max *=  (sr/1000)
+        rec_length_max *= sr
     if sound_length_max:
-        sound_length_max *= (sr/1000)
+        sound_length_max *= sr
 
     zcr0, zcr1, zcr2, amp0, amp1, amp2 = vad_levels
     

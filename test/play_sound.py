@@ -12,16 +12,16 @@ start(sample_rate=44100)  # Initiate the experiment environment
 sound = loadSound('data/demo.WAV')  # Load the wav file
 playSound(sound)  # Play the wav file
 ''''''
-show(1000)  # Pause (show a screen during 1000ms)
+show(0.5)  # Pause (Keep displaying in 0.5s)
 
 # Load many wav files and concat them
 sound = loadManySound('data', ['ba','da','ba','da'], 'wav')
 playSound(sound, blocking=False)
-show(1000)
+show(0.5)
 
 # sound = makeSound(data)
 # playSound(sound)
-# show(1000)
+# show(1)
 
 sound = makeBeep(440, 0.5)
 playSound(sound)

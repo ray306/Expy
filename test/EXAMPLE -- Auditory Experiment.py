@@ -17,11 +17,11 @@ def trial(stim):
     key, rt = waitForResponse({key_.F: 'ba', key_.J: 'da'}) # Waiting for pressing 'F' or 'J'
 
     if key == stim:
-        alertAndGo('Correct!', 1000)  # Display something in 1s
+        alertAndGo('Correct!', 1)  # Display something in 1s
     else:
-        alertAndGo('Wrong!', 1000)
+        alertAndGo('Wrong!', 1)
 
-    show(500)  # Pause (Keep displaying in 500ms)
+    show(0.5)  # Pause (Keep displaying in 0.5s)
 
 
 instruction(shared.setting['instruction2'])

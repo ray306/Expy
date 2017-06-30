@@ -75,7 +75,7 @@ def playVideo(video, pauseKey=key_.SPACE, x=0.0, y=0.0, anchor_x='center', ancho
             video.pause()
             key,rt = waitForResponse([pauseKey])
             video.play()
-            startT += rt/1000
+            startT += rt
 
         shared.win.dispatch_event('on_draw')
         shared.win.flip()

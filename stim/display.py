@@ -29,8 +29,8 @@ def show(out_time=False, clean_screen=True, backup=None):
 
     Parameters
     ----------
-    out_time: int(>0), False(default)
-        The time limit of current function. (unit: millisecond) 
+    out_time: num(>0), False(default)
+        The time limit of current function. (unit: second) 
     clean_screen: True(default), False
         Whether clear the screen after get the screen or not. 
     backup: None, or a screen backup

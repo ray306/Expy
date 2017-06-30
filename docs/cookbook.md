@@ -20,7 +20,7 @@ start()
 
 def trial(stim):
     draw(stim)
-    show(1000)
+    show(1)
 
 def block(trialList):
     for stim in trialList:
@@ -40,31 +40,31 @@ start()  # Initiate the experiment environment
 '''General usage'''
 # Draw text on the canvas
 drawText('Hello world!')
-show(2000)  # Display current canvas
+show(2)  # Display current canvas
 ''''''
 
 # Draw text on the canvas, with left center's position
 drawText('Hello! world!', anchor_x='left',anchor_y='center')
-show(2000)  # Display current canvas
+show(2)  # Display current canvas
 
 # Draw text on the canvas, with given fontsize
 drawText('Hello world!', size=50)
-show(2000)  # Display current canvas
+show(2)  # Display current canvas
 
 # Draw text on the canvas, with given font color
 drawText('Hello world!', color=C_red)
-show(2000)  # Display current canvas
+show(2)  # Display current canvas
 
 # # Draw text on the canvas, with given angle
 # drawText('Hello world!', rotation=45)
-# show(2000)  # Display current canvas
+# show(2)  # Display current canvas
 
 # Draw text on the canvas, with center's position
 drawText('Hello! world!', x=-0.5, y=0.0)
-show(2000)  # Display current canvas
+show(2)  # Display current canvas
 
 drawText('Hello\nworld\n!')  # Draw multi-line text on the canvas
-show(2000)  # Display current canvas
+show(2)  # Display current canvas
 
 # Display text on a new slide, it's functionally equals to clear+drawText+show,
 textSlide('Hello\nworld\nagain!')
@@ -78,24 +78,24 @@ start()  # Initiate the experiment environment
 '''General usage'''
 # Draw a picture on the canvas center
 drawPic('data/demo.jpg')
-show(3000)  # Display current canvas
+show(3)  # Display current canvas
 ''''''
 
 # Draw a zoomed picture on the canvas center
 drawPic('data/demo.jpg', w=400, h=300)
-show(3000)  # Display current canvas
+show(3)  # Display current canvas
 
 # # Draw a zoomed picture on the canvas center
 # drawPic('data/demo.jpg', w=300, h=400, rotate=90)
-# show(3000)  # Display current canvas
+# show(3)  # Display current canvas
 
 # Draw a zoomed picture on the canvas, and move it
 drawPic('data/demo.jpg', w=400, h=300, x=0.5, y=0.5)
-show(3000)  # Display current canvas
+show(3)  # Display current canvas
 
 # Draw a zoomed picture on the canvas, and move it
 drawPic('data/demo.jpg', w=400, h=300, x=0.5, y=0.5, anchor_x='left',anchor_y='center')
-show(3000)  # Display current canvas
+show(3)  # Display current canvas
 
 ```
 
@@ -106,19 +106,19 @@ start(background_color=C_green)  # Initiate the experiment environment
 
 # Draw a circle on the canvas
 drawCircle(60, fill=True)
-show(1500)  # Display current canvas
+show(1.5)  # Display current canvas
 
 # Draw a rect on the canvas
 drawRect(200, 100, color=C_red)
-show(1500)  # Display current canvas
+show(1.5)  # Display current canvas
 
 x, y = shared.win_width // 2, shared.win_height // 2  # calculate the screen center
 drawPoints([(x - 100, y - 100), (x+50, y), (x + 100, y - 100)], size=5)
-show(1500)
+show(1.5)
 
 # Draw lines on the canvas
 drawLines([(x - 100, y - 100), (x+50, y), (x + 100, y - 100)])
-show(1500)  # Display current canvas
+show(1.5)  # Display current canvas
 
 ```
 
@@ -142,16 +142,16 @@ start(sample_rate=44100)  # Initiate the experiment environment
 sound = loadSound('data/demo.WAV')  # Load the wav file
 playSound(sound)  # Play the wav file
 ''''''
-show(1000)  # Pause (show a screen during 1000ms)
+show(0.5)  # Pause (Keep displaying in 0.5s)
 
 # Load many wav files and concat them
 sound = loadManySound('data', ['ba','da','ba','da'], 'wav')
 playSound(sound, blocking=False)
-show(1000)
+show(0.5)
 
 # sound = makeSound(data)
 # playSound(sound)
-# show(1000)
+# show(1)
 
 sound = makeBeep(440, 0.5)
 playSound(sound)
@@ -171,13 +171,13 @@ noise_level = environmentNoise(0.5)  # Detect the noise level of environment
 
 'Without file'
 textSlide('Recording: ')
-sound = recordSound(noise_level, rec_length_min=2000, sound_length_max=4000)
+sound = recordSound(noise_level, rec_length_min=2, sound_length_max=4)
 textSlide('Playing: ')
 playSound(sound)
 
 'With file'
 textSlide('Recording to file: ')
-recordSound(noise_level, rec_length_min=2000, sound_length_max=4000, 
+recordSound(noise_level, rec_length_min=2, sound_length_max=4, 
                                     path='data/record.WAV')
 record = loadSound('data/record.WAV')
 textSlide('Playing from file: ')
@@ -193,26 +193,26 @@ start(mouse_visible=True)  # Initiate the experiment environment
 
 drawText('请按下键盘上的任意键')  # Draw text on the canvas and display it
 key,rt = waitForResponse()  # Waiting for pressing and get the pressed key
-alertAndGo('您刚刚按下了%d，用时: %dms' % (key, rt))  # Display the keypress
+alertAndGo('您刚刚按下了%d，用时: %fs' % (key, rt))  # Display the keypress
 
 'Key limited by "allowed_keys". Please look into "Key mapping" for some detail'
 drawText('除了键盘上的K或J，别的按键都不会起作用')  # Draw text on the canvas and display it
 key,rt = waitForResponse([key_.K, key_.J])  # Waiting for pressing 'K' or 'J', and get the pressed key's id.
-alertAndGo('您刚刚按下了%s，用时: %dms' % (key,rt))  # Display the keypress
+alertAndGo('您刚刚按下了%s，用时: %fs' % (key,rt))  # Display the keypress
 
 drawText('除了键盘上的K或J，别的按键都不会起作用')  # Draw text on the canvas and display it
 key,rt = waitForResponse({key_.K: 'K', key_.J: 'J'})  # Waiting for pressing 'K' or 'J', and get the pressed key's name.
-alertAndGo('您刚刚按下了%s，用时: %dms' % (key,rt))  # Display the keypress
+alertAndGo('您刚刚按下了%s，用时: %fs' % (key,rt))  # Display the keypress
 
 drawText('除了键盘上的K，别的按键都不会起作用')  # Draw text on the canvas and display it
 key,rt = waitForResponse(key_.K)  # Waiting for pressing 'K', and get the pressed key's id.
-alertAndGo('您刚刚按下了%d，用时: %dms' % (key,rt))  # Display the keypress
+alertAndGo('您刚刚按下了%d，用时: %fs' % (key,rt))  # Display the keypress
 
 'Time limited by "out_time"'
 drawText('请在1秒内按下键盘上的K或J')  # Draw text on the canvas and display it
-key,rt = waitForResponse({key_.K: 'K', key_.J: 'J'}, out_time=1000)  # Waiting for pressing 'K' or 'J' in 1000ms.
+key,rt = waitForResponse({key_.K: 'K', key_.J: 'J'}, out_time=1)  # Waiting for pressing 'K' or 'J' in 1s.
 if type(rt)==int:
-    alertAndGo('您刚刚按下了%s，用时: %dms' % (key,rt))  # Display the keypress
+    alertAndGo('您刚刚按下了%s，用时: %fs' % (key,rt))  # Display the keypress
 else:
     alertAndGo('超时')
 
@@ -223,12 +223,12 @@ alertAndGo('您刚刚按下了' + key) # Display the keypress
 
 drawText('请按下键盘上的K或J，并过一会再松开')  # Draw text on the canvas and display it
 key, (RT, pressed_time) = waitForResponse([key_.K, key_.J], action_while_pressing=(print,0))
-alertAndGo('您刚刚按下了%d，按键前用时: %dms，按键用时%dms' % (key, RT, pressed_time))  # Display the keypress
+alertAndGo('您刚刚按下了%d，按键前用时: %fs，按键用时%fs' % (key, RT, pressed_time))  # Display the keypress
 
 drawText('请用鼠标左键点击方块',y=-0.5)  # Draw text on the canvas and display it
 drawRect(w =0.1, h=0.1, color=C_white) # Draw a button
 (button, (x, y)), rt = waitForResponse(allowed_clicks=ClickRange((-0.1,0.1),(-0.1,0.1),mouse_.LEFT))  # Waiting for mouse click and get the click
-alertAndGo('您刚刚在（X=%d，Y=%d）处按下了%d，用时: %dms' % (x, y, button, rt))  # Display the event
+alertAndGo('您刚刚在（X=%d，Y=%d）处按下了%d，用时: %fs' % (x, y, button, rt))  # Display the event
 ```
 
 ## *Scaffold functions*
@@ -236,7 +236,7 @@ alertAndGo('您刚刚在（X=%d，Y=%d）处按下了%d，用时: %dms' % (x, y, button, rt)) 
 ```python
 start()  # Initiate the experiment environment
 
-Get user input until "ENTER" pressed, then give it to a variable
+# Get user input until "ENTER" pressed, then give it to a variable
 something = getInput('enter something:')
 
 # Show something until "RETURN" pressed
@@ -246,13 +246,13 @@ alert('You just entered "%s".\nPlease press RETURN to continue.' %something)
 instruction(['This is the first page of instruction>', 'second page>', 'last page\nPress SPACE to quit the instruction'])
 
 # Suspend the experiment and ask participant to rest, until "SPACE" pressed
-restTime()  
+restTime()
 
 # Show something during a limited period, and continue
-alertAndGo('Show something for 3000ms', 6000)
+alertAndGo('Show something for 3s', 3)
 
 # Show something during a limited period, and quit the program
-alertAndQuit('Show something for 3000ms, and quit')
+alertAndQuit('Show something for 3s, and quit')
 ```
 
 ## *Get external parameters*
@@ -343,8 +343,8 @@ s2 = getScreen(clean_screen=False)  # Get current canvas, and keep it
 drawText('........', display=False)  # Draw text on the canvas
 s3 = getScreen()  # Get current canvas, then clean the canvas
 
-show(3000, backup=s1)  # Display backup canvas
-show(3000, backup=s2)  # Display backup canvas
-show(3000, backup=s3)  # Display backup canvas
+show(3, backup=s1)  # Display backup canvas
+show(3, backup=s2)  # Display backup canvas
+show(3, backup=s3)  # Display backup canvas
 
 ```

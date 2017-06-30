@@ -21,7 +21,7 @@ start(sample_rate=44100)  # Initiate the experiment environment
 
 # while 1:
 #     waitForResponse({key_.LEFT: 0, key_.RIGHT: 1}, action_while_pressing=(func,None))
-#     key,rt = waitForResponse({key_.LEFT: 0, key_.RIGHT: 1}, out_time=10) 
+#     key,rt = waitForResponse({key_.LEFT: 0, key_.RIGHT: 1}, out_time=0.01) 
 #     # if key == 0:
 #     #     original += 10
 #     # elif key == 1:

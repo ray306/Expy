@@ -474,8 +474,8 @@ Display current canvas buffer, and keep the display during a limited period.
 
 Parameters
 ----------
-out_time: int(>0), False(default)
-    The time limit of current function. (unit: millisecond) 
+out_time: num(>0), False(default)
+    The time limit of current function. (unit: second) 
 clean_screen: True(default), False
     Whether clear the screen after get the screen or not. 
 backup: None, or a screen backup
@@ -539,7 +539,7 @@ allowed_keys: None(default), Keyname, list, or dict
             a list of Keyname (eg. [key_.F,key_.J]), 
             or a dict of Keyname (eg. [key_.F:'F',key_.J:'J']) here.
     You could look into the Keyname you want in http://expy.readthedocs.io/en/latest/keymap/
-out_time: int(>0), 0(default)
+out_time: num(>0), 0(default)
     The time limit of current function. While the past time exceeds the limitation, the function terminates.
 has_RT: True(default), False
     Return a past time or not
@@ -566,9 +566,9 @@ KEY: None, int, or defined value
     4. Return None if the time is out and no allowed keypress
 (Only if has_RT is True)
     (Only if action_while_pressing is None) RT: int
-        The millisecond count since the function starts.
+        The second count since the function starts.
     (Only if action_while_pressing is tuple) RT: (int, int)
-        The millisecond count until pressed, and the millisecond count while pressing.
+        The second count until pressed, and the second count while pressing.
 ```
 
 ### *Sound Recorder*
@@ -625,12 +625,12 @@ vad_levels: tuple
     The noise threshold of sound amplitude,
     The low threshold of sound amplitude,
     The high threshold of sound amplitude)
-rec_length_min: number(ms) (default: 0)
-    The millisecond count of minimal recording time
-rec_length_max: number(ms), or None (default)
-    The millisecond count of maximal recording time
-sound_length_max: number(ms), or None (default)
-    The millisecond count of maximal sound length
+rec_length_min: number(s) (default: 0)
+    The second count of minimal recording time
+rec_length_max: number(s), or None (default)
+    The second count of maximal recording time
+sound_length_max: number(s), or None (default)
+    The second count of maximal sound length
 trim_side: str (default: 'both')
     The trimming way of recorded sound
     Options: 'both', 'left', 'right', 'none'
@@ -723,11 +723,12 @@ files: list
 
 ### *Save*
 
-- **saveResult(resp, block_tag='', columns=['respKey', 'RT'], stim=None, stim_columns=None)**
+- **saveResult(resp, block_tag='', columns=['respKey', 'RT'], stim=None, stim_columns=None, saveas='csv')**
 
 
 ```
-Save experiment result to a file named {subjectID}_{block_tag}_result.csv.
+Save experiment result to a file named {subjectID}_result.csv.
+The file would be updated after each block.
 The subjectID equals to "shared.subject", and you could set it by `shared.subject = getInput('please enter the ID:')`.
 If stim is not None, the stimuli data would attach to the response result.
 
@@ -743,6 +744,8 @@ stim: pandas.DataFrame, or list
     The data of stimuli
 stim_columns: None, or list
     The names of stimuli data columns
+saveas: 'csv' (default), or 'excel'
+    The file format of saved file. 
 
 Return
 ---------
@@ -838,7 +841,7 @@ Parameters
 ----------
 pre_text: str
     The text that will be displayed before user's input.
-out_time: int(>0) or 0(default)
+out_time: num(>0) or 0(default)
     The time limitation of this function.
 font: str (default:'shared.default_font')
     The fontname of the text.
@@ -900,7 +903,7 @@ text: str
     The text on the screen.
 allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
     The allowed user's response.
-out_time: int(>0) or 0(default)
+out_time: num(>0) or 0(default)
     The display time limitation of this function.
 font: str (default:'shared.default_font')
     The fontname of the text.
@@ -931,7 +934,7 @@ resp: Keyname/int
 ```
 
 
-- **alertAndGo(text, out_time=3000, allowed_keys=[key_.RETURN], font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
+- **alertAndGo(text, out_time=3, allowed_keys=[key_.RETURN], font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
 
 
 ```
@@ -944,7 +947,7 @@ text: str
     The text on the screen.
 allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
     The allowed user's response.
-out_time: out_time: int(>0) (default: 3000)
+out_time: out_time: num(>0) (default: 3)
     The display time limitation of this function.
 font: str (default:'shared.default_font')
     The fontname of the text.
@@ -974,7 +977,7 @@ None
 ```
 
 
-- **alertAndQuit(text, out_time=3000, allowed_keys=[key_.RETURN], font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
+- **alertAndQuit(text, out_time=3, allowed_keys=[key_.RETURN], font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None)**
 
 
 ```
@@ -988,7 +991,7 @@ text: str
     The text on the screen.
 allowed_keys: Keyname, or list of Keyname (default:[key_.RETURN])
     The allowed user's response.
-out_time: out_time: int(>0) (default: 3000)
+out_time: out_time: num(>0) (default: 3)
     The display time limitation of this function.
 font: str (default:'shared.default_font')
     The fontname of the text.

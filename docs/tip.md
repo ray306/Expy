@@ -1,12 +1,12 @@
 #### How to suspend the experiment
 We often meet the need of keeping showing the text, the shape, etc., but the experiment program will jump the next command once the last command executed, which means there's no interval between `drawText("Please look at the stimuli")` and `drawText("Please press the keyboard")`. 
-So, how could we insert an 1000ms' interval between two `drawText` operations?
+So, how could we insert an 1s' interval between two `drawText` operations?
 
-We should insert the command `show(1000)` between two commands.
+We will insert the command `show(1)` between two commands.
 The method `show` will keep running and blocking the experiment procedure for a given duration which depends on the parameter "out_time".
 
 ##### About the unit of time measurement
-All the numbers should given based on millisecond. 
+All the numbers should given based on second. 
 
 ##### About "shared.start_tp"
 Normally, the commands with the parameter "out_time" will keep running for the duration of "out_time". Thus the onset of "out_time" is the onset of those commands. 

@@ -71,7 +71,7 @@ start() # Initiate the experiment environment
 
 for w in 'ABCDE12345':
     drawText(w) # Draw something on the canvas
-    show(200) # Keep displaying in 200ms
+    show(0.2)   # Display current canvas on the screen, and keep for 0.2s
 ```
 
 ---
@@ -93,7 +93,7 @@ start()
 
 def trial(stim):
     draw(stim)
-    show(1000)
+    show(1)
 
 def block(trialList):
     for stim in trialList:
@@ -115,11 +115,11 @@ def trial(word, pos):
 
     key, rt = waitForResponse({key_.F: 'Left', key_.J: 'Right'}) # Waiting for pressing 'F' or 'J'
     if key == word:
-        alertAndGo('Correct!', 1000)  # Display something in 1s
+        alertAndGo('Correct!', 1)  # Display something in 1s
     else:
-        alertAndGo('Wrong!', 1000)
+        alertAndGo('Wrong!', 1)
 
-    show(500)  # Pause (Keep displaying in 500ms)
+    show(0.5)  # Pause (Keep displaying in 0.5s)
 
 alert('In this example, you need to respond to the words "left" with the F key , and respond to the words "right" with the J key') # Display something until pressing 'SPACE' or 'ENTER'
 alertAndGo('The experiment will start after 3s.') # Display something in 3s(default)
@@ -147,11 +147,11 @@ def trial(stim):
     key, rt = waitForResponse({key_.F: 'ba', key_.J: 'da'}) # Waiting for pressing 'F' or 'J'
 
     if key == stim:
-        alertAndGo('Correct!', 1000)  # Display something in 1s
+        alertAndGo('Correct!', 1)  # Display something in 1s
     else:
-        alertAndGo('Wrong!', 1000)
+        alertAndGo('Wrong!', 1)
 
-    show(500)  # Pause (Keep displaying in 500ms)
+    show(0.5)  # Pause (Keep displaying in 0.5s)
 
 alert('In this example, you need to press key to select the word you heard.') # Display something until pressing 'SPACE' or 'ENTER'
 alertAndGo('The experiment will start after 3s.')  # Display something in 3s(default)

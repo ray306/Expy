@@ -6,7 +6,6 @@ from expy import shared
 np = shared.np
 os = shared.os
 
-
 def readSetting(filepath='setting.txt'):
     '''
     Read the setting file and put the items into a dict.
@@ -43,9 +42,9 @@ def readSetting(filepath='setting.txt'):
                     k, v = dur.replace(' ', '').split(':')
                     if '-' in v:
                         limit = v.split('-')
-                        setting['timing'][k] = [int(limit[0]), int(limit[1])]
+                        setting['timing'][k] = [float(limit[0]), float(limit[1])]
                     else:
-                        setting['timing'][k] = int(v)
+                        setting['timing'][k] = float(v)
         except:
             raise ValueError('Please check your setting.txt!')
 
@@ -109,9 +108,10 @@ def readDir(dirpath, shuffle=True):
     return files
 
 
-def saveResult(resp, block_tag='', columns=['respKey', 'RT'], stim=None, stim_columns=None):
+def saveResult(resp, block_tag='', columns=['respKey', 'RT'], stim=None, stim_columns=None, saveas='csv'):
     '''
-    Save experiment result to a file named {subjectID}_{block_tag}_result.csv.
+    Save experiment result to a file named {subjectID}_result.csv.
+    The file would be updated after each block.
     The subjectID equals to "shared.subject", and you could set it by `shared.subject = getInput('please enter the ID:')`.
     If stim is not None, the stimuli data would attach to the response result.
 
@@ -127,6 +127,8 @@ def saveResult(resp, block_tag='', columns=['respKey', 'RT'], stim=None, stim_co
         The data of stimuli
     stim_columns: None, or list
         The names of stimuli data columns
+    saveas: 'csv' (default), or 'excel'
+        The file format of saved file. 
 
     Return
     ---------
@@ -134,6 +136,7 @@ def saveResult(resp, block_tag='', columns=['respKey', 'RT'], stim=None, stim_co
     '''
     if not os.path.exists('result'):
         os.mkdir('result')
+
     # if len(resp[0]) != columns:
     #     columns = [str(i) for i in range(len(resp[0]))]
     #     print('Columns count not matches the result!')
@@ -142,9 +145,27 @@ def saveResult(resp, block_tag='', columns=['respKey', 'RT'], stim=None, stim_co
     if not stim is None:
         if type(stim) is list:
             stim = pd.DataFrame(stim, columns=stim_columns)
-        result = stim.join(result)           
+        result = stim.join(result)
+    
+    if saveas=='excel':
+        result_file = 'result/%s_result.xlsx' %(shared.subject)
+        if os.path.exists(result_file):
+            old_data = pd.read_excel(result_file)
+            pd.concat([old_data, result]).to_excel(result_file, index=None)
+        else:
+            result.to_excel(result_file, index=None)
+    else:
+        result_file = 'result/%s_result.csv' %(shared.subject)
+        if os.path.exists(result_file):
+            old_data = pd.read_csv(result_file,encoding='gbk')
+            pd.concat([old_data, result]).to_csv(result_file, index=None)
+        else:
+            result.to_csv(result_file, index=None)
 
-    result.to_csv('result/%s_%s_result.csv' %(shared.subject, str(block_tag)), index=None)
+    # if saveas=='csv':
+    #     result.to_csv('result/%s_%s_result.csv' %(shared.subject, str(block_tag)), index=None)
+    # if saveas=='excel':
+    #     result.to_excel('result/%s_%s_result.xlsx' %(shared.subject, str(block_tag)), index=None)
 
 def log(event):
     '''
