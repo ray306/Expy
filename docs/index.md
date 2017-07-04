@@ -5,7 +5,7 @@
 [pypi-v-image]: https://img.shields.io/pypi/v/expy.png
 [pypi-v-link]: https://pypi.python.org/pypi/expy
 
-Expy is an easy-yet-powerful experiment framework builder for psychology. It's aimed at setting up an experiment without struggling with the manual production of stimuli, data loading and storing, or the other time-consuming works, by using various module functions.
+Expy is an easy-yet-powerful toolbox for psychology / neuroscience experiments. It's aimed at setting up an experiment without struggling with the manual production of stimuli, data loading and storing, or the other time-consuming works, by using various module functions.
 Expy is designed for psycholinguistic experiments, but it's also suitable for any other experiments.
 
 **Highlights**:
@@ -40,11 +40,11 @@ sudo pip install expy
 
 The command of getting update:
 ```
-pip install --upgrade expy
+pip install --upgrade expy --no-deps
 ```
 or:
 ```
-sudo pip install --upgrade expy
+sudo pip install --upgrade expy --no-deps
 ```
 
 If you are using Mac, please run the following commands in your terminal:
