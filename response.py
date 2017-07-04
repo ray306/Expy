@@ -103,11 +103,16 @@ def suspend():
     '''
     onset = shared.time.time()
     screenshot = shared.pyglet.image.get_buffer_manager().get_color_buffer().get_image_data()
+    
+    allowed_events = shared.allowed_keys, shared.allowed_keys_mapping, shared.allowed_mouse_clicks, shared.allowed_mouse_clicks_mapping
+
     shared.win.clear()
 
     drawText('[程序暂停中/Pause]')
 
     waitForResponse(key_.F12, suspending=True)
+
+    shared.allowed_keys, shared.allowed_keys_mapping, shared.allowed_mouse_clicks, shared.allowed_mouse_clicks_mapping = allowed_events
 
     screenshot.blit(0,0,0)
     shared.win.flip()
@@ -207,34 +212,34 @@ def waitForResponse(allowed_keys=[], out_time=0, has_RT=True, allowed_clicks=[],
         return ev
 
 
-def pressAndChange(allowed_keys=[], out_time=0):
-    '''
-    todo
-    '''
+# def pressAndChange(allowed_keys=[], out_time=0):
+#     '''
+#     todo
+#     '''
 
-    now = shared.time.time()
-    shared.start_tp = now
+#     now = shared.time.time()
+#     shared.start_tp = now
         
-    shared.events = []
-    shared.allowed_keys, shared.allowed_keys_mapping = setKeyMapping(allowed_keys)  # Mapping allowable key(s)
+#     shared.events = []
+#     shared.allowed_keys, shared.allowed_keys_mapping = setKeyMapping(allowed_keys)  # Mapping allowable key(s)
 
-    while True:
-        shared.win.dispatch_events()
-        past_time = shared.time.time() - shared.start_tp
+#     while True:
+#         shared.win.dispatch_events()
+#         past_time = shared.time.time() - shared.start_tp
 
-        if out_time > 0 and past_time >= out_time:
-            shared.events = []
-            shared.start_tp = None
-            return
+#         if out_time > 0 and past_time >= out_time:
+#             shared.events = []
+#             shared.start_tp = None
+#             return
 
-        for e in shared.events:
-            if e['type']=='key_press':
-                shared.pressing = e['key']
+#         for e in shared.events:
+#             if e['type']=='key_press':
+#                 shared.pressing = e['key']
 
-        if shared.figure_released:
-            shared.pressing = None
+#         if shared.figure_released:
+#             shared.pressing = None
 
-        shared.time.sleep(0.001)
+#         shared.time.sleep(0.001)
 
-    # td = shared.threading.Thread(target=wait, args=(out_time,))
-    # td.start()
+#     # td = shared.threading.Thread(target=wait, args=(out_time,))
+#     # td.start()

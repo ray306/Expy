@@ -19,7 +19,6 @@ def trial(word, pos):
 
     show(0.5)  # Pause (Keep displaying in 0.5s)
 
-
 instruction(shared.setting['instruction1'])
 alertAndGo('The experiment will start after 3s.') # Display something in 3s(default)
 

@@ -5,7 +5,7 @@
 - Add position parameters for `textSlide` and `textSlide` based methods.
 
 # 0.9.8.1
-- Fixed an issue of `suspend`
+- Fixed a cruical issue of suspend function
 - Fixed an issue of serial port
 
 # 0.9.8
