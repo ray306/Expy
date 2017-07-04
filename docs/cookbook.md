@@ -191,6 +191,13 @@ playSound(record)
 ```python
 start(mouse_visible=True)  # Initiate the experiment environment
 
+# drawText('请按下键盘上的任意键')  # Draw text on the canvas and display it
+# pressAndChange(allowed_keys={key_.K: 'K', key_.J: 'J'}, out_time=5)
+# while 1:
+#     # t = shared.pressing
+#     # print(t)
+#     show(0.01)
+
 drawText('请按下键盘上的任意键')  # Draw text on the canvas and display it
 key,rt = waitForResponse()  # Waiting for pressing and get the pressed key
 alertAndGo('您刚刚按下了%d，用时: %fs' % (key, rt))  # Display the keypress

@@ -1,4 +1,4 @@
-﻿# coding:utf-8
+# coding:utf-8
 import io
 
 from . import shared
@@ -167,6 +167,7 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
     def on_key_press(k, modifiers):
         'decision'
         if k == key_.ESCAPE:
+            shared.ser.close()
             shared.pa.terminate()
             shared.win.close()
             shared.pyglet.app.exit()
@@ -205,6 +206,7 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
 
     @shared.win.event
     def on_close():
+        shared.ser.close()
         shared.pa.terminate()
         shared.win.close()
         shared.pyglet.app.exit()

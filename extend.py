@@ -1,4 +1,5 @@
-﻿from expy import *
+# coding:utf-8
+from expy import *
 np = shared.np
 
 '"Extend.py" is a play for any kind of plugin function'

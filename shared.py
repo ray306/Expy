@@ -1,4 +1,4 @@
-﻿# coding:utf-8
+# coding:utf-8
 import os
 import ctypes
 import serial
@@ -42,6 +42,7 @@ allowed_mouse_clicks_mapping = dict()
 
 suspending = False
 
+pressing = None
 figure_released = True
 
 start_tp = 0

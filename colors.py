@@ -1,4 +1,5 @@
-﻿# referrence: http://htmlcolorcodes.com/
+# coding:utf-8
+# referrence: http://htmlcolorcodes.com/
 
 C_black = (0, 0, 0, 255)
 C_white = (255, 255, 255, 255)

@@ -1,4 +1,4 @@
-﻿import struct
+import struct
 import io
 from array import array
 from expy import shared

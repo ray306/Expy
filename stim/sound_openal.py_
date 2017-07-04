@@ -1,4 +1,4 @@
-﻿''' https://groups.google.com/forum/#!topic/pyglet-users/hKj-x_LCLx8 '''
+''' https://groups.google.com/forum/#!topic/pyglet-users/hKj-x_LCLx8 '''
 
 import struct
 import ctypes

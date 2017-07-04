@@ -1,4 +1,4 @@
-﻿# Overview
+# Overview
 
 [![PyPI Version][pypi-v-image]][pypi-v-link]
 

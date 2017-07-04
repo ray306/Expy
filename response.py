@@ -1,5 +1,4 @@
-﻿# coding:utf-8
-# from pygame.locals import *
+# coding:utf-8
 import pyglet.window.key as key_
 
 from expy import shared
@@ -118,17 +117,19 @@ def suspend():
 def wait(out_time):
     while True:
         shared.win.dispatch_events()
-        
         past_time = shared.time.time() - shared.start_tp
 
         if out_time > 0 and past_time >= out_time:
             return 'None', 'None'
         for e in shared.events:
             if e['type']=='key_press':
+                if (not shared.suspending) and e['key'] == key_.F12:
+                    shared.events = []
+                    break
                 return e['key'], e['time']- shared.start_tp
             elif e['type']=='mouse_press':
                 return (e['button'], e['pos']), e['time']- shared.start_tp
-        shared.time.sleep(0.1)
+        shared.time.sleep(0.001)
 
 def whilePressing(job, *param):
     while not shared.figure_released:
@@ -192,7 +193,6 @@ def waitForResponse(allowed_keys=[], out_time=0, has_RT=True, allowed_clicks=[],
     shared.allowed_mouse_clicks, shared.allowed_mouse_clicks_mapping = setClickMapping(allowed_clicks)
 
     ev, RT = wait(out_time)
-    
 
     if type(action_while_pressing) is tuple:
         job, *param = action_while_pressing
@@ -205,3 +205,36 @@ def waitForResponse(allowed_keys=[], out_time=0, has_RT=True, allowed_clicks=[],
         return ev, RT
     else:
         return ev
+
+
+def pressAndChange(allowed_keys=[], out_time=0):
+    '''
+    todo
+    '''
+
+    now = shared.time.time()
+    shared.start_tp = now
+        
+    shared.events = []
+    shared.allowed_keys, shared.allowed_keys_mapping = setKeyMapping(allowed_keys)  # Mapping allowable key(s)
+
+    while True:
+        shared.win.dispatch_events()
+        past_time = shared.time.time() - shared.start_tp
+
+        if out_time > 0 and past_time >= out_time:
+            shared.events = []
+            shared.start_tp = None
+            return
+
+        for e in shared.events:
+            if e['type']=='key_press':
+                shared.pressing = e['key']
+
+        if shared.figure_released:
+            shared.pressing = None
+
+        shared.time.sleep(0.001)
+
+    # td = shared.threading.Thread(target=wait, args=(out_time,))
+    # td.start()

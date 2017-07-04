@@ -1,4 +1,4 @@
-﻿# coding:utf-8
+# coding:utf-8
 from expy import shared
 
 # http://stackoverflow.com/questions/892199/detect-record-audio-in-python
@@ -67,13 +67,13 @@ def trim(snd_data, onset_frame, end_frame, side='both'):
     return snd_data
 
 def measure(curFrame):
-    #过零率
+    #杩囬浂鐜?
     tmp1 = curFrame[:-1]
     tmp2 = curFrame[1:]
     sings = (tmp1*tmp2<=0)
     diffs = (tmp1-tmp2)>0.02
     zcr = np.sum(sings*diffs)
-    #短时能量
+    #鐭椂鑳介噺
     amp = np.sum(np.abs(curFrame))
     return zcr, amp
 
@@ -205,11 +205,11 @@ def recordSound(vad_levels, rec_length_min=0, rec_length_max=None, sound_length_
 
     zcr0, zcr1, zcr2, amp0, amp1, amp2 = vad_levels
     
-    maxsilence = 1.5 * sr // chunk #允许最大静音长度
-    minlen = 0.2 * sr // chunk  #语音的最短长度, 语音长度太短认为是噪声
+    maxsilence = 1.5 * sr // chunk #鍏佽鏈€澶ч潤闊抽暱搴?
+    minlen = 0.2 * sr // chunk  #璇煶鐨勬渶鐭暱搴? 璇煶闀垮害澶煭璁や负鏄櫔澹?
 
     def recordSoundSub():
-        #初始状态为静音
+        #鍒濆鐘舵€佷负闈欓煶
         count = 0
         silence = 0
         sound_status = 0
@@ -252,9 +252,9 @@ def recordSound(vad_levels, rec_length_min=0, rec_length_max=None, sound_length_
             zcr, amp = measure(data)
 
             status = 0
-            # 0= 静音， 1= 可能开始
+            # 0= 闈欓煶锛?1= 鍙兘寮€濮?
             if speech_status in [0, 1]: 
-                # 确定进入语音段
+                # 纭畾杩涘叆璇煶娈?
                 if amp > amp2 or zcr > zcr2:     
                     sound_status = 2
                     speech_status = 2
@@ -267,33 +267,33 @@ def recordSound(vad_levels, rec_length_min=0, rec_length_max=None, sound_length_
                             onset_frame = (idx-1)*chunk
                             break
 
-                #可能处于语音段 
+                #鍙兘澶勪簬璇煶娈?
                 elif (amp > amp0 and zcr > zcr0) or (amp > amp1 or zcr > zcr1): 
                     sound_status = 1
                     count += 1
-                #静音状态
+                #闈欓煶鐘舵€?
                 else:  
                     sound_status = 0
                     count = 0
-            # 2 = 语音段
+            # 2 = 璇煶娈?
             elif speech_status == 2:              
-                # 保持在语音段
+                # 淇濇寔鍦ㄨ闊虫
                 if (amp > amp0 and zcr > zcr0) or (amp > amp1 or zcr > zcr1):
                     count += 1
                     sound_status = 2
-                #语音将结束
+                #璇煶灏嗙粨鏉?
                 else:
-                    #静音还不够长，尚未结束
+                    #闈欓煶杩樹笉澶熼暱锛屽皻鏈粨鏉?
                     silence += 1
                     if silence < maxsilence:
                         count += 1
                         sound_status = 2
-                    #语音长度太短认为是噪声
+                    #璇煶闀垮害澶煭璁や负鏄櫔澹?
                     elif count < minlen:
                         sound_status = 0
                         silence = 0
                         count = 0
-                    #语音结束
+                    #璇煶缁撴潫
                     else:
                         end_frame = (len(status_record) - silence)*chunk
                         sound_status = 3

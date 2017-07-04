@@ -1,7 +1,7 @@
-﻿site_name: Expy
+site_name: Expy
 site_url: https://github.com/ray306/expy
-site_description: Psycho Experiment scaffold
-site_author: Jinbiao(Ray) Yang
+site_description: Psychological experiment scaffold
+site_author: Jinbiao Yang
 
 repo_url: https://github.com/ray306/expy
 
@@ -17,4 +17,4 @@ pages:
     - Changelog: changelog.md
 
 
-copyright: Copyright (c) 2016 Jinbiao(Ray) Yang
+copyright: Copyright (c) 2016 Jinbiao Yang

@@ -1,4 +1,4 @@
-﻿# coding:utf-8
+# coding:utf-8
 
 import pyglet.window.key as key_
 from expy import shared

@@ -1,4 +1,4 @@
-﻿from expy import shared
+from expy import shared
 from expy.response import *
 from .draw import getPos
 

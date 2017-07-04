@@ -1,4 +1,5 @@
-﻿import pandas as pd
+# coding:utf-8
+import pandas as pd
 import re
 
 from expy import shared
