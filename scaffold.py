@@ -126,6 +126,18 @@ def getInput(pre_text, out_time=0, font=shared.default_font, size='normal_font_s
     clear()
     return input_text
 
+def getSubjectID(pre_text):
+    '''
+    Get subject's ID.
+
+    Parameters
+    ----------
+    pre_text: str
+        The text that will be displayed before user's input.
+    '''
+    shared.subject = getInput(pre_text)
+
+
 def instruction(instruction_text, has_practice=False):
     '''
     Show the instruction of experiment
@@ -300,7 +312,9 @@ def alertAndQuit(text, out_time=3, allowed_keys=[key_.RETURN], font=shared.defau
     
 
 rest_text = '实验暂停，您可以休息一会\n\
-Now you could have a rest.\n '
+Now you can have a rest.\n\
+如果休息结束请按 [空格] 继续实验。\n\
+Please press [SPACE] key when you want to continue.\n'
 def restTime(text=rest_text):
     '''
     Suspend the experiment and ask participant to rest:
@@ -321,5 +335,5 @@ def restTime(text=rest_text):
     shared.time.sleep(3)
     shared.win.dispatch_events()
     shared.events = []
-    text2 = text + '如果休息结束请按 [空格] 继续实验。\nplease press [SPACE] key when you decide to continue.\n'
+    text2 = text + '>>>'
     alert(text2, 0, key_.SPACE)

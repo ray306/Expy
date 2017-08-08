@@ -3,7 +3,7 @@ from expy.colors import *
 from .draw import *
 from expy.response import *
 
-def clear():
+def clear(debugging=True):
     '''
     Clear the screen
 
@@ -19,11 +19,11 @@ def clear():
     # shared.pg.display.flip()
     shared.win.clear()
     shared.win.flip()
-    shared.win.clear()
-    shared.win.flip()
+    if debugging:
+        shared.win.clear()
+        shared.win.flip() 
 
-
-def show(out_time=False, clean_screen=True, backup=None):
+def show(out_time=False, clean_screen=True, backup=None, debugging=True):
     '''
     Display current canvas buffer, and keep the display during a limited period.
 
@@ -52,7 +52,7 @@ def show(out_time=False, clean_screen=True, backup=None):
     if out_time:
         waitForResponse(shared.key_.ENTER, out_time)
         if clean_screen:
-            clear()
+            clear(debugging)
 
 def getScreen(clean_screen=True):
     '''

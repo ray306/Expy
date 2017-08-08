@@ -1,7 +1,6 @@
 # coding:utf-8
 ##### package test #####
 import sys
-# sys.path.append('../../')
 sys.path = ['../../']+sys.path
 ################
 
@@ -19,8 +18,6 @@ def trial(word, pos):
 
     show(0.5)  # Pause (Keep displaying in 0.5s)
 
-instruction(shared.setting['instruction1'])
-alertAndGo('The experiment will start after 3s.') # Display something in 3s(default)
 
 stimuli = [('Left', -0.5), ('Right', 0.5), ('Right', -0.5),
            ('Left', 0.5), ('Left', -0.5), ('Right', -0.5)]

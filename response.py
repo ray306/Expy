@@ -235,11 +235,7 @@ def waitForResponse(allowed_keys=[], out_time=0, has_RT=True, allowed_clicks=[],
 #         for e in shared.events:
 #             if e['type']=='key_press':
 #                 shared.pressing = e['key']
-
 #         if shared.figure_released:
 #             shared.pressing = None
 
 #         shared.time.sleep(0.001)
-
-#     # td = shared.threading.Thread(target=wait, args=(out_time,))
-#     # td.start()

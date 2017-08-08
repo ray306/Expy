@@ -1,6 +1,6 @@
 ## Initialization
 
-- **start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=C_white, background_color=C_gray, sample_rate=44100, port='COM1')**
+- **start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=C_white, background_color=C_gray, sample_rate=44100, port='', vsync=True)**
 
 
 ```
@@ -33,9 +33,11 @@ background_color: tuple RGBA (default:C_gray)
     The color of background
 sample_rate: int (default:44100) 
     Sample rate of sound mixer
-port: str, or hex number (default:'COM1') 
+port: str, or hex number (default:'') 
     Port name used to send trigger.
     Use str on serial port, and hex on parallel port 
+vsync: True(default), or False
+    Vertical retrace synchronisation
 
 Returns
 -------
@@ -81,7 +83,7 @@ Returns
 
 ### *Text*
 
-- **drawText(text, font=shared.default_font, size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', display=True)**
+- **drawText(text, font=shared.default_font, size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', display=True, trigger=None)**
 
 
 ```
@@ -113,6 +115,8 @@ anchor_y: str (default: 'center')
 display: True(default), False
     If True, the function will put the canvas onto the screen immediately (with a potential delay);
     otherwise, the canvas will be put until `show` function.
+(beta testing) trigger: (content, mode)
+(beta testing) trigger: (content, mode)
 
 Returns
 -------
@@ -121,7 +125,7 @@ None
 
 ### *Shape*
 
-- **drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True)**
+- **drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True, trigger=None)**
 
 
 ```
@@ -159,6 +163,7 @@ anchor_y: str (default:'center')
     Options: 'center', 'top', or 'bottom'.
 display: True(default), False
     If True, the function will put the canvas onto the screen. 
+(beta testing) trigger: (content, mode)
 
 Returns
 -------
@@ -166,7 +171,7 @@ None
 ```
 
 
-- **drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True)**
+- **drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True, trigger=None)**
 
 
 ```
@@ -199,6 +204,7 @@ anchor_y: str (default:'center')
     Options: 'center', 'top', or 'bottom'.
 display: True(default), False
     If True, the function will put the canvas onto the screen. 
+(beta testing) trigger: (content, mode)
 
 Returns
 -------
@@ -206,7 +212,7 @@ None
 ```
 
 
-- **drawPoints(points, color=C_white, size=1, display=True)**
+- **drawPoints(points, color=C_white, size=1, display=True, trigger=None)**
 
 
 ```
@@ -227,6 +233,7 @@ size: int (default: 1)
     The size of each point
 display: True(default), False
     If True, the function will put the canvas onto the screen. 
+(beta testing) trigger: (content, mode)
 
 Returns
 -------
@@ -234,7 +241,7 @@ None
 ```
 
 
-- **drawLines(points, color=C_white, width=1, close=False, display=True)**
+- **drawLines(points, color=C_white, width=1, close=False, display=True, trigger=None)**
 
 
 ```
@@ -258,6 +265,7 @@ close: True, False(default)
     If True, the polygon could be drawn.
 display: True(default), False
     If True, the function will put the canvas onto the screen.
+(beta testing) trigger: (content, mode)
 
 Returns
 -------
@@ -266,7 +274,7 @@ None
 
 ### *Picture*
 
-- **drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y='center', display=True)**
+- **drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y='center', display=True, trigger=None)**
 
 
 ```
@@ -302,6 +310,7 @@ anchor_y: str (default:'center')
     Options: 'center', 'top', or 'bottom'.
 display: True(default), False
     If True, the function will put the canvas onto the screen. 
+(beta testing) trigger: (content, mode)
 
 Returns
 -------
@@ -310,7 +319,7 @@ None
 
 ### *Sound*
 
-- **loadSound(path, offset=0, duration=None)**
+- **loadSound(path, offset=0, duration=None, stereo_array_format=True)**
 
 
 ```
@@ -324,15 +333,17 @@ offset: number (default:0)
     The onset of target sound
 duration: number, or None(default)
     The duration of target sound
+stereo_array_format: True(default), or False
+    Whether return a stereo array
 
 Returns
 -------
-value: array
+output: array
     The sound data
 ```
 
 
-- **loadManySound(dirpath, filenames, ext='wav', offset=0.0, duration=None)**
+- **loadManySound(dirpath, filenames, ext='wav', offset=0.0, duration=None, stereo_array_format=True)**
 
 
 ```
@@ -350,15 +361,17 @@ offset: number (default:0)
     The onset of target sounds
 duration: number, or None(default)
     The duration of target sounds
+stereo_array_format: True(default), or False
+    Whether return a stereo array
 
 Returns
 -------
-value: array
+output: array
     The sound data
 ```
 
 
-- **makeBeep(frequency, duration)**
+- **makeBeep(frequency, duration, stereo_array_format=True)**
 
 
 ```
@@ -370,10 +383,32 @@ frequency: number
     The frequency of sound
 duration: number
     The duration of sound
+stereo_array_format: True(default), or False
+    Whether return a stereo array
 
 Returns
 -------
-value: array
+output: array
+    The sound data
+```
+
+
+- **makeNoise(duration, stereo_array_format=True)**
+
+
+```
+Making a white noise (stereo format).
+
+Parameters
+----------
+duration: number
+    The duration of sound
+stereo_array_format: True(default), or False
+    Whether return a stereo array
+
+Returns
+-------
+output: array
     The sound data
 ```
 
@@ -391,16 +426,56 @@ data: np.array
 
 Returns
 -------
-value: array
+output: array
     The sound data
 ```
 
 
-- **playSound(sound, playing_track=None, blocking=True)**
+- **playSound(sound, busy=True, playing_track=None, trigger=None)**
 
 
 ```
-Play a sound array
+Play a sound array, and the experiment procedure will be blocked by this function
+
+Parameters
+----------
+sound: array
+    The sound data
+busy: True(default), or False
+    Whether the experiment procedure will be blocked by the this function
+playing_track: int, str, or None(default)
+    The name of current track
+(beta testing) trigger: (content, mode)
+
+Returns
+-------
+None
+```
+
+
+- **playBusySound(sound, trigger=None)**
+
+
+```
+Play a sound array, and the experiment procedure will be blocked by this function
+
+Parameters
+----------
+sound: array
+    The sound data
+(beta testing) trigger: (content, mode)
+
+Returns
+-------
+None
+```
+
+
+- **playFreeSound(sound, playing_track=None, trigger=None)**
+
+
+```
+Play a sound array, and the experiment procedure won't be blocked by this function
 
 Parameters
 ----------
@@ -408,13 +483,121 @@ sound: array
     The sound data
 playing_track: int, str, or None(default)
     The name of current track
-blocking: True(default), or False
-    Whether the experiment procedure would be blocked by the current function
+(beta testing) trigger: (content, mode)
 
 Returns
 -------
 None
 ```
+
+
+- **playAlterableSound(sound, effect=changeVolume, key_up=key_.RIGHT, key_down=key_.LEFT, key_confirm=key_.ENTER, trigger=None)**
+
+
+```
+Play a sound array, and the sound can be modified while playingr 
+
+Parameters
+----------
+sound: array
+    The sound data
+effect: function (default: changeVolume)
+    The function of how to change the sound by a given index.
+key_up: keyname (default: key_.RIGHT)
+    The key indicating up of the index.
+key_down: keyname (default: key_.LEFT)
+    The key indicating down of the index.
+key_confirm: keyname (default: key_.ENTER)
+    The key indicating the end of change detection.
+(beta testing) trigger: (content, mode)
+
+Returns
+-------
+None
+```
+
+
+- **toStereoArray(sound)**
+
+
+```
+Force the sound data to stereo hex array
+
+Parameters
+----------
+sound: array or np.array
+    The original sound data
+
+Returns
+-------
+output: array
+    The stereo hex array version of sound data
+```
+
+
+- **changeVolume(raw, scale)**
+
+
+```
+Change the volume
+
+Parameters
+----------
+raw: np.array
+    The raw sound data
+scale: num
+    The change scale
+
+Returns
+-------
+value: np.array
+    The changed sound data
+```
+
+
+- **changePitch(raw, scale)**
+
+
+```
+Change the pitch
+
+Parameters
+----------
+raw: np.array
+    The raw sound data
+scale: num
+    The change scale
+
+Returns
+-------
+value: np.array
+    The changed sound data
+```
+
+
+- **changeOnTracks(data, func, scale_list, stereo_array_format=True)**
+
+
+```
+Change the sound on each track
+
+Parameters
+----------
+data: np.array or array
+    The raw sound data
+func: method name
+    The action of change 
+scale: list
+    The change scale of each track
+stereo_array_format: True(default), or False
+    Whether return a stereo array
+
+Returns
+-------
+output: array
+    The sound data
+```
+
 
 ### *Video*
 
@@ -466,7 +649,7 @@ None
 
 ### *Display controller*
 
-- **show(out_time=False, clean_screen=True, backup=None)**
+- **show(out_time=False, clean_screen=True, backup=None, debugging=True)**
 
 
 ```
@@ -487,7 +670,7 @@ None
 ```
 
 
-- **clear()**
+- **clear(debugging=True)**
 
 
 ```
@@ -872,6 +1055,19 @@ input_text: str
 ```
 
 
+- **getSubjectID(pre_text)**
+
+
+```
+Get subject's ID.
+
+Parameters
+----------
+pre_text: str
+    The text that will be displayed before user's input.
+```
+
+
 - **instruction(instruction_text, has_practice=False)**
 
 
@@ -1039,4 +1235,30 @@ Return
 ---------
 None
 ```
+
+
+- **normalProcedure(trial_func, trial_list='trial_list.csv',  practice_list=None, practice_func=None, onset_block=1, instruction_setting='instruction')**
+
+
+```
+General framework of experiment procedure.
+
+Parameters
+----------
+trial_func: method name
+    Name of trial method
+trial_list: str (default: 'trial_list.csv')
+    Name of trial list
+practice_list: str, or None (default)
+    Name of practice trial list
+onset_block: int (default: 1)
+    Number of onset block
+instruction_setting: str (default: 'instruction'), or None
+    Name of instruction in the setting file
+
+Returns
+-------
+None
+```
+
 

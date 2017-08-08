@@ -1,8 +1,26 @@
 # Todo
 - Format text draw function
-- Added the parameter "rotate" to all the `drawXXX`
-- Unit of measurement
-- Add position parameters for `textSlide` and `textSlide` based methods.
+
+# 0.9.10
+- Added function `changeOnTracks`
+- Renamed the function `mono2stereo` to `toStereoArray`
+- Renamed the function `change_volume` to `changeVolume`
+- Added parameter `stereo_array_format` to `loadSound`, `loadManySound`, `makeBeep`, and `makeNoise`.
+- Renamed function  `normal_procedure` to `normalProcedure`
+- Renamed function  `playSound` to `playBusySound`.
+- New a function named `playSound`, its parameter `busy` determines the run of `playBusySound` or `playFreeSound`
+- Added parameter `vsync` to function `start`
+- [Beta] Added parameter `trigger` to all function of sound playing and figure displaying
+
+# 0.9.9
+- Fixed possible issues of reading setting file
+- Automaticly create setting file if it doesn't exist
+- Changed default value of parameter `port` to '' in function `start`
+- Added plug-in function `normalProcedure`
+- Added function `getSubjectID`
+- Added function `playAlterableSound`
+- Readded function `makeNoise`
+- Separate function `playSound` by the parameter `blocking`. Now the `blocking=True` version is named as `playSound`, and the `blocking=False` version is named as `playFreeSound`
 
 # 0.9.8.1
 - Fixed a cruical issue of suspend function

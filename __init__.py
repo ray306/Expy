@@ -20,7 +20,7 @@ key_ = shared.key_
 mouse_ = shared.mouse_
 
 
-def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=C_white, background_color=C_gray, sample_rate=44100, port='COM1'):
+def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=C_white, background_color=C_gray, sample_rate=44100, port='', vsync=True):
     '''
     Initialize the experiment.
     Note: todo.
@@ -51,9 +51,11 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
         The color of background
     sample_rate: int (default:44100) 
         Sample rate of sound mixer
-    port: str, or hex number (default:'COM1') 
+    port: str, or hex number (default:'') 
         Port name used to send trigger.
         Use str on serial port, and hex on parallel port 
+    vsync: True(default), or False
+        Vertical retrace synchronisation
 
     Returns
     -------
@@ -62,17 +64,17 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
 
     'Parameters'
     func_var = locals().copy()
-    try:
-        shared.setting = readSetting(setting_file)
-    except:
-        print('"setting.txt" does not exist.')
-
+    shared.setting = readSetting(setting_file)
     for k, v in shared.setting.items():
-        if k in ['fullscreen', 'font_color', 'winsize', 'mouse_visible', 'background_color', 'distance', 'diag', 'angel',
-                 'sample_rate', 'port'] or k[-10:] == '_font_size':
-            func_var[k] = eval('%s' % v[0])
-        else:
+        # if k in ['fullscreen', 'font_color', 'winsize', 'mouse_visible', 'background_color', 'distance', 'diag', 'angel',
+        #          'sample_rate', 'port'] or k[-10:] == '_font_size':
+        #     func_var[k] = eval('%s' % v)
+        # else:
+        #     func_var[k] = eval('%s' % v)
+        try:
             func_var[k] = eval('%s' % v)
+        except:
+            func_var[k] = eval('"%s"' % v)
 
     shared.setting = func_var
 
@@ -84,14 +86,14 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
     'Window'
     # Initate the window
     if shared.setting['fullscreen'] == True:
-        shared.win = shared.pyglet.window.Window(fullscreen=True)
+        shared.win = shared.pyglet.window.Window(fullscreen=True, vsync=vsync)
         shared.win_width = shared.win.width
         shared.win_height = shared.win.height
     else:
         shared.win_width = shared.setting['winsize'][0]
         shared.win_height = shared.setting['winsize'][1]
         shared.win = shared.pyglet.window.Window(
-            width=shared.win_width, height=shared.win_height)
+            width=shared.win_width, height=shared.win_height, vsync=vsync)
     shared.pyglet.gl.glClearColor(*shared.background_color)
 
     shared.win.dispatch_events()
@@ -142,8 +144,9 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
 
     'Port (only serial port needs port name pre-define)'
     try:
-        shared.ser.port = shared.setting['port']  # set the port
-        shared.ser.open()
+        if shared.setting['port'] != '':
+            shared.ser.port = shared.setting['port']  # set the port
+            shared.ser.open()
     except:
         print('Could not open serial port')
 

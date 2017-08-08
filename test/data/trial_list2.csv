@@ -1,0 +1,9 @@
+prime,target,wordness,match,block
+八月,潜艇,TRUE,FALSE,1
+柠檬,臂手,FALSE,FALSE,1
+冰雹,飓风,TRUE,TRUE,1
+奶牛,大象,TRUE,TRUE,1
+馅饼,肿瘤,TRUE,FALSE,2
+香料,边左,FALSE,FALSE,2
+咳嗽,感流,FALSE,TRUE,2
+印度,埃及,TRUE,TRUE,2

@@ -22,9 +22,33 @@ def readSetting(filepath='setting.txt'):
     setting: dict
         todo.
     '''
+    if os.path.exists(filepath): # if file exists
+        # keep the encoding to utf-8
+        try:
+            with open(filepath,encoding='utf-8') as f:
+                f.read()
+        except:
+            with open(filepath) as f:
+                text = f.read()
+            with open(filepath,'w',encoding='utf-8') as f:
+                f.write(text)
+    else: # if file does not exist
+        with open(filepath,'w',encoding='utf-8') as f:
+            f.writelines(['----\n',
+                        '[subject_name_query]\n',
+                        '请输入实验序号：\n',
+                        '----\n',
+                        '[instruction]\n',
+                        '欢迎参加我们的实验！\n>\n请在准备完备后开始。\n',
+                        '----\n',
+                        '[block_start]\n',
+                        '实验会在3秒后开始\n',
+                        '----\n',
+                        '[experiment_end]\n',
+                        '实验结束~ 谢谢参与我们的实验!'])
 
     setting = dict()
-    with open(filepath) as f:
+    with open(filepath,encoding='utf-8') as f:
         try:
             for s in re.compile(r'[-]{2,}').split(f.read()):
                 if len(s) > 0 and s != '\n':
@@ -34,7 +58,11 @@ def readSetting(filepath='setting.txt'):
                         s = s[:-1]
 
                     name, *content = s.split('\n')
-                    setting[name[1:-1]] = content
+                    name = name[1:-1]
+                    if name != 'timing_set' and len(content)==1:
+                        setting[name] = content[0]
+                    else:
+                        setting[name] = content
 
             if 'timing_set' in setting:
                 setting['timing'] = dict()
@@ -72,6 +100,9 @@ def readStimuli(filepath, query=None, sheetname=0, return_list=True):
     stimuli: list of rows(pandas.Series), or whole table (pandas.DataFrame)
         The selected stimuli data
     '''
+    if not os.path.exists(filepath):
+        filepath = 'data/' + filepath
+
     if filepath.split('.')[-1] == 'csv':
         stimuli = pd.read_csv(filepath, sep=',', encoding='gbk')
     elif filepath.split('.')[-1] in ['xls', 'xlsx']:
@@ -213,4 +244,5 @@ def sendTrigger(data, mode='P'):
         else:
             raise ValueError('Only support "S" or "P" (serial/parallel) mode!')
     except:
-        print('The port might be closed.')
+        if shared.setting['port'] != '':
+            print('The port might be closed.')

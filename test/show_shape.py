@@ -1,7 +1,6 @@
 # coding:utf-8
 ##### package test #####
 import sys
-# sys.path.append('../../')
 sys.path = ['../../']+sys.path
 ################
 

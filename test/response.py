@@ -1,6 +1,5 @@
 # coding:utf-8
 import sys
-# sys.path.append('../../')
 sys.path = ['../../']+sys.path
 
 from expy import *  # Import the needed functions
@@ -27,13 +26,13 @@ key,rt = waitForResponse({key_.K: 'K', key_.J: 'J'})  # Waiting for pressing 'K'
 alertAndGo('您刚刚按下了%s，用时: %fs' % (key,rt))  # Display the keypress
 
 drawText('除了键盘上的K，别的按键都不会起作用')  # Draw text on the canvas and display it
-key,rt = waitForResponse(key_.K)  # Waiting for pressing 'K', and get the pressed key's id.
+key,rt = waitForResponse(key_.NUM_ENTER)  # Waiting for pressing 'K', and get the pressed key's id.
 alertAndGo('您刚刚按下了%d，用时: %fs' % (key,rt))  # Display the keypress
 
 'Time limited by "out_time"'
 drawText('请在1秒内按下键盘上的K或J')  # Draw text on the canvas and display it
 key,rt = waitForResponse({key_.K: 'K', key_.J: 'J'}, out_time=1)  # Waiting for pressing 'K' or 'J' in 1s.
-if type(rt)==int:
+if type(rt)==float:
     alertAndGo('您刚刚按下了%s，用时: %fs' % (key,rt))  # Display the keypress
 else:
     alertAndGo('超时')

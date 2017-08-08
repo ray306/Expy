@@ -17,8 +17,17 @@
 - **loadSound**
 - **loadManySound**
 - **makeBeep**
+- **makeNoise**
 - **makeSound**
 - **playSound**
+- **playBusySound**
+- **playFreeSound**
+- **playAlterableSound**
+- **toStereoArray**
+- **changeVolume**
+- **changePitch**
+- **changeOnTracks**
+
 ### *Video*
 - **loadVideo**
 - **playVideo**
@@ -49,8 +58,11 @@
 ## Other Scaffolds
 - **textSlide**
 - **getInput**
+- **getSubjectID**
 - **instruction**
 - **alert**
 - **alertAndGo**
 - **alertAndQuit**
 - **restTime**
+- **normalProcedure**
+

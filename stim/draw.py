@@ -1,5 +1,6 @@
 from expy import shared
 from expy.colors import *
+from expy.io import sendTrigger
 
 np = shared.np
 math = shared.math
@@ -64,7 +65,7 @@ def getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, anchor_x
         return int(x), int(y)
 
 
-def drawText(text, font=shared.default_font, size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', display=True):
+def drawText(text, font=shared.default_font, size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', display=True, trigger=None):
     '''
     Draw text with complex format on the canvas. The text will show as multiple lines splited by the '\n'. 
 
@@ -94,7 +95,9 @@ def drawText(text, font=shared.default_font, size='stim_font_size', color=C_whit
     display: True(default), False
         If True, the function will put the canvas onto the screen immediately (with a potential delay);
         otherwise, the canvas will be put until `show` function.
-
+    (beta testing) trigger: (content, mode)
+    (beta testing) trigger: (content, mode)
+    
     Returns
     -------
     None
@@ -139,6 +142,8 @@ def drawText(text, font=shared.default_font, size='stim_font_size', color=C_whit
     # t = shared.time.time()
 
     if display:
+        if trigger:
+            sendTrigger(trigger[0], mode=trigger[1])
         shared.win.flip()
         # print('4',time.time()-t)
         # t = time.time()
@@ -146,7 +151,7 @@ def drawText(text, font=shared.default_font, size='stim_font_size', color=C_whit
         shared.need_update = True
 
 
-def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True):
+def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True, trigger=None):
     '''
     Draw rectangle on the canvas.
 
@@ -182,7 +187,8 @@ def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='ce
         Options: 'center', 'top', or 'bottom'.
     display: True(default), False
         If True, the function will put the canvas onto the screen. 
-
+    (beta testing) trigger: (content, mode)
+    
     Returns
     -------
     None
@@ -205,12 +211,14 @@ def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='ce
                                     )
 
     if display:
+        if trigger:
+            sendTrigger(trigger[0], mode=trigger[1])
         shared.win.flip()
     else:
         shared.need_update = True
 
 
-def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True):
+def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True, trigger=None):
     '''
     Draw circle on the canvas.
 
@@ -241,7 +249,8 @@ def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='cen
         Options: 'center', 'top', or 'bottom'.
     display: True(default), False
         If True, the function will put the canvas onto the screen. 
-
+    (beta testing) trigger: (content, mode)
+    
     Returns
     -------
     None
@@ -276,12 +285,16 @@ def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='cen
         circle.draw(shared.gl.GL_LINE_LOOP)
 
     if display:
+        if trigger:
+            sendTrigger(trigger[0], mode=trigger[1])
+        if trigger:
+            sendTrigger(trigger[0], mode=trigger[1])
         shared.win.flip()
     else:
         shared.need_update = True
 
 
-def drawPoints(points, color=C_white, size=1, display=True):
+def drawPoints(points, color=C_white, size=1, display=True, trigger=None):
     '''
     Draw point(s) on the canvas.
 
@@ -300,7 +313,8 @@ def drawPoints(points, color=C_white, size=1, display=True):
         The size of each point
     display: True(default), False
         If True, the function will put the canvas onto the screen. 
-
+    (beta testing) trigger: (content, mode)
+    
     Returns
     -------
     None
@@ -320,12 +334,14 @@ def drawPoints(points, color=C_white, size=1, display=True):
                                 )
 
     if display:
+        if trigger:
+            sendTrigger(trigger[0], mode=trigger[1])
         shared.win.flip()
     else:
         shared.need_update = True
 
 
-def drawLines(points, color=C_white, width=1, close=False, display=True):
+def drawLines(points, color=C_white, width=1, close=False, display=True, trigger=None):
     '''
     Draw line(s) on the canvas.
 
@@ -347,7 +363,8 @@ def drawLines(points, color=C_white, width=1, close=False, display=True):
         If True, the polygon could be drawn.
     display: True(default), False
         If True, the function will put the canvas onto the screen.
-
+    (beta testing) trigger: (content, mode)
+    
     Returns
     -------
     None
@@ -369,12 +386,14 @@ def drawLines(points, color=C_white, width=1, close=False, display=True):
                                 )
 
     if display:
+        if trigger:
+            sendTrigger(trigger[0], mode=trigger[1])
         shared.win.flip()
     else:
         shared.need_update = True
 
 
-def drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y='center', display=True):
+def drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y='center', display=True, trigger=None):
     '''
     Draw loaded image on the canvas.
 
@@ -408,7 +427,8 @@ def drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y=
         Options: 'center', 'top', or 'bottom'.
     display: True(default), False
         If True, the function will put the canvas onto the screen. 
-
+    (beta testing) trigger: (content, mode)
+    
     Returns
     -------
     None
@@ -436,6 +456,8 @@ def drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y=
     im.blit(x, y, 0)
 
     if display:
+        if trigger:
+            sendTrigger(trigger[0], mode=trigger[1])
         shared.win.flip()
     else:
         shared.need_update = True

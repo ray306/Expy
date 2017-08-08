@@ -142,12 +142,17 @@ start(sample_rate=44100)  # Initiate the experiment environment
 sound = loadSound('data/demo.WAV')  # Load the wav file
 playSound(sound)  # Play the wav file
 ''''''
-show(0.5)  # Pause (Keep displaying in 0.5s)
 
 # Load many wav files and concat them
 sound = loadManySound('data', ['ba','da','ba','da'], 'wav')
-playSound(sound, blocking=False)
-show(0.5)
+playSound(sound)
+
+# Play multiple soundtrack at the same time
+sound = loadManySound('data', ['demo','demo','demo','demo'], 'wav')
+playSound(sound, busy=False)  # Play the wav file
+sound = loadManySound('data', ['ba','da','ba','da'], 'wav')
+playSound(sound, busy=False)
+show(5)
 
 # sound = makeSound(data)
 # playSound(sound)
@@ -156,8 +161,20 @@ show(0.5)
 sound = makeBeep(440, 0.5)
 playSound(sound)
 
-sound = makeNoise(1)
+sound = makeNoise(3)
 playSound(sound)
+
+sound = loadSound('data/demo.WAV')  # Load the wav file
+sound = changeOnTracks(sound,changeVolume,[0.1,1]) # Change the volume of different tracks 
+playSound(sound)  # Play the wav file
+show(0.5)  # Pause (Keep displaying in 0.5s)
+
+# s = makeBeep(440, 15)
+s = loadManySound('data', ['ba','da','ba','da'], 'wav')
+index = playAlterableSound(s,effect=changePitch)
+print('The change is', index)
+
+
 
 
 ```
@@ -212,13 +229,13 @@ key,rt = waitForResponse({key_.K: 'K', key_.J: 'J'})  # Waiting for pressing 'K'
 alertAndGo('您刚刚按下了%s，用时: %fs' % (key,rt))  # Display the keypress
 
 drawText('除了键盘上的K，别的按键都不会起作用')  # Draw text on the canvas and display it
-key,rt = waitForResponse(key_.K)  # Waiting for pressing 'K', and get the pressed key's id.
+key,rt = waitForResponse(key_.NUM_ENTER)  # Waiting for pressing 'K', and get the pressed key's id.
 alertAndGo('您刚刚按下了%d，用时: %fs' % (key,rt))  # Display the keypress
 
 'Time limited by "out_time"'
 drawText('请在1秒内按下键盘上的K或J')  # Draw text on the canvas and display it
 key,rt = waitForResponse({key_.K: 'K', key_.J: 'J'}, out_time=1)  # Waiting for pressing 'K' or 'J' in 1s.
-if type(rt)==int:
+if type(rt)==float:
     alertAndGo('您刚刚按下了%s，用时: %fs' % (key,rt))  # Display the keypress
 else:
     alertAndGo('超时')

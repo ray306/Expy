@@ -38,13 +38,9 @@ or:
 sudo pip install expy
 ```
 
-The command of getting update:
+If you have Anaconda installed and meet compile issue when install resampy, please run the following command:
 ```
-pip install --upgrade expy --no-deps
-```
-or:
-```
-sudo pip install --upgrade expy --no-deps
+conda install -c conda-forge resampy
 ```
 
 If you are using Mac, please run the following commands in your terminal:
@@ -52,6 +48,16 @@ If you are using Mac, please run the following commands in your terminal:
 xcode-select --install
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew install portaudio
+```
+
+
+The command of getting update:
+```
+pip install --upgrade expy --no-deps
+```
+or:
+```
+sudo pip install --upgrade expy --no-deps
 ```
 
 If you want to play video in Expy, you should install AVbin (https://avbin.github.io/AVbin/Download.html)
