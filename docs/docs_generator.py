@@ -27,7 +27,7 @@ with open(path+'docs/quickstart_template.txt') as f:
                     print('cannnot read',file)
 
 
-    with open(path+'docs/quickstart.md','w+') as f:
+    with open(path+'docs/quickstart.md','w+', encoding='utf8') as f:
         f.writelines(new_file)
 
 'cookbook_generator'
@@ -55,7 +55,7 @@ with open(path+'docs/cookbook_template.txt') as f:
                     print('cannnot read',file)
 
 
-    with open(path+'docs/cookbook.md','w+') as f:
+    with open(path+'docs/cookbook.md','w+', encoding='utf8') as f:
         f.writelines(new_file)
 
 'api_generator'
@@ -98,5 +98,5 @@ with open(path+'docs/api_template.txt') as f:
             new_file.append('\n- **%s(%s)**\n\n' %(l[4:-3],f_args))
             new_file.append('\n```\n%s```\n\n' %(comm))
 
-    with open(path+'docs/api.md','w+') as f:
+    with open(path+'docs/api.md','w+', encoding='utf8') as f:
         f.writelines(new_file)

@@ -208,51 +208,51 @@ playSound(record)
 ```python
 start(mouse_visible=True)  # Initiate the experiment environment
 
-# drawText('Çë°´ÏÂ¼üÅÌÉÏµÄÈÎÒâ¼ü')  # Draw text on the canvas and display it
+# drawText('è¯·æŒ‰ä¸‹é”®ç›˜ä¸Šçš„ä»»æ„é”®')  # Draw text on the canvas and display it
 # pressAndChange(allowed_keys={key_.K: 'K', key_.J: 'J'}, out_time=5)
 # while 1:
 #     # t = shared.pressing
 #     # print(t)
 #     show(0.01)
 
-drawText('Çë°´ÏÂ¼üÅÌÉÏµÄÈÎÒâ¼ü')  # Draw text on the canvas and display it
+drawText('è¯·æŒ‰ä¸‹é”®ç›˜ä¸Šçš„ä»»æ„é”®')  # Draw text on the canvas and display it
 key,rt = waitForResponse()  # Waiting for pressing and get the pressed key
-alertAndGo('Äú¸Õ¸Õ°´ÏÂÁË%d£¬ÓÃÊ±: %fs' % (key, rt))  # Display the keypress
+alertAndGo('æ‚¨åˆšåˆšæŒ‰ä¸‹äº†%dï¼Œç”¨æ—¶: %fs' % (key, rt))  # Display the keypress
 
 'Key limited by "allowed_keys". Please look into "Key mapping" for some detail'
-drawText('³ıÁË¼üÅÌÉÏµÄK»òJ£¬±ğµÄ°´¼ü¶¼²»»áÆğ×÷ÓÃ')  # Draw text on the canvas and display it
+drawText('é™¤äº†é”®ç›˜ä¸Šçš„Kæˆ–Jï¼Œåˆ«çš„æŒ‰é”®éƒ½ä¸ä¼šèµ·ä½œç”¨')  # Draw text on the canvas and display it
 key,rt = waitForResponse([key_.K, key_.J])  # Waiting for pressing 'K' or 'J', and get the pressed key's id.
-alertAndGo('Äú¸Õ¸Õ°´ÏÂÁË%s£¬ÓÃÊ±: %fs' % (key,rt))  # Display the keypress
+alertAndGo('æ‚¨åˆšåˆšæŒ‰ä¸‹äº†%sï¼Œç”¨æ—¶: %fs' % (key,rt))  # Display the keypress
 
-drawText('³ıÁË¼üÅÌÉÏµÄK»òJ£¬±ğµÄ°´¼ü¶¼²»»áÆğ×÷ÓÃ')  # Draw text on the canvas and display it
+drawText('é™¤äº†é”®ç›˜ä¸Šçš„Kæˆ–Jï¼Œåˆ«çš„æŒ‰é”®éƒ½ä¸ä¼šèµ·ä½œç”¨')  # Draw text on the canvas and display it
 key,rt = waitForResponse({key_.K: 'K', key_.J: 'J'})  # Waiting for pressing 'K' or 'J', and get the pressed key's name.
-alertAndGo('Äú¸Õ¸Õ°´ÏÂÁË%s£¬ÓÃÊ±: %fs' % (key,rt))  # Display the keypress
+alertAndGo('æ‚¨åˆšåˆšæŒ‰ä¸‹äº†%sï¼Œç”¨æ—¶: %fs' % (key,rt))  # Display the keypress
 
-drawText('³ıÁË¼üÅÌÉÏµÄK£¬±ğµÄ°´¼ü¶¼²»»áÆğ×÷ÓÃ')  # Draw text on the canvas and display it
+drawText('é™¤äº†é”®ç›˜ä¸Šçš„Kï¼Œåˆ«çš„æŒ‰é”®éƒ½ä¸ä¼šèµ·ä½œç”¨')  # Draw text on the canvas and display it
 key,rt = waitForResponse(key_.NUM_ENTER)  # Waiting for pressing 'K', and get the pressed key's id.
-alertAndGo('Äú¸Õ¸Õ°´ÏÂÁË%d£¬ÓÃÊ±: %fs' % (key,rt))  # Display the keypress
+alertAndGo('æ‚¨åˆšåˆšæŒ‰ä¸‹äº†%dï¼Œç”¨æ—¶: %fs' % (key,rt))  # Display the keypress
 
 'Time limited by "out_time"'
-drawText('ÇëÔÚ1ÃëÄÚ°´ÏÂ¼üÅÌÉÏµÄK»òJ')  # Draw text on the canvas and display it
+drawText('è¯·åœ¨1ç§’å†…æŒ‰ä¸‹é”®ç›˜ä¸Šçš„Kæˆ–J')  # Draw text on the canvas and display it
 key,rt = waitForResponse({key_.K: 'K', key_.J: 'J'}, out_time=1)  # Waiting for pressing 'K' or 'J' in 1s.
 if type(rt)==float:
-    alertAndGo('Äú¸Õ¸Õ°´ÏÂÁË%s£¬ÓÃÊ±: %fs' % (key,rt))  # Display the keypress
+    alertAndGo('æ‚¨åˆšåˆšæŒ‰ä¸‹äº†%sï¼Œç”¨æ—¶: %fs' % (key,rt))  # Display the keypress
 else:
-    alertAndGo('³¬Ê±')
+    alertAndGo('è¶…æ—¶')
 
 'Get only key without RT) by falsing the "has_RT"'
-drawText('Çë°´ÏÂ¼üÅÌÉÏµÄK»òJ')  # Draw text on the canvas and display it
+drawText('è¯·æŒ‰ä¸‹é”®ç›˜ä¸Šçš„Kæˆ–J')  # Draw text on the canvas and display it
 key = waitForResponse({key_.K: 'K', key_.J: 'J'}, has_RT=False)  # Waiting for pressing 'K' or 'J', no RT returned.
-alertAndGo('Äú¸Õ¸Õ°´ÏÂÁË' + key) # Display the keypress
+alertAndGo('æ‚¨åˆšåˆšæŒ‰ä¸‹äº†' + key) # Display the keypress
 
-drawText('Çë°´ÏÂ¼üÅÌÉÏµÄK»òJ£¬²¢¹ıÒ»»áÔÙËÉ¿ª')  # Draw text on the canvas and display it
+drawText('è¯·æŒ‰ä¸‹é”®ç›˜ä¸Šçš„Kæˆ–Jï¼Œå¹¶è¿‡ä¸€ä¼šå†æ¾å¼€')  # Draw text on the canvas and display it
 key, (RT, pressed_time) = waitForResponse([key_.K, key_.J], action_while_pressing=(print,0))
-alertAndGo('Äú¸Õ¸Õ°´ÏÂÁË%d£¬°´¼üÇ°ÓÃÊ±: %fs£¬°´¼üÓÃÊ±%fs' % (key, RT, pressed_time))  # Display the keypress
+alertAndGo('æ‚¨åˆšåˆšæŒ‰ä¸‹äº†%dï¼ŒæŒ‰é”®å‰ç”¨æ—¶: %fsï¼ŒæŒ‰é”®ç”¨æ—¶%fs' % (key, RT, pressed_time))  # Display the keypress
 
-drawText('ÇëÓÃÊó±ê×ó¼üµã»÷·½¿é',y=-0.5)  # Draw text on the canvas and display it
+drawText('è¯·ç”¨é¼ æ ‡å·¦é”®ç‚¹å‡»æ–¹å—',y=-0.5)  # Draw text on the canvas and display it
 drawRect(w =0.1, h=0.1, color=C_white) # Draw a button
 (button, (x, y)), rt = waitForResponse(allowed_clicks=ClickRange((-0.1,0.1),(-0.1,0.1),mouse_.LEFT))  # Waiting for mouse click and get the click
-alertAndGo('Äú¸Õ¸ÕÔÚ£¨X=%d£¬Y=%d£©´¦°´ÏÂÁË%d£¬ÓÃÊ±: %fs' % (x, y, button, rt))  # Display the event
+alertAndGo('æ‚¨åˆšåˆšåœ¨ï¼ˆX=%dï¼ŒY=%dï¼‰å¤„æŒ‰ä¸‹äº†%dï¼Œç”¨æ—¶: %fs' % (x, y, button, rt))  # Display the event
 ```
 
 ## *Scaffold functions*
