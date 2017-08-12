@@ -1,5 +1,6 @@
 http://pyglet.readthedocs.io/en/pyglet-1.2-maintenance/programming_guide/keyboard.html
 
+
 The Latin-1 alphabet is simply the letter itself:
 ```
 key_.A

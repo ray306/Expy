@@ -1,7 +1,7 @@
 # Todo
 - Format text draw function
 
-# 0.9.10
+# 0.9.10.1
 - Added function `changeOnTracks`
 - Renamed the function `mono2stereo` to `toStereoArray`
 - Renamed the function `change_volume` to `changeVolume`
