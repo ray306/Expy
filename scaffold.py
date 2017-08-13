@@ -10,7 +10,6 @@ from .response import *
 
 np = shared.np
 
-
 def timing(name):
     '''
     Get a value of timing parameter:

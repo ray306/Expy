@@ -1,6 +1,10 @@
 # Todo
 - Format text draw function
 
+# 0.9.10.2
+- Added a test for measuring time delay (`time_delay.py`)
+- The program will print the path of current Expy
+
 # 0.9.10.1
 - Added function `changeOnTracks`
 - Renamed the function `mono2stereo` to `toStereoArray`

@@ -4,6 +4,7 @@ import scipy
 import resampy
 from array import array
 from expy import shared
+from expy.io import sendTrigger
 
 np = shared.np
 
