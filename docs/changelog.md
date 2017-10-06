@@ -1,5 +1,19 @@
 # Todo
+- the program won;t quit automatically at the end (but alertAndQuit works)
+- auto check the working port
+- two screen or online report
 - Format text draw function
+
+# 0.9.11
+- Changed the parameter `display` of `drawXXX` to `show_now`
+- Fixed an issue of sending trigger to the parallel port
+- Fixed an issue of `anchor_x` and `anchor_y`
+- Fixed an issue that F12 can't recover the screen
+
+# 0.9.10.3
+- [Beta] `vsync=False` in function `start`
+- [Beta] Added parameter `timeit` to all function of sound playing and figure displaying
+- [Beta] Changed the executing order of flip() and sendTrigger() for the parameter `trigger`
 
 # 0.9.10.2
 - Added a test for measuring time delay (`time_delay.py`)

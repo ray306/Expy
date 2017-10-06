@@ -1,6 +1,6 @@
 ## Initialization
 
-- **start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=C_white, background_color=C_gray, sample_rate=44100, port='', vsync=True)**
+- **start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=C_white, background_color=C_gray, sample_rate=44100, port='', vsync=False)**
 
 
 ```
@@ -36,7 +36,7 @@ sample_rate: int (default:44100)
 port: str, or hex number (default:'') 
     Port name used to send trigger.
     Use str on serial port, and hex on parallel port 
-vsync: True(default), or False
+vsync: True, or False (default)
     Vertical retrace synchronisation
 
 Returns
@@ -83,7 +83,7 @@ Returns
 
 ### *Text*
 
-- **drawText(text, font=shared.default_font, size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', display=True, trigger=None)**
+- **drawText(text, font=shared.default_font, size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', show_now=True, display=True, timeit=False, trigger=None)**
 
 
 ```
@@ -112,11 +112,11 @@ anchor_x: str (default: 'center')
 anchor_y: str (default: 'center')
     The position benchmark on this object to the given y.
     Options: 'center', 'top', or 'bottom'.
-display: True(default), False
+show_now: True(default), False
     If True, the function will put the canvas onto the screen immediately (with a potential delay);
     otherwise, the canvas will be put until `show` function.
 (beta testing) trigger: (content, mode)
-(beta testing) trigger: (content, mode)
+(beta testing) timeit: True, False (default)
 
 Returns
 -------
@@ -125,7 +125,7 @@ None
 
 ### *Shape*
 
-- **drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True, trigger=None)**
+- **drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', show_now=True, display=True, timeit=False, trigger=None)**
 
 
 ```
@@ -161,9 +161,10 @@ anchor_x: str (default:'center')
 anchor_y: str (default:'center')
     The position benchmark on this object to the given y.
     Options: 'center', 'top', or 'bottom'.
-display: True(default), False
+show_now: True(default), False
     If True, the function will put the canvas onto the screen. 
 (beta testing) trigger: (content, mode)
+(beta testing) timeit: True, False (default)
 
 Returns
 -------
@@ -171,7 +172,7 @@ None
 ```
 
 
-- **drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True, trigger=None)**
+- **drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', show_now=True, display=True, timeit=False, trigger=None)**
 
 
 ```
@@ -202,9 +203,10 @@ anchor_x: str (default:'center')
 anchor_y: str (default:'center')
     The position benchmark on this object to the given y.
     Options: 'center', 'top', or 'bottom'.
-display: True(default), False
+show_now: True(default), False
     If True, the function will put the canvas onto the screen. 
 (beta testing) trigger: (content, mode)
+(beta testing) timeit: True, False (default)
 
 Returns
 -------
@@ -212,7 +214,7 @@ None
 ```
 
 
-- **drawPoints(points, color=C_white, size=1, display=True, trigger=None)**
+- **drawPoints(points, color=C_white, size=1, show_now=True, display=True, timeit=False, trigger=None)**
 
 
 ```
@@ -231,9 +233,10 @@ color: RGB tuple, or pre-defined variable (default:'C_white')
     The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
 size: int (default: 1)
     The size of each point
-display: True(default), False
+show_now: True(default), False
     If True, the function will put the canvas onto the screen. 
 (beta testing) trigger: (content, mode)
+(beta testing) timeit: True, False (default)
 
 Returns
 -------
@@ -241,7 +244,7 @@ None
 ```
 
 
-- **drawLines(points, color=C_white, width=1, close=False, display=True, trigger=None)**
+- **drawLines(points, color=C_white, width=1, close=False, show_now=True, display=True, timeit=False, trigger=None)**
 
 
 ```
@@ -263,9 +266,10 @@ width: int (default: 1)
 close: True, False(default)
     Whether to connect the last point with the first one. 
     If True, the polygon could be drawn.
-display: True(default), False
+show_now: True(default), False
     If True, the function will put the canvas onto the screen.
 (beta testing) trigger: (content, mode)
+(beta testing) timeit: True, False (default)
 
 Returns
 -------
@@ -274,7 +278,7 @@ None
 
 ### *Picture*
 
-- **drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y='center', display=True, trigger=None)**
+- **drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y='center', show_now=True, display=True, timeit=False, trigger=None)**
 
 
 ```
@@ -308,9 +312,10 @@ anchor_x: str (default:'center')
 anchor_y: str (default:'center')
     The position benchmark on this object to the given y.
     Options: 'center', 'top', or 'bottom'.
-display: True(default), False
+show_now: True(default), False
     If True, the function will put the canvas onto the screen. 
 (beta testing) trigger: (content, mode)
+(beta testing) timeit: True, False (default)
 
 Returns
 -------
@@ -431,7 +436,7 @@ output: array
 ```
 
 
-- **playSound(sound, busy=True, playing_track=None, trigger=None)**
+- **playSound(sound, busy=True, playing_track=None, timeit=False, trigger=None)**
 
 
 ```
@@ -445,6 +450,7 @@ busy: True(default), or False
     Whether the experiment procedure will be blocked by the this function
 playing_track: int, str, or None(default)
     The name of current track
+(beta testing) timeit: True, False (default)
 (beta testing) trigger: (content, mode)
 
 Returns
@@ -453,7 +459,7 @@ None
 ```
 
 
-- **playBusySound(sound, trigger=None)**
+- **playBusySound(sound, timeit=False, trigger=None)**
 
 
 ```
@@ -463,6 +469,7 @@ Parameters
 ----------
 sound: array
     The sound data
+(beta testing) timeit: True, False (default)
 (beta testing) trigger: (content, mode)
 
 Returns
@@ -471,7 +478,7 @@ None
 ```
 
 
-- **playFreeSound(sound, playing_track=None, trigger=None)**
+- **playFreeSound(sound, playing_track=None, timeit=False, trigger=None)**
 
 
 ```
@@ -483,6 +490,7 @@ sound: array
     The sound data
 playing_track: int, str, or None(default)
     The name of current track
+(beta testing) timeit: True, False (default)
 (beta testing) trigger: (content, mode)
 
 Returns
@@ -491,7 +499,7 @@ None
 ```
 
 
-- **playAlterableSound(sound, effect=changeVolume, key_up=key_.RIGHT, key_down=key_.LEFT, key_confirm=key_.ENTER, trigger=None)**
+- **playAlterableSound(sound, effect=changeVolume, key_up=key_.RIGHT, key_down=key_.LEFT, key_confirm=key_.ENTER, timeit=False, trigger=None)**
 
 
 ```
@@ -509,6 +517,7 @@ key_down: keyname (default: key_.LEFT)
     The key indicating down of the index.
 key_confirm: keyname (default: key_.ENTER)
     The key indicating the end of change detection.
+(beta testing) timeit: True, False (default)
 (beta testing) trigger: (content, mode)
 
 Returns

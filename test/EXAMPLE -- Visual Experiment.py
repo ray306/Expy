@@ -22,6 +22,9 @@ def trial(word, pos):
 stimuli = [('Left', -0.5), ('Right', 0.5), ('Right', -0.5),
            ('Left', 0.5), ('Left', -0.5), ('Right', -0.5)]
 
+instruction(shared.setting['instruction1'])
+alertAndGo('The experiment will start after 3s.')  # Display something in 3s(default)
+
 for word, pos in stimuli:
     trial(word, pos)  # Call the trial function with different parameters
 

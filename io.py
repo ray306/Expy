@@ -232,17 +232,18 @@ def sendTrigger(data, mode='P'):
     '''
     try:
         if mode == 'P':
-            shared.port_dll.Out32(shared.setting['port'], 0)
+            shared.port_dll.Out32(shared.setting['port'], data)
         elif mode == 'S':
             # send a string which might change
             shared.ser.write(bytes(data, encoding='utf-8'))
-            # shared.ser.write(b'something') # send a string directly
-
-            # n=int('0b00010001',2)
-            # shared.ser.write(n.to_bytes((n.bit_length()+7)//8, 'big')) # send
-            # a binary code
         else:
             raise ValueError('Only support "S" or "P" (serial/parallel) mode!')
     except:
         if shared.setting['port'] != '':
             print('The port might be closed.')
+
+
+            # shared.ser.write(b'something') # send a string directly
+            # a binary code
+            # n=int('0b00010001',2)
+            # shared.ser.write(n.to_bytes((n.bit_length()+7)//8, 'big')) # send

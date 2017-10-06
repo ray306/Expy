@@ -102,8 +102,9 @@ def suspend():
         The second count since the function starts.
     '''
     onset = shared.time.time()
+
+    shared.win.flip() # get the screen back to buffer
     screenshot = shared.pyglet.image.get_buffer_manager().get_color_buffer().get_image_data()
-    
     allowed_events = shared.allowed_keys, shared.allowed_keys_mapping, shared.allowed_mouse_clicks, shared.allowed_mouse_clicks_mapping
 
     shared.win.clear()
@@ -120,6 +121,7 @@ def suspend():
     return shared.time.time() - onset
 
 def wait(out_time):
+    
     while True:
         shared.win.dispatch_events()
         past_time = shared.time.time() - shared.start_tp
@@ -134,7 +136,7 @@ def wait(out_time):
                 return e['key'], e['time']- shared.start_tp
             elif e['type']=='mouse_press':
                 return (e['button'], e['pos']), e['time']- shared.start_tp
-        shared.time.sleep(0.001)
+        shared.time.sleep(0.1)
 
 def whilePressing(job, *param):
     while not shared.figure_released:

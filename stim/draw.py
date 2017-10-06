@@ -65,7 +65,7 @@ def getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, anchor_x
         return int(x), int(y)
 
 
-def drawText(text, font=shared.default_font, size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', display=True, trigger=None):
+def drawText(text, font=shared.default_font, size='stim_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', show_now=True, display=True, timeit=False, trigger=None):
     '''
     Draw text with complex format on the canvas. The text will show as multiple lines splited by the '\n'. 
 
@@ -92,16 +92,20 @@ def drawText(text, font=shared.default_font, size='stim_font_size', color=C_whit
     anchor_y: str (default: 'center')
         The position benchmark on this object to the given y.
         Options: 'center', 'top', or 'bottom'.
-    display: True(default), False
+    show_now: True(default), False
         If True, the function will put the canvas onto the screen immediately (with a potential delay);
         otherwise, the canvas will be put until `show` function.
     (beta testing) trigger: (content, mode)
-    (beta testing) trigger: (content, mode)
+    (beta testing) timeit: True, False (default)
     
     Returns
     -------
     None
     '''
+    if display==False:
+        show_now = False
+        print('WARNING: The "display" will be deprecated in future version. Please use "show_now" instead')
+
     'Assign value'
     if (type(size) is str) and (size in shared.font):
         size = shared.font[size]
@@ -112,8 +116,6 @@ def drawText(text, font=shared.default_font, size='stim_font_size', color=C_whit
 
     x, y = getPos(x, y)
 
-    # t = shared.time.time()
-
     'Draw'
     if not '\n' in text:
         label = shared.pyglet.text.Label(text,
@@ -121,8 +123,6 @@ def drawText(text, font=shared.default_font, size='stim_font_size', color=C_whit
                                          font_name=font, font_size=size,
                                          x=x, y=y,
                                          anchor_x=anchor_x, anchor_y=anchor_y)
-        # print('2',time.time()-t)
-        # t = shared.time.time()
         label.draw()
 
     else:
@@ -138,20 +138,19 @@ def drawText(text, font=shared.default_font, size='stim_font_size', color=C_whit
                                              x=x, y=y - y_offset,
                                              anchor_x=anchor_x, anchor_y=anchor_y)
             label.draw()
-    # print('3',shared.time.time()-t)
-    # t = shared.time.time()
 
-    if display:
+    if show_now:
+        shared.win.flip()
+        if timeit and not shared.start_tp:
+            now = shared.time.time()
+            shared.start_tp = now
         if trigger:
             sendTrigger(trigger[0], mode=trigger[1])
-        shared.win.flip()
-        # print('4',time.time()-t)
-        # t = time.time()
     else:
         shared.need_update = True
 
 
-def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True, trigger=None):
+def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', show_now=True, display=True, timeit=False, trigger=None):
     '''
     Draw rectangle on the canvas.
 
@@ -185,14 +184,19 @@ def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='ce
     anchor_y: str (default:'center')
         The position benchmark on this object to the given y.
         Options: 'center', 'top', or 'bottom'.
-    display: True(default), False
+    show_now: True(default), False
         If True, the function will put the canvas onto the screen. 
     (beta testing) trigger: (content, mode)
+    (beta testing) timeit: True, False (default)
     
     Returns
     -------
     None
     '''
+    if display==False:
+        show_now = False
+        print('WARNING: The "display" will be deprecated in future version. Please use "show_now" instead')
+
     x, y, w, h = getPos(x, y, w=w, h=h, anchor_x='center', anchor_y='center')
 
     points = [x, y, x + w, y, x + w, y + h, x, y + h]
@@ -210,15 +214,18 @@ def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='ce
                                     ('c4B', color * 4)
                                     )
 
-    if display:
+    if show_now:
+        shared.win.flip()
+        if timeit and not shared.start_tp:
+            now = shared.time.time()
+            shared.start_tp = now
         if trigger:
             sendTrigger(trigger[0], mode=trigger[1])
-        shared.win.flip()
     else:
         shared.need_update = True
 
 
-def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', display=True, trigger=None):
+def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', show_now=True, display=True, timeit=False, trigger=None):
     '''
     Draw circle on the canvas.
 
@@ -247,14 +254,19 @@ def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='cen
     anchor_y: str (default:'center')
         The position benchmark on this object to the given y.
         Options: 'center', 'top', or 'bottom'.
-    display: True(default), False
+    show_now: True(default), False
         If True, the function will put the canvas onto the screen. 
     (beta testing) trigger: (content, mode)
+    (beta testing) timeit: True, False (default)
     
     Returns
     -------
     None
     '''
+    if display==False:
+        show_now = False
+        print('WARNING: The "display" will be deprecated in future version. Please use "show_now" instead')
+
     x, y = getPos(x, y, anchor_x='center', anchor_y='center')
 
     if fill:
@@ -284,7 +296,7 @@ def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='cen
         # shared.gl.glColor4b(*color)
         circle.draw(shared.gl.GL_LINE_LOOP)
 
-    if display:
+    if show_now:
         if trigger:
             sendTrigger(trigger[0], mode=trigger[1])
         if trigger:
@@ -294,7 +306,7 @@ def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='cen
         shared.need_update = True
 
 
-def drawPoints(points, color=C_white, size=1, display=True, trigger=None):
+def drawPoints(points, color=C_white, size=1, show_now=True, display=True, timeit=False, trigger=None):
     '''
     Draw point(s) on the canvas.
 
@@ -311,14 +323,19 @@ def drawPoints(points, color=C_white, size=1, display=True, trigger=None):
         The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
     size: int (default: 1)
         The size of each point
-    display: True(default), False
+    show_now: True(default), False
         If True, the function will put the canvas onto the screen. 
     (beta testing) trigger: (content, mode)
+    (beta testing) timeit: True, False (default)
     
     Returns
     -------
     None
     '''
+    if display==False:
+        show_now = False
+        print('WARNING: The "display" will be deprecated in future version. Please use "show_now" instead')
+
     new_points = []
     for x, y in points:
         if type(x) is float:
@@ -333,15 +350,18 @@ def drawPoints(points, color=C_white, size=1, display=True, trigger=None):
                                 ('c4B', color * (len(new_points) // 2))
                                 )
 
-    if display:
+    if show_now:
+        shared.win.flip()
+        if timeit and not shared.start_tp:
+            now = shared.time.time()
+            shared.start_tp = now
         if trigger:
             sendTrigger(trigger[0], mode=trigger[1])
-        shared.win.flip()
     else:
         shared.need_update = True
 
 
-def drawLines(points, color=C_white, width=1, close=False, display=True, trigger=None):
+def drawLines(points, color=C_white, width=1, close=False, show_now=True, display=True, timeit=False, trigger=None):
     '''
     Draw line(s) on the canvas.
 
@@ -361,14 +381,19 @@ def drawLines(points, color=C_white, width=1, close=False, display=True, trigger
     close: True, False(default)
         Whether to connect the last point with the first one. 
         If True, the polygon could be drawn.
-    display: True(default), False
+    show_now: True(default), False
         If True, the function will put the canvas onto the screen.
     (beta testing) trigger: (content, mode)
+    (beta testing) timeit: True, False (default)
     
     Returns
     -------
     None
     '''
+    if display==False:
+        show_now = False
+        print('WARNING: The "display" will be deprecated in future version. Please use "show_now" instead')
+
     new_points = []
     if close:
         points += points[0]
@@ -385,15 +410,18 @@ def drawLines(points, color=C_white, width=1, close=False, display=True, trigger
                                 ('c4B', color * (len(new_points) // 2))
                                 )
 
-    if display:
+    if show_now:
+        shared.win.flip()
+        if timeit and not shared.start_tp:
+            now = shared.time.time()
+            shared.start_tp = now
         if trigger:
             sendTrigger(trigger[0], mode=trigger[1])
-        shared.win.flip()
     else:
         shared.need_update = True
 
 
-def drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y='center', display=True, trigger=None):
+def drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y='center', show_now=True, display=True, timeit=False, trigger=None):
     '''
     Draw loaded image on the canvas.
 
@@ -425,14 +453,19 @@ def drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y=
     anchor_y: str (default:'center')
         The position benchmark on this object to the given y.
         Options: 'center', 'top', or 'bottom'.
-    display: True(default), False
+    show_now: True(default), False
         If True, the function will put the canvas onto the screen. 
     (beta testing) trigger: (content, mode)
+    (beta testing) timeit: True, False (default)
     
     Returns
     -------
     None
     '''
+    if display==False:
+        show_now = False
+        print('WARNING: The "display" will be deprecated in future version. Please use "show_now" instead')
+
     im = shared.pyglet.image.load(path)
 
     if type(w) is float:
@@ -451,13 +484,16 @@ def drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y=
     else:
         w, h = im.width, im.height
 
-    x, y, w, h = getPos(x, y, w, h, anchor_x='center', anchor_y='center')
+    x, y, w, h = getPos(x, y, w, h, anchor_x=anchor_x, anchor_y=anchor_y)
 
     im.blit(x, y, 0)
 
-    if display:
+    if show_now:
+        shared.win.flip()
+        if timeit and not shared.start_tp:
+            now = shared.time.time()
+            shared.start_tp = now
         if trigger:
             sendTrigger(trigger[0], mode=trigger[1])
-        shared.win.flip()
     else:
         shared.need_update = True

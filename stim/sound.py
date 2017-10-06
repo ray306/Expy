@@ -268,7 +268,7 @@ def makeSound(data):
     output = toStereoArray(data)
     return output
 
-def playSound(sound, busy=True, playing_track=None, trigger=None):
+def playSound(sound, busy=True, playing_track=None, timeit=False, trigger=None):
     '''
     Play a sound array, and the experiment procedure will be blocked by this function
 
@@ -280,6 +280,7 @@ def playSound(sound, busy=True, playing_track=None, trigger=None):
         Whether the experiment procedure will be blocked by the this function
     playing_track: int, str, or None(default)
         The name of current track
+    (beta testing) timeit: True, False (default)
     (beta testing) trigger: (content, mode)
 
     Returns
@@ -287,12 +288,12 @@ def playSound(sound, busy=True, playing_track=None, trigger=None):
     None
     '''
     if busy:
-        playBusySound(sound, trigger)
+        playBusySound(sound, timeit, trigger)
     else:
-        playFreeSound(sound, playing_track, trigger)
+        playFreeSound(sound, playing_track, timeit, trigger)
 
 
-def playBusySound(sound, trigger=None):
+def playBusySound(sound, timeit=False, trigger=None):
     '''
     Play a sound array, and the experiment procedure will be blocked by this function
 
@@ -300,6 +301,7 @@ def playBusySound(sound, trigger=None):
     ----------
     sound: array
         The sound data
+    (beta testing) timeit: True, False (default)
     (beta testing) trigger: (content, mode)
 
     Returns
@@ -312,9 +314,10 @@ def playBusySound(sound, trigger=None):
     chunk = 1024
     stream = shared.pa.open(format=shared.pyaudio.paInt16, channels=2, rate=shared.setting['sample_rate'],
                     output=True)
-    if trigger:
-        sendTrigger(trigger[0], mode=trigger[1])
-        
+
+    
+    first = True
+
     while 1:
         shared.win.dispatch_events()
 
@@ -322,12 +325,20 @@ def playBusySound(sound, trigger=None):
         if data == b'':
             break
 
+        if first:
+            first = False
+            if timeit and not shared.start_tp:
+                now = shared.time.time()
+                shared.start_tp = now
+            if trigger:
+                sendTrigger(trigger[0], mode=trigger[1])
+
         stream.write(data)
 
     stream.stop_stream()
     stream.close()
 
-def playFreeSound(sound, playing_track=None, trigger=None):
+def playFreeSound(sound, playing_track=None, timeit=False, trigger=None):
     '''
     Play a sound array, and the experiment procedure won't be blocked by this function
 
@@ -337,6 +348,7 @@ def playFreeSound(sound, playing_track=None, trigger=None):
         The sound data
     playing_track: int, str, or None(default)
         The name of current track
+    (beta testing) timeit: True, False (default)
     (beta testing) trigger: (content, mode)
 
     Returns
@@ -354,13 +366,22 @@ def playFreeSound(sound, playing_track=None, trigger=None):
         chunk = 1024
         stream = shared.pa.open(format=shared.pyaudio.paInt16, channels=2, rate=shared.setting['sample_rate'],
                         output=True)
-        if trigger:
-            sendTrigger(trigger[0], mode=trigger[1])
+
+        first = True
 
         while 1:
             data = output.read(chunk)
             if data == b'' or shared.states[playing_track] == False:
                 break
+
+            if first:
+                first = False
+                if timeit and not shared.start_tp:
+                    now = shared.time.time()
+                    shared.start_tp = now
+                if trigger:
+                    sendTrigger(trigger[0], mode=trigger[1])
+
             stream.write(data)
 
         shared.changeState(playing_track, False)
@@ -372,7 +393,7 @@ def playFreeSound(sound, playing_track=None, trigger=None):
     td.start()
 
 import pyglet.window.key as key_
-def playAlterableSound(sound, effect=changeVolume, key_up=key_.RIGHT, key_down=key_.LEFT, key_confirm=key_.ENTER, trigger=None):
+def playAlterableSound(sound, effect=changeVolume, key_up=key_.RIGHT, key_down=key_.LEFT, key_confirm=key_.ENTER, timeit=False, trigger=None):
     '''
     Play a sound array, and the sound can be modified while playingr 
 
@@ -388,6 +409,7 @@ def playAlterableSound(sound, effect=changeVolume, key_up=key_.RIGHT, key_down=k
         The key indicating down of the index.
     key_confirm: keyname (default: key_.ENTER)
         The key indicating the end of change detection.
+    (beta testing) timeit: True, False (default)
     (beta testing) trigger: (content, mode)
 
     Returns

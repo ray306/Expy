@@ -44,7 +44,7 @@ show(2)  # Display current canvas
 ''''''
 
 # Draw text on the canvas, with left center's position
-drawText('Hello! world!', anchor_x='left',anchor_y='center')
+drawText('Hello! world!', anchor_x='left', anchor_y='bottom')
 show(2)  # Display current canvas
 
 # Draw text on the canvas, with given fontsize
@@ -85,16 +85,16 @@ show(3)  # Display current canvas
 drawPic('data/demo.jpg', w=400, h=300)
 show(3)  # Display current canvas
 
-# # Draw a zoomed picture on the canvas center
-# drawPic('data/demo.jpg', w=300, h=400, rotate=90)
-# show(3)  # Display current canvas
+# Draw a zoomed picture on the canvas center
+drawPic('data/demo.jpg', w=300, h=400, rotate=90)
+show(3)  # Display current canvas
 
 # Draw a zoomed picture on the canvas, and move it
 drawPic('data/demo.jpg', w=400, h=300, x=0.5, y=0.5)
 show(3)  # Display current canvas
 
 # Draw a zoomed picture on the canvas, and move it
-drawPic('data/demo.jpg', w=400, h=300, x=0.5, y=0.5, anchor_x='left',anchor_y='center')
+drawPic('data/demo.jpg', w=400, h=300, x=0.5, y=0.5, anchor_x='right',anchor_y='center')
 show(3)  # Display current canvas
 
 ```
@@ -358,13 +358,13 @@ sendTrigger('something', mode='S')
 ```python
 start()  # Initiate the experiment environment
 
-drawText('Hello', display=False)  # Draw text on the canvas
+drawText('Hello', show_now=False)  # Draw text on the canvas
 s1 = getScreen()  # Get current canvas, then clean the canvas
 
-drawText('world', display=False)  # Draw text on the canvas
+drawText('world', show_now=False)  # Draw text on the canvas
 s2 = getScreen(clean_screen=False)  # Get current canvas, and keep it
 
-drawText('........', display=False)  # Draw text on the canvas
+drawText('........', show_now=False)  # Draw text on the canvas
 s3 = getScreen()  # Get current canvas, then clean the canvas
 
 show(3, backup=s1)  # Display backup canvas

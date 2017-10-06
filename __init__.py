@@ -21,7 +21,7 @@ mouse_ = shared.mouse_
 
 print('Current Expy: ', os.path.dirname(os.path.abspath(__file__)))
 
-def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=C_white, background_color=C_gray, sample_rate=44100, port='', vsync=True):
+def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=C_white, background_color=C_gray, sample_rate=44100, port='', vsync=False):
     '''
     Initialize the experiment.
     Note: todo.
@@ -55,7 +55,7 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
     port: str, or hex number (default:'') 
         Port name used to send trigger.
         Use str on serial port, and hex on parallel port 
-    vsync: True(default), or False
+    vsync: True, or False (default)
         Vertical retrace synchronisation
 
     Returns
@@ -154,19 +154,6 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
     # print('Watchdog started')
 
     @shared.win.event
-    def on_mouse_press(x, y, button, modifiers):
-        for event in shared.allowed_mouse_clicks:
-            if x in event.x and y in event.y and button == event.button:
-                e = {'type': 'mouse_press',
-                     'button': button,
-                     'pos': (x, y),
-                     'time': time.time()}
-                shared.events.append(e)
-                return
-
-        shared.figure_released = False
-
-    @shared.win.event
     def on_key_press(k, modifiers):
         'decision'
         if k == key_.ESCAPE:
@@ -197,6 +184,19 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
     def on_key_release(k, modifiers):
         shared.end_tp = time.time()
         shared.figure_released = True
+
+    @shared.win.event
+    def on_mouse_press(x, y, button, modifiers):
+        for event in shared.allowed_mouse_clicks:
+            if x in event.x and y in event.y and button == event.button:
+                e = {'type': 'mouse_press',
+                     'button': button,
+                     'pos': (x, y),
+                     'time': time.time()}
+                shared.events.append(e)
+                return
+
+        shared.figure_released = False
 
     @shared.win.event
     def on_mouse_release(x, y, button, modifiers):

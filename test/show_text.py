@@ -14,7 +14,7 @@ show(2)  # Display current canvas
 ''''''
 
 # Draw text on the canvas, with left center's position
-drawText('Hello! world!', anchor_x='left',anchor_y='center')
+drawText('Hello! world!', anchor_x='left', anchor_y='bottom')
 show(2)  # Display current canvas
 
 # Draw text on the canvas, with given fontsize
