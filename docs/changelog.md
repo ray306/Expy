@@ -1,7 +1,7 @@
 # Todo
 - the program won;t quit automatically at the end (but alertAndQuit works)
 - auto check the working port
-- two screen or online report
+- two screen or online report : flask server html ajax
 - Format text draw function
 
 # 0.9.11
