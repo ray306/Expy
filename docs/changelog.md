@@ -3,6 +3,10 @@
 - auto check the working port
 - two screen or online report : flask server html ajax
 - Format text draw function
+- abstract every methods in the beginning - to speed up the startup 
+
+# 0.9.11.1
+- Fixed an issue that `fill` didn't show color in `drawCircle()`
 
 # 0.9.11
 - Changed the parameter `display` of `drawXXX` to `show_now`

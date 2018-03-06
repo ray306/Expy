@@ -16,5 +16,8 @@ pages:
   - About:
     - Changelog: changelog.md
 
+markdown_extensions:
+    - toc:
+        permalink: True
 
 copyright: Copyright (c) 2016 Jinbiao Yang

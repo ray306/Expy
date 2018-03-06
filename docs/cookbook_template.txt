@@ -1,5 +1,24 @@
 # Cookbook
 ---
+- Experiment Initiation
+- Experiment Structure
+- Visual
+    - Show text
+    - Show picture
+    - Show shape
+- Video
+- Auditory
+    - Play sound
+    - Sound Recording
+- Response
+- Scaffold functions
+- Get external parameters
+- Read or write file
+- Send trigger
+- Preload screen
+
+---
+
 ## *Experiment Initiation*
 ```python
 # coding:utf-8

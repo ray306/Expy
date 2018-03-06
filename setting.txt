@@ -1,0 +1,14 @@
+----
+[subject_name_query]
+请输入实验序号：
+----
+[instruction]
+欢迎参加我们的实验！
+>
+请在准备完备后开始。
+----
+[block_start]
+实验会在3秒后开始
+----
+[experiment_end]
+实验结束~ 谢谢参与我们的实验!

@@ -94,6 +94,14 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
         shared.win_height = shared.setting['winsize'][1]
         shared.win = shared.pyglet.window.Window(
             width=shared.win_width, height=shared.win_height, vsync=vsync)
+
+    # display = shared.pyglet.window.get_platform().get_default_display()
+    # screens = display.get_screens()
+    # print(screens)
+    # windows = []
+    # for screen in screens:
+    #     windows.append(shared.pyglet.window.Window(fullscreen=True, screen=screen))
+
     shared.pyglet.gl.glClearColor(*shared.background_color)
 
     shared.win.dispatch_events()

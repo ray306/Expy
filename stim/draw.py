@@ -277,6 +277,7 @@ def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='cen
         dx, dy = r, 0
 
         shared.gl.glBegin(shared.gl.GL_TRIANGLE_FAN)
+        shared.gl.glColor4f(*color)
         shared.gl.glVertex2f(x, y)
         for i in range(numPoints + 1):
             shared.gl.glVertex2f(x + dx, y + dy)
