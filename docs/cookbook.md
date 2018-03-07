@@ -1,5 +1,24 @@
 # Cookbook
 ---
+- Experiment Initiation
+- Experiment Structure
+- Visual
+    - Show text
+    - Show picture
+    - Show shape
+- Video
+- Auditory
+    - Play sound
+    - Sound Recording
+- Response
+- Scaffold functions
+- Get external parameters
+- Read or write file
+- Send trigger
+- Preload screen
+
+---
+
 ## *Experiment Initiation*
 ```python
 # coding:utf-8
@@ -43,6 +62,11 @@ drawText('Hello world!')
 show(2)  # Display current canvas
 ''''''
 
+# Draw text on the canvas
+w, h = drawText('Hello world!', show_now=False)
+drawRect(w, h, color=C_red, fill=False, show_now=False)
+show(2)  # Display current canvas
+
 # Draw text on the canvas, with left center's position
 drawText('Hello! world!', anchor_x='left', anchor_y='bottom')
 show(2)  # Display current canvas
@@ -68,6 +92,7 @@ show(2)  # Display current canvas
 
 # Display text on a new slide, it's functionally equals to clear+drawText+show,
 textSlide('Hello\nworld\nagain!')
+
 ```
 
 ### Show picture
@@ -104,12 +129,12 @@ show(3)  # Display current canvas
 ```python
 start(background_color=C_green)  # Initiate the experiment environment
 
-# Draw a circle on the canvas
-drawCircle(60, fill=True)
-show(1.5)  # Display current canvas
-
 # Draw a rect on the canvas
 drawRect(200, 100, color=C_red)
+show(1.5)  # Display current canvas
+
+# Draw a circle on the canvas
+drawCircle(60, fill=False)
 show(1.5)  # Display current canvas
 
 x, y = shared.win_width // 2, shared.win_height // 2  # calculate the screen center

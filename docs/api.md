@@ -120,7 +120,7 @@ show_now: True(default), False
 
 Returns
 -------
-None
+(width, height): Width and height of the text sprite
 ```
 
 ### *Shape*

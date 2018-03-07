@@ -1,7 +1,7 @@
 # coding:utf-8
 ##### package test #####
 import sys
-sys.path = ['../../']+sys.path
+sys.path = ['././']+sys.path
 ################
 
 from expy import *  # Import the needed functions
@@ -12,6 +12,11 @@ start()  # Initiate the experiment environment
 drawText('Hello world!')
 show(2)  # Display current canvas
 ''''''
+
+# Draw text on the canvas
+w, h = drawText('Hello world!', show_now=False)
+drawRect(w, h, color=C_red, fill=False, show_now=False)
+show(2)  # Display current canvas
 
 # Draw text on the canvas, with left center's position
 drawText('Hello! world!', anchor_x='left', anchor_y='bottom')

@@ -5,6 +5,11 @@
 - Format text draw function
 - abstract every methods in the beginning - to speed up the startup 
 
+# 0.9.11.2
+- Fixed an issue that `fill` didn't work in `drawRect()`
+- Added return values (width, height) in `drawText()`
+- Changed the definition of "sys.path" in all test files
+
 # 0.9.11.1
 - Fixed an issue that `fill` didn't show color in `drawCircle()`
 

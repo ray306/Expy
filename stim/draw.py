@@ -100,7 +100,7 @@ def drawText(text, font=shared.default_font, size='stim_font_size', color=C_whit
     
     Returns
     -------
-    None
+    (width, height): Width and height of the text sprite
     '''
     if display==False:
         show_now = False
@@ -148,6 +148,8 @@ def drawText(text, font=shared.default_font, size='stim_font_size', color=C_whit
             sendTrigger(trigger[0], mode=trigger[1])
     else:
         shared.need_update = True
+
+    return label.content_width, label.content_height
 
 
 def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', show_now=True, display=True, timeit=False, trigger=None):
@@ -209,9 +211,9 @@ def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='ce
                                             )
     else:
         shared.pyglet.gl.glLineWidth(width)
-        shared.pyglet.graphics.draw(4, shared.gl.GL_LINE_LOOP,
-                                    ('v2i', points),
-                                    ('c4B', color * 4)
+        shared.pyglet.graphics.draw(5, shared.gl.GL_LINE_LOOP,
+                                    ('v2i', points + points[:2]),
+                                    ('c4B', color * 5)
                                     )
 
     if show_now:
@@ -397,7 +399,7 @@ def drawLines(points, color=C_white, width=1, close=False, show_now=True, displa
 
     new_points = []
     if close:
-        points += points[0]
+        points += [points[0]]
     for x, y in points:
         if type(x) is float:
             new_points += [(0.5 + x / 2) * shared.win_width,

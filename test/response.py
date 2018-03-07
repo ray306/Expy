@@ -1,6 +1,6 @@
 # coding:utf-8
 import sys
-sys.path = ['../../']+sys.path
+sys.path = ['././']+sys.path
 
 from expy import *  # Import the needed functions
 start(mouse_visible=True)  # Initiate the experiment environment

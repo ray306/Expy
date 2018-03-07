@@ -1,7 +1,7 @@
 import re
 import os
 
-path = '../'
+path = './'
 
 'quickstart_generator'
 with open(path+'docs/quickstart_template.txt') as f:
@@ -13,7 +13,7 @@ with open(path+'docs/quickstart_template.txt') as f:
             new_file.append(l)
         else:
             try:
-                with open('../test/'+l[2:].replace('\n',''), encoding='utf8') as f:
+                with open('./test/'+l[2:].replace('\n',''), encoding='utf8') as f:
                     lines = f.readlines()
 
                     for ind,l in enumerate(lines):
@@ -40,7 +40,7 @@ with open(path+'docs/cookbook_template.txt') as f:
             new_file.append(l)
         else:
             try:
-                with open('../test/'+l[2:].replace('\n',''), encoding='utf8') as f:
+                with open('./test/'+l[2:].replace('\n',''), encoding='utf8') as f:
                     lines = f.readlines()
 
                     for ind,l in enumerate(lines):
