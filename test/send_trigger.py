@@ -1,18 +1,19 @@
 # coding:utf-8
 ##### package test #####
 import sys
-sys.path = ['././']+sys.path
+sys.path = ['../']+sys.path
 ################
+print(sys.version)
 
 from expy import *  # Import the needed functions
 
 'Parallel Port'
-start(port=0xC100)
-sendTrigger(0, mode='P')
+# start(port=0xC100)
+# sendTrigger(0, mode='P')
 
 'Serial Port'
-start(port='COM1')
-sendTrigger('something', mode='S')
+start(port='COM5')
+sendTrigger('m$', mode='S')
 
 # import serial
 # ser = serial.Serial(baudrate=115200)
