@@ -268,7 +268,8 @@ def makeSound(data):
     output = toStereoArray(data)
     return output
 
-def playSound(sound, busy=True, playing_track=None, timeit=False, trigger=None):
+
+def playSound(sound, busy=True, playing_track=None, timeit=False, trigger=None, triggerbox=False):
     '''
     Play a sound array, and the experiment procedure will be blocked by this function
 
@@ -288,12 +289,12 @@ def playSound(sound, busy=True, playing_track=None, timeit=False, trigger=None):
     None
     '''
     if busy:
-        playBusySound(sound, timeit, trigger)
+        playBusySound(sound, timeit, trigger, triggerbox)
     else:
         playFreeSound(sound, playing_track, timeit, trigger)
 
 
-def playBusySound(sound, timeit=False, trigger=None):
+def playBusySound(sound, timeit=False, trigger=None, triggerbox=False):
     '''
     Play a sound array, and the experiment procedure will be blocked by this function
 
@@ -308,7 +309,6 @@ def playBusySound(sound, timeit=False, trigger=None):
     -------
     None
     '''
-
     output = io.BytesIO(sound)
 
     chunk = 1024
@@ -318,6 +318,8 @@ def playBusySound(sound, timeit=False, trigger=None):
     
     first = True
 
+    
+
     while 1:
         shared.win.dispatch_events()
 
@@ -325,11 +327,15 @@ def playBusySound(sound, timeit=False, trigger=None):
         if data == b'':
             break
 
+        
+
         if first:
             first = False
-            if timeit and not shared.start_tp:
-                now = shared.time.time()
-                shared.start_tp = now
+            if timeit and shared.start_tp is None:
+                if triggerbox:
+                    shared.check_port = True
+                else:
+                    shared.start_tp = shared.time.time()
             if trigger:
                 sendTrigger(trigger[0], mode=trigger[1])
 
@@ -376,7 +382,7 @@ def playFreeSound(sound, playing_track=None, timeit=False, trigger=None):
 
             if first:
                 first = False
-                if timeit and not shared.start_tp:
+                if timeit and shared.start_tp is None:
                     now = shared.time.time()
                     shared.start_tp = now
                 if trigger:
@@ -424,7 +430,7 @@ def playAlterableSound(sound, effect=changeVolume, key_up=key_.RIGHT, key_down=k
     stream = shared.pa.open(format=shared.pyaudio.paInt16, channels=2, rate=shared.setting['sample_rate'],
                     output=True)
     if trigger:
-            sendTrigger(trigger[0], mode=trigger[1])
+        sendTrigger(trigger[0], mode=trigger[1])
     changed_index = 1 # index the key-caused change
 
     while 1:

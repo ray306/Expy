@@ -319,8 +319,6 @@ print(shared.setting['timing_set'])  # Print the setting of 'timing_set' part
 print(timing('ITI'))  # Print 'ITI' value (we specify 500 for it in "setting.txt")
 # Print 'fix' value (we specify 800~1400 range for it in "setting.txt")
 print(timing('fix'))
-# Print 'fix' value (we specify 800~1400 range for it in "setting.txt")
-print(timing('fix'))
 
 ```
 
@@ -351,29 +349,6 @@ saveResult(resp=[(1, 0), (2, 0), (3, 0), (4, 0)], block_tag=3, columns=[
 ## *Send trigger*
 
 ```python
-
-'Parallel Port'
-start(port=0xC100)
-sendTrigger(0, mode='P')
-
-'Serial Port'
-start(port='COM1')
-sendTrigger('something', mode='S')
-
-# import serial
-# ser = serial.Serial(baudrate=115200)
-# ser.port = 'COM1' # set the port
-# try:
-#     ser.open()
-# except:
-#     print('Could not open port')
-
-# ser.write(b'something') # send a string directly
-
-# tg = 'something'
-# ser.write(bytes(tg,encoding='utf8')) # send a string which might change
-
-# n=int('0b00010001',2)
 # ser.write(n.to_bytes((n.bit_length()+7)//8, 'big')) # send a binary code
 
 ```

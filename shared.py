@@ -52,9 +52,60 @@ onset = time.time()
 with open('log.txt','a') as f:
     f.write('###\nOnset\t%s\n' %(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(onset)) ))
 
-'Sound'
-lock = threading.Lock()
+'port'
+if platform.system() == "Windows":
+    if platform.architecture()[0] == '64bit':
+        port_dll = ctypes.windll.LoadLibrary(path + "inpoutx64.dll")
+    else:
+        port_dll = ctypes.windll.LoadLibrary(path + "inpout32.dll")
+else:
+    port_dll = None
 
+ser = serial.Serial(baudrate=115200)
+
+'threading'
+check_serial_port = False
+serial_port_state = ''
+def serial_port_listener():
+    # main_thread = threading.main_thread()
+    global check_serial_port  # serial port listener
+    global serial_port_state
+    global start_tp
+    while 1:
+        time.sleep(0.0005)
+        if check_serial_port:
+            serial_port_state = ser.read()
+            start_tp = time.time()
+            check_serial_port = False
+        # if not main_thread.is_alive():
+        #     break
+td_sp = threading.Thread(target=serial_port_listener)
+td_sp.start()
+
+net_port_state = ''
+def net_port_listener():
+    import socket
+    HOST = '0.0.0.0'
+    PORT = 36
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((HOST, PORT))
+    s.listen(5)
+
+    global net_port_state
+    while True:
+        try:
+            conn, addr = s.accept()
+            while True:
+                net_port_state = conn.recv(1024)
+        except:
+            continue
+
+td_net = threading.Thread(target=net_port_listener)
+td_net.start()
+
+
+lock = threading.Lock()
 
 def changeState(name, value):
     '''
@@ -103,13 +154,4 @@ pa = pyaudio.PyAudio()
 # else:
 #     has_openal = True
 
-'port'
-if platform.system() == "Windows":
-    if platform.architecture()[0] == '64bit':
-        port_dll = ctypes.windll.LoadLibrary(path + "inpoutx64.dll")
-    else:
-        port_dll = ctypes.windll.LoadLibrary(path + "inpout32.dll")
-else:
-    port_dll = None
 
-ser = serial.Serial(baudrate=115200)

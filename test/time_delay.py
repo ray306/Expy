@@ -89,8 +89,3 @@ reset()
 visualCases(2)
 close()
 
-start(port='COM5',vsync=True)
-reset()
-visualCases(2)
-close()
-

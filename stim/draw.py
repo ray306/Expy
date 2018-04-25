@@ -146,6 +146,7 @@ def drawText(text, font=shared.default_font, size='stim_font_size', color=C_whit
             shared.start_tp = now
         if trigger:
             sendTrigger(trigger[0], mode=trigger[1])
+        shared.need_update = False
     else:
         shared.need_update = True
 
@@ -223,6 +224,7 @@ def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='ce
             shared.start_tp = now
         if trigger:
             sendTrigger(trigger[0], mode=trigger[1])
+        shared.need_update = False
     else:
         shared.need_update = True
 
@@ -300,11 +302,12 @@ def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='cen
         circle.draw(shared.gl.GL_LINE_LOOP)
 
     if show_now:
-        if trigger:
-            sendTrigger(trigger[0], mode=trigger[1])
-        if trigger:
-            sendTrigger(trigger[0], mode=trigger[1])
         shared.win.flip()
+        if trigger:
+            sendTrigger(trigger[0], mode=trigger[1])
+        if trigger:
+            sendTrigger(trigger[0], mode=trigger[1])
+        shared.need_update = False
     else:
         shared.need_update = True
 
@@ -360,6 +363,7 @@ def drawPoints(points, color=C_white, size=1, show_now=True, display=True, timei
             shared.start_tp = now
         if trigger:
             sendTrigger(trigger[0], mode=trigger[1])
+        shared.need_update = False
     else:
         shared.need_update = True
 
@@ -420,6 +424,7 @@ def drawLines(points, color=C_white, width=1, close=False, show_now=True, displa
             shared.start_tp = now
         if trigger:
             sendTrigger(trigger[0], mode=trigger[1])
+        shared.need_update = False
     else:
         shared.need_update = True
 
@@ -498,5 +503,6 @@ def drawPic(path, w=0, h=0, x=0.0, y=0.0, rotate=0, anchor_x='center', anchor_y=
             shared.start_tp = now
         if trigger:
             sendTrigger(trigger[0], mode=trigger[1])
+        shared.need_update = False
     else:
         shared.need_update = True

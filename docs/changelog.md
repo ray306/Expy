@@ -5,6 +5,25 @@
 - Format text draw function
 - abstract every methods in the beginning - to speed up the startup 
 
+# 0.9.13
+- Added the external control of precedure via network. You can set the parameter `stop_signal` in method `show`
+
+# 0.9.12
+- Changed the default value of paramter `diag` and `angel` in `start` to **15** and **1.6**
+- Changed the default value of paramter `vsync` in `start` to **True**
+
+# 0.9.11.5
+- Added the default value to parameter `text` of function `instruction` 
+
+# 0.9.11.4
+- Fixed an issue that the graph cannot be remained on the screen sometimes
+
+# 0.9.11.3
+- Added function `getTrigger`
+- Modify function `sendTrigger`, supported more *str* input and *bytes* input
+- [beta] Added parameter `trigger` to the stimulus display functions
+- [beta] Added function `port_watcher` to shared.py
+
 # 0.9.11.2
 - Fixed an issue that `fill` didn't work in `drawRect()`
 - Added return values (width, height) in `drawText()`

@@ -1,6 +1,6 @@
 ## Initialization
 
-- **start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=23, angel=2.5, font_color=C_white, background_color=C_gray, sample_rate=44100, port='', vsync=False)**
+- **start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse_visible=False, normal_font_size=20, stim_font_size=None, distance=60, diag=15, angel=1.6, font_color=C_white, background_color=C_gray, sample_rate=44100, port='', vsync=True)**
 
 
 ```
@@ -36,7 +36,7 @@ sample_rate: int (default:44100)
 port: str, or hex number (default:'') 
     Port name used to send trigger.
     Use str on serial port, and hex on parallel port 
-vsync: True, or False (default)
+vsync: True (default), or False 
     Vertical retrace synchronisation
 
 Returns
@@ -436,7 +436,7 @@ output: array
 ```
 
 
-- **playSound(sound, busy=True, playing_track=None, timeit=False, trigger=None)**
+- **playSound(sound, busy=True, playing_track=None, timeit=False, trigger=None, triggerbox=False)**
 
 
 ```
@@ -459,7 +459,7 @@ None
 ```
 
 
-- **playBusySound(sound, timeit=False, trigger=None)**
+- **playBusySound(sound, timeit=False, trigger=None, triggerbox=False)**
 
 
 ```
@@ -658,7 +658,7 @@ None
 
 ### *Display controller*
 
-- **show(out_time=False, clean_screen=True, backup=None, debugging=True)**
+- **show(out_time=False, clean_screen=True, stop_signal=None, backup=None, debugging=True)**
 
 
 ```
@@ -667,9 +667,11 @@ Display current canvas buffer, and keep the display during a limited period.
 Parameters
 ----------
 out_time: num(>0), False(default)
-    The time limit of current function. (unit: second) 
+    The time limit of current function. (unit: second)
 clean_screen: True(default), False
     Whether clear the screen after get the screen or not. 
+stop_signal: None (default), str
+    If the stop_signal is str, this method would be blocked until a stop_signal was received from the 0.0.0.0:36
 backup: None, or a screen backup
     Give a prepared screen to display
 
@@ -1077,7 +1079,7 @@ pre_text: str
 ```
 
 
-- **instruction(instruction_text, has_practice=False)**
+- **instruction(instruction_text=None, has_practice=False)**
 
 
 ```
@@ -1086,8 +1088,8 @@ Show the instruction of experiment
 
 Parameters
 ----------
-instruction_text: list of str
-    The text that will be displayed as instruction.
+instruction_text: None (default), list of str
+    The text that will be displayed as instruction. If None, the instruction text in the setting file will be loaded.
 
 Return
 ---------

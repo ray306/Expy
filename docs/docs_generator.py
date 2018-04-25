@@ -1,7 +1,7 @@
 import re
 import os
 
-path = './'
+path = '../'
 
 'quickstart_generator'
 with open(path+'docs/quickstart_template.txt') as f:
@@ -13,7 +13,7 @@ with open(path+'docs/quickstart_template.txt') as f:
             new_file.append(l)
         else:
             try:
-                with open('./test/'+l[2:].replace('\n',''), encoding='utf8') as f:
+                with open('../test/'+l[2:].replace('\n',''), encoding='utf8') as f:
                     lines = f.readlines()
 
                     for ind,l in enumerate(lines):
@@ -24,7 +24,7 @@ with open(path+'docs/quickstart_template.txt') as f:
 
                 new_file.append('\n```python\n%s\n```\n' %(code))
             except:
-                    print('cannnot read',file)
+                    print('cannnot read',l[2:].replace('\n',''))
 
 
     with open(path+'docs/quickstart.md','w+', encoding='utf8') as f:
@@ -40,7 +40,7 @@ with open(path+'docs/cookbook_template.txt') as f:
             new_file.append(l)
         else:
             try:
-                with open('./test/'+l[2:].replace('\n',''), encoding='utf8') as f:
+                with open('../test/'+l[2:].replace('\n',''), encoding='utf8') as f:
                     lines = f.readlines()
 
                     for ind,l in enumerate(lines):
@@ -52,7 +52,7 @@ with open(path+'docs/cookbook_template.txt') as f:
 
                 new_file.append('\n```python\n%s\n```\n' %(code))
             except:
-                    print('cannnot read',file)
+                    print('cannnot read',l[2:].replace('\n',''))
 
 
     with open(path+'docs/cookbook.md','w+', encoding='utf8') as f:
@@ -87,7 +87,7 @@ with open(path+'docs/api_template.txt') as f:
                                     comments[f_name][1] += (lines[ind][4:-1] + '\n')
                                     ind += 1
                 except:
-                    print('cannnot read',file)
+                    print('cannnot read',l[2:].replace('\n',''))
 
     new_file = []
     for l in template:

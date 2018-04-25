@@ -137,21 +137,24 @@ def getSubjectID(pre_text):
     shared.subject = getInput(pre_text)
 
 
-def instruction(instruction_text, has_practice=False):
+def instruction(instruction_text=None, has_practice=False):
     '''
     Show the instruction of experiment
     (press 'left' to back, 'right' to continue)
 
     Parameters
     ----------
-    instruction_text: list of str
-        The text that will be displayed as instruction.
+    instruction_text: None (default), list of str
+        The text that will be displayed as instruction. If None, the instruction text in the setting file will be loaded.
 
     Return
     ---------
     resp: Keyname/int
         The last pressed key name.
     '''
+    if instruction_text is None:
+        instruction_text = shared.setting['instruction']
+
     intro = '\n'.join(instruction_text).split('>\n')
     i = 0
     while True:
