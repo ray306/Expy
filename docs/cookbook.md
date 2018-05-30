@@ -285,6 +285,7 @@ alertAndGo('您刚刚在（X=%d，Y=%d）处按下了%d，用时: %fs' % (x, y, 
 ```python
 start()  # Initiate the experiment environment
 
+
 # Get user input until "ENTER" pressed, then give it to a variable
 something = getInput('enter something:')
 
@@ -295,13 +296,14 @@ alert('You just entered "%s".\nPlease press RETURN to continue.' %something)
 instruction(['This is the first page of instruction>', 'second page>', 'last page\nPress SPACE to quit the instruction'])
 
 # Suspend the experiment and ask participant to rest, until "SPACE" pressed
-restTime()
+restTime(background_image='bg.jpg')
 
 # Show something during a limited period, and continue
 alertAndGo('Show something for 3s', 3)
 
 # Show something during a limited period, and quit the program
 alertAndQuit('Show something for 3s, and quit')
+
 ```
 
 ## *Get external parameters*
@@ -338,7 +340,11 @@ block2 = readStimuli(stim, query='block==2')
 print('alldata:\n', alldata)
 print('block2:\n', block2)
 
-'Save result'
+'Save result in one file (without block_tag)'
+saveResult(resp=[1, 2, 3, 4], columns=['resp'])
+saveResult(resp=[5, 6, 7, 8], columns=['resp'])
+
+'Save result in individual files (with block_tag)'
 saveResult(resp=[1, 2, 3, 4], block_tag=1, columns=['resp'])
 saveResult(resp=[1, 2, 3, 4], block_tag=2 columns=['resp'], stim=block2)
 saveResult(resp=[(1, 0), (2, 0), (3, 0), (4, 0)], block_tag=3, columns=[

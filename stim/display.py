@@ -58,10 +58,12 @@ def show(out_time=False, clean_screen=True, stop_signal=None, backup=None, debug
     if out_time:
         waitForResponse(shared.key_.ENTER, out_time)
     if stop_signal!=None:
+        shared.net_port_state = ''
         s = stop_signal.encode(encoding='utf_8', errors='strict')
         while True:
             if shared.net_port_state == s:
                 # print(shared.net_port_state)
+                shared.net_port_state = ''
                 break
     if clean_screen:
         clear(debugging)

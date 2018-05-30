@@ -318,8 +318,6 @@ def playBusySound(sound, timeit=False, trigger=None, triggerbox=False):
     
     first = True
 
-    
-
     while 1:
         shared.win.dispatch_events()
 
@@ -359,7 +357,7 @@ def playFreeSound(sound, playing_track=None, timeit=False, trigger=None):
 
     Returns
     -------
-    None
+    playing_track
     '''
     if type(playing_track)!=str:
         playing_track=np.random.randint(99999)
@@ -397,6 +395,8 @@ def playFreeSound(sound, playing_track=None, timeit=False, trigger=None):
 
     td = shared.threading.Thread(target=playSoundSub)
     td.start()
+
+    return playing_track
 
 import pyglet.window.key as key_
 def playAlterableSound(sound, effect=changeVolume, key_up=key_.RIGHT, key_down=key_.LEFT, key_confirm=key_.ENTER, timeit=False, trigger=None):

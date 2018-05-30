@@ -5,8 +5,27 @@
 - Format text draw function
 - abstract every methods in the beginning - to speed up the startup 
 
+# 0.9.13.5
+- Fixed an issue of `saveResult`
+- Fixed an issue that the program won't actually stop after pressing "ESC"
+- Now `log` supports the multiple parameters
+
+# 0.9.13.4
+- Fixed an issue of `stop_signal`
+- Fixed an issue of `log`
+- Fixed an issue of `restTime`
+
+# 0.9.13.3
+- Now `getInput` support the numbers on keypad.
+
+# 0.9.13.2
+- Fixed an issue of `stop_signal`
+- Fixed the issue of parameter `background_image` in a lot of methods
+- Added paramter `background_image` in method `restTime`
+- [beta] Added paramter `background_music` in method `restTime`
+
 # 0.9.13
-- Added the external control of precedure via network. You can set the parameter `stop_signal` in method `show`
+- Added the external control of precedure via network. You can set parameter `stop_signal` in method `show`
 
 # 0.9.12
 - Changed the default value of paramter `diag` and `angel` in `start` to **15** and **1.6**
@@ -69,7 +88,7 @@
 - Separate function `playSound` by the parameter `blocking`. Now the `blocking=True` version is named as `playSound`, and the `blocking=False` version is named as `playFreeSound`
 
 # 0.9.8.1
-- Fixed a cruical issue of suspend function
+- Fixed an cruical issue of suspend function
 - Fixed an issue of serial port
 
 # 0.9.8
@@ -143,7 +162,7 @@
 - Renamed all the parameters to the UnderlineCase
 
 # 0.9.5.3
-- Fixed a bug on parallel port
+- Fixed an bug on parallel port
 
 # 0.9.5.2
 - `drawLine` allowed relative position

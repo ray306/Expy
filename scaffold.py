@@ -4,6 +4,7 @@ import pyglet.window.key as key_
 from expy import shared
 from .colors import *
 from .stim.draw import *
+from .stim.sound import *
 from .stim.display import *
 from .io import *
 from .response import *
@@ -67,7 +68,7 @@ def textSlide(text, font=shared.default_font, size='normal_font_size', color=C_w
     '''
     clear()
     if background_image:
-        drawPic(path)    
+        drawPic(background_image, show_now=False)
     drawText(text, font, size, color, rotation, x, y, anchor_x, anchor_y)
     
 
@@ -120,6 +121,9 @@ def getInput(pre_text, out_time=0, font=shared.default_font, size='normal_font_s
             text = text[0:-1]
         elif inkey <= 127:
             text += (chr(inkey))
+        elif 65456 <= inkey <= 65465:
+            text += (chr(inkey-65408))
+            
         textSlide(text, font, size, color, rotation, x, y, anchor_x, anchor_y, background_image)
     input_text = text[len(pre_text):]
     clear()
@@ -317,7 +321,9 @@ rest_text = '实验暂停，您可以休息一会\n\
 Now you can have a rest.\n\
 如果休息结束请按 [空格] 继续实验。\n\
 Please press [SPACE] key when you want to continue.\n'
-def restTime(text=rest_text):
+
+
+def restTime(text=rest_text, background_image=None, background_music=None):
     '''
     Suspend the experiment and ask participant to rest:
     1. Display a blank screen in 3s,
@@ -328,14 +334,22 @@ def restTime(text=rest_text):
     ----------
     text: str
         The text on the screen.
+    background_image: str, or None(default)
+        The path of background picture.
         
     Return
     ---------
     None
     '''
-    textSlide(text)
+    if background_music:
+        sound = loadSound(background_music)
+        playing_track = playFreeSound(sound)
+    
+    textSlide(text, background_image=background_image)
     shared.time.sleep(3)
     shared.win.dispatch_events()
     shared.events = []
     text2 = text + '>>>'
-    alert(text2, 0, key_.SPACE)
+    alert(text2, 0, key_.SPACE, background_image=background_image)
+    if background_music:
+        shared.states[playing_track] = False

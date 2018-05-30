@@ -495,7 +495,7 @@ playing_track: int, str, or None(default)
 
 Returns
 -------
-None
+playing_track
 ```
 
 
@@ -948,7 +948,7 @@ None
 
 ### *Record the log*
 
-- **log(event)**
+- **log(*events)**
 
 
 ```
@@ -956,8 +956,8 @@ Record the log to 'log.txt' in the working directory.
 
 Parameters
 ----------
-event: str
-    The event which to be logged
+events: single parameter or multiple parameters
+    The events which to be logged. If got multiple parameters, they will be seperated by blank.
 
 Return
 ---------
@@ -1228,7 +1228,7 @@ None
 ```
 
 
-- **restTime(text=rest_text)**
+- **restTime(text=rest_text, background_image=None, background_music=None)**
 
 
 ```
@@ -1241,6 +1241,8 @@ Parameters
 ----------
 text: str
     The text on the screen.
+background_image: str, or None(default)
+    The path of background picture.
     
 Return
 ---------

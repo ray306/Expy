@@ -5,6 +5,7 @@ import serial
 import time
 import threading
 import platform
+import socket
 
 import pyglet
 from pyglet import gl
@@ -77,14 +78,12 @@ def serial_port_listener():
             serial_port_state = ser.read()
             start_tp = time.time()
             check_serial_port = False
-        # if not main_thread.is_alive():
-        #     break
+            
 td_sp = threading.Thread(target=serial_port_listener)
 td_sp.start()
 
 net_port_state = ''
 def net_port_listener():
-    import socket
     HOST = '0.0.0.0'
     PORT = 36
 
@@ -97,13 +96,12 @@ def net_port_listener():
         try:
             conn, addr = s.accept()
             while True:
-                net_port_state = conn.recv(1024)
+                net_port_state = conn.recv(2)
         except:
             continue
 
 td_net = threading.Thread(target=net_port_listener)
 td_net.start()
-
 
 lock = threading.Lock()
 

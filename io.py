@@ -106,7 +106,7 @@ def readStimuli(filepath, query=None, sheetname=0, return_list=True):
     if filepath.split('.')[-1] == 'csv':
         stimuli = pd.read_csv(filepath, sep=',', encoding='gbk')
     elif filepath.split('.')[-1] in ['xls', 'xlsx']:
-        stimuli = pd.read_excel(filepath, sep=',', sheetname=0)
+        stimuli = pd.read_excel(filepath, sep=',', sheet_name=0)
     else:
         raise ValueError('Only support csv and Excel file')
     if type(query) == str:
@@ -178,42 +178,45 @@ def saveResult(resp, block_tag='', columns=['respKey', 'RT'], stim=None, stim_co
         if type(stim) is list:
             stim = pd.DataFrame(stim, columns=stim_columns)
         result = stim.join(result)
-    
-    if saveas=='excel':
-        result_file = 'result/%s_result.xlsx' %(shared.subject)
-        if os.path.exists(result_file):
-            old_data = pd.read_excel(result_file)
-            pd.concat([old_data, result]).to_excel(result_file, index=None)
-        else:
-            result.to_excel(result_file, index=None)
+
+    if block_tag == '':
+        if saveas == 'excel':
+            result_file = 'result/%s_result.xlsx' %(shared.subject)
+            if os.path.exists(result_file):
+                old_data = pd.read_excel(result_file)
+                pd.concat([old_data, result]).to_excel(result_file, index=None)
+            else:
+                result.to_excel(result_file, index=None)
+        elif saveas == 'csv':
+            result_file = 'result/%s_result.csv' %(shared.subject)
+            if os.path.exists(result_file):
+                old_data = pd.read_csv(result_file, encoding='gbk')
+                pd.concat([old_data, result]).to_csv(result_file, encoding='gbk', index=None)
+            else:
+                result.to_csv(result_file, encoding='gbk', index=None)
     else:
-        result_file = 'result/%s_result.csv' %(shared.subject)
-        if os.path.exists(result_file):
-            old_data = pd.read_csv(result_file,encoding='gbk')
-            pd.concat([old_data, result]).to_csv(result_file, index=None)
-        else:
-            result.to_csv(result_file, index=None)
+        if saveas=='csv':
+            result.to_csv('result/%s_%s_result.csv' % (shared.subject,
+                                                       str(block_tag)), encoding='gbk', index=None)
+        if saveas=='excel':
+            result.to_excel('result/%s_%s_result.xlsx' %(shared.subject, str(block_tag)), index=None)
 
-    # if saveas=='csv':
-    #     result.to_csv('result/%s_%s_result.csv' %(shared.subject, str(block_tag)), index=None)
-    # if saveas=='excel':
-    #     result.to_excel('result/%s_%s_result.xlsx' %(shared.subject, str(block_tag)), index=None)
-
-def log(event):
+def log(*events):
     '''
     Record the log to 'log.txt' in the working directory.
 
     Parameters
     ----------
-    event: str
-        The event which to be logged
+    events: single parameter or multiple parameters
+        The events which to be logged. If got multiple parameters, they will be seperated by blank.
 
     Return
     ---------
     None
     '''
-    with open('log.txt','a') as f:
-        f.write('%s\t%f\n' %(event, (shared.time.time()-shared.onset)))
+    events = ' '.join([str(e) for e in events])
+    with open('log.txt','a',encoding='utf-8') as f:
+        f.write('%s\t%f\n' % (events, (shared.time.time()-shared.onset)))
 
 def sendTrigger(data, mode='P'):
     '''

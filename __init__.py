@@ -169,6 +169,7 @@ def start(setting_file='setting.txt', fullscreen=True, winsize=(800, 600), mouse
             shared.pa.terminate()
             shared.win.close()
             shared.pyglet.app.exit()
+            os._exit(0)
         elif k == key_.F12 and not shared.suspending:
             shared.suspending = True
             start_tp_raw = shared.start_tp
