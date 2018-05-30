@@ -15,8 +15,7 @@ def clear(debugging=True):
     -------
     None
     '''
-    # shared.win.fill(shared.background_color)
-    # shared.pg.display.flip()
+
     shared.win.clear()
     shared.win.flip()
     if debugging:
@@ -46,15 +45,10 @@ def show(out_time=False, clean_screen=True, stop_signal=None, backup=None, debug
     if backup:
         shared.need_update = True
         backup.blit(0,0,0)
-        # shared.win.blit(backup, (0, 0))
     if shared.need_update:
         shared.win.flip()
         shared.need_update = False
 
-        # if not shared.start_tp:
-        #     shared.start_tp = shared.time.time()
-
-    # shared.pg.display.flip()
     if out_time:
         waitForResponse(shared.key_.ENTER, out_time)
     if stop_signal!=None:
@@ -62,11 +56,12 @@ def show(out_time=False, clean_screen=True, stop_signal=None, backup=None, debug
         s = stop_signal.encode(encoding='utf_8', errors='strict')
         while True:
             if shared.net_port_state == s:
-                # print(shared.net_port_state)
                 shared.net_port_state = ''
                 break
     if clean_screen:
         clear(debugging)
+    else:
+        shared.win.flip()
 
 def getScreen(clean_screen=True):
     '''
@@ -82,7 +77,6 @@ def getScreen(clean_screen=True):
     None
     '''
 
-    # backup = shared.pg.display.get_surface().convert()
     backup = shared.pyglet.image.get_buffer_manager().get_color_buffer().get_image_data()
     if clean_screen:
         clear()

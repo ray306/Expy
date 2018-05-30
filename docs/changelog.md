@@ -2,46 +2,49 @@
 - the program won;t quit automatically at the end (but alertAndQuit works)
 - auto check the working port
 - two screen or online report : flask server html ajax
-- Format text draw function
+- Format text draw method
 - abstract every methods in the beginning - to speed up the startup 
 
+# 0.9.13.6
+- Fixed an issue that `clean_screen=False` doesn't work in `show()`
+
 # 0.9.13.5
-- Fixed an issue of `saveResult`
+- Fixed an issue of `saveResult()`
 - Fixed an issue that the program won't actually stop after pressing "ESC"
-- Now `log` supports the multiple parameters
+- Now `log()` supports the multiple parameters
 
 # 0.9.13.4
 - Fixed an issue of `stop_signal`
-- Fixed an issue of `log`
-- Fixed an issue of `restTime`
+- Fixed an issue of `log()`
+- Fixed an issue of `restTime()`
 
 # 0.9.13.3
-- Now `getInput` support the numbers on keypad.
+- Now `getInput()` support the numbers on keypad.
 
 # 0.9.13.2
 - Fixed an issue of `stop_signal`
 - Fixed the issue of parameter `background_image` in a lot of methods
-- Added paramter `background_image` in method `restTime`
-- [beta] Added paramter `background_music` in method `restTime`
+- Added paramter `background_image` in method `restTime()`
+- [beta] Added paramter `background_music` in method `restTime()`
 
 # 0.9.13
-- Added the external control of precedure via network. You can set parameter `stop_signal` in method `show`
+- Added the external control of precedure via network. You can set parameter `stop_signal` in method `show()`
 
 # 0.9.12
-- Changed the default value of paramter `diag` and `angel` in `start` to **15** and **1.6**
-- Changed the default value of paramter `vsync` in `start` to **True**
+- Changed the default value of paramter `diag` and `angel` in `start()` to **15** and **1.6**
+- Changed the default value of paramter `vsync` in `start()` to **True**
 
 # 0.9.11.5
-- Added the default value to parameter `text` of function `instruction` 
+- Added the default value to parameter `text` of method `instruction()` 
 
 # 0.9.11.4
 - Fixed an issue that the graph cannot be remained on the screen sometimes
 
 # 0.9.11.3
-- Added function `getTrigger`
-- Modify function `sendTrigger`, supported more *str* input and *bytes* input
-- [beta] Added parameter `trigger` to the stimulus display functions
-- [beta] Added function `port_watcher` to shared.py
+- Added method `getTrigger()`
+- Modify method `sendTrigger()`, supported more *str* input and *bytes* input
+- [beta] Added parameter `trigger` to the stimulus display methods
+- [beta] Added method `port_watcher()` to shared.py
 
 # 0.9.11.2
 - Fixed an issue that `fill` didn't work in `drawRect()`
@@ -58,8 +61,8 @@
 - Fixed an issue that F12 can't recover the screen
 
 # 0.9.10.3
-- [Beta] `vsync=False` in function `start`
-- [Beta] Added parameter `timeit` to all function of sound playing and figure displaying
+- [Beta] `vsync=False` in method `start`
+- [Beta] Added parameter `timeit` to all method of sound playing and figure displaying
 - [Beta] Changed the executing order of flip() and sendTrigger() for the parameter `trigger`
 
 # 0.9.10.2
@@ -67,32 +70,32 @@
 - The program will print the path of current Expy
 
 # 0.9.10.1
-- Added function `changeOnTracks`
-- Renamed the function `mono2stereo` to `toStereoArray`
-- Renamed the function `change_volume` to `changeVolume`
+- Added method `changeOnTracks`
+- Renamed the method `mono2stereo` to `toStereoArray`
+- Renamed the method `change_volume` to `changeVolume`
 - Added parameter `stereo_array_format` to `loadSound`, `loadManySound`, `makeBeep`, and `makeNoise`.
-- Renamed function  `normal_procedure` to `normalProcedure`
-- Renamed function  `playSound` to `playBusySound`.
-- New a function named `playSound`, its parameter `busy` determines the run of `playBusySound` or `playFreeSound`
-- Added parameter `vsync` to function `start`
-- [Beta] Added parameter `trigger` to all function of sound playing and figure displaying
+- Renamed method  `normal_procedure` to `normalProcedure`
+- Renamed method  `playSound` to `playBusySound`.
+- New a method named `playSound`, its parameter `busy` determines the run of `playBusySound` or `playFreeSound`
+- Added parameter `vsync` to method `start`
+- [Beta] Added parameter `trigger` to all method of sound playing and figure displaying
 
 # 0.9.9
 - Fixed possible issues of reading setting file
 - Automaticly create setting file if it doesn't exist
-- Changed default value of parameter `port` to '' in function `start`
-- Added plug-in function `normalProcedure`
-- Added function `getSubjectID`
-- Added function `playAlterableSound`
-- Readded function `makeNoise`
-- Separate function `playSound` by the parameter `blocking`. Now the `blocking=True` version is named as `playSound`, and the `blocking=False` version is named as `playFreeSound`
+- Changed default value of parameter `port` to '' in method `start`
+- Added plug-in method `normalProcedure`
+- Added method `getSubjectID`
+- Added method `playAlterableSound`
+- Readded method `makeNoise`
+- Separate method `playSound` by the parameter `blocking`. Now the `blocking=True` version is named as `playSound`, and the `blocking=False` version is named as `playFreeSound`
 
 # 0.9.8.1
-- Fixed an cruical issue of suspend function
+- Fixed an cruical issue of suspend method
 - Fixed an issue of serial port
 
 # 0.9.8
-- [**Important**] Unified the units of time. Now we use SECONDs in all functions.
+- [**Important**] Unified the units of time. Now we use SECONDs in all methods.
 - Added parameter `saveas` to `saveResult`. Now the `saveResult` support Excel file.
 - Now `saveResult` supported update the result.
 - Fixed an issue of `restTime`
@@ -101,14 +104,14 @@
 - Fixed an issue of reading setting file.
 
 # 0.9.7.6
-- Fixed issues of closing function on MacOSX
+- Fixed issues of closing method on MacOSX
 - Fixed an issue of suspending
-- Added function `makeNoise`
+- Added method `makeNoise`
 - Exchanged the parameter locations of *out_time* and *allowed_keys* in `alert`, `alertAndGo`, `alertAndQuit`
 
 # 0.9.7.5
-- Added function `log` that can record current event and its time from onset.
-- Added function `whilePressing` that allow something keeping while pressing.
+- Added method `log` that can record current event and its time from onset.
+- Added method `whilePressing` that allow something keeping while pressing.
 - Added parameter `action_while_pressing` to `waitForResponse`. Now `waitForResponse` supported action while pressing and could record the pressed duration.
 - Added parameter `allowed_clicks` to `waitForResponse`. Now `waitForResponse` supported mouse events.
 
@@ -128,7 +131,7 @@
 
 # 0.9.7
 - [**Important**] Changed the backend! Rewrite all the code!
-- Added the controller function `shared.changeState(idx, value)`
+- Added the controller method `shared.changeState(idx, value)`
 - Coordinate change: (0, 0) means lower-left at screen
 - The change of position benchmark definition in `drawXXX`: 
     - [old way] anchor="upper_left"
@@ -154,7 +157,7 @@
 - Silenced the effect of parameter "rotate" to all the `drawXXX`. I will active them in a future version.
 
 # 0.9.6.1
-- Renamed all the functions to the CamelCase
+- Renamed all the methods to the CamelCase
 
 # 0.9.6
 - Renamed the `tip` to `alert`
@@ -209,11 +212,11 @@
 - Press F12 to suspend the program, and press anykey to continue.
 - `recordSound_tofile` and `recordSound` allowed press F12 to suspend and ESC to quit.
 - Added the parameter "blocking" to `playSound`
-- Now the `getPos` function can use more position's benchmarks: center(default), upper_left, upper_right, lower_left, lower_right, upper_center, left_center, lower_center, right_center
-- All the `drawXXX` functions support the "benchmark" parameter 
+- Now the `getPos` method can use more position's benchmarks: center(default), upper_left, upper_right, lower_left, lower_right, upper_center, left_center, lower_center, right_center
+- All the `drawXXX` methods support the "benchmark" parameter 
 - Custom fonts size in setting.txt
 - Removed `drawFixed`,`drawWord`
-- 'sendTrigger' function
+- 'sendTrigger' method
 - Added the parameter "feedback" to `recordSound`
 
 ---
