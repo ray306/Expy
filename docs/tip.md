@@ -11,8 +11,11 @@ The method `show` will keep running and blocking the experiment procedure for a 
 All the numbers should given based on second. 
 
 ##### About "shared.start_tp"
-Normally, the commands with the parameter "out_time" will keep running for the duration of "out_time". Thus the onset of "out_time" is the onset of those commands. 
-But we sometimes want the "out_time" to refer to longer time -- the onset need to be flexible. In that case, you should setted the "shared.start_tp = time.time()" before those commands, the "out_time" would mean the duration between "shared.start_tp = time.time()" and those commands.
+Normally, the method (e.g. `show` and `waitForResponse`) with the parameter "out_time" will keep running for the duration of "out_time". Thus the onset of "out_time" is the onset of those commands. 
+But we sometimes want the "out_time" to refer to longer time -- the onset should be refered to another timepoint. In that case, you should setted the "shared.start_tp = time.time()" before those commands, the "out_time" would mean the duration between "shared.start_tp = time.time()" and those commands.
+
+##### The default value of timing onset
+If not assigned, the default value of timing onset, which means the value of "shared.start_tp", will be the ending time of last `win.flip()`.
 
 ### Object position
 ---
@@ -44,7 +47,6 @@ The default anchor of an object is its lower-left corner. If you want another an
 e.g. 
 > drawText(text, font='Source Han Sans SC Normal')
 
----
 #### Supported colornames
 C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy
 

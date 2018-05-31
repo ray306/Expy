@@ -22,7 +22,6 @@ def clear(debugging=True):
         shared.win.clear()
         shared.win.flip() 
 
-
 def show(out_time=False, clean_screen=True, stop_signal=None, backup=None, debugging=True):
     '''
     Display current canvas buffer, and keep the display during a limited period.
