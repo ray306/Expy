@@ -5,19 +5,18 @@
 [pypi-v-image]: https://img.shields.io/pypi/v/expy.png
 [pypi-v-link]: https://pypi.python.org/pypi/expy
 
-Expy is an easy-yet-powerful toolbox for psychology / neuroscience experiments. It's aimed at setting up an experiment without struggling with the manual production of stimuli, data loading and storing, or the other time-consuming works, by using various module functions.
-Expy is designed for psycholinguistic experiments, but it's also suitable for any other experiments.
+Expy is an simple-yet-powerful experiment framework builder for cognitive tasks. It's aimed at setting up an experiment without struggling with the manual production of stimuli, data loading and storing, or the other time-consuming works.
 
 **Highlights**:
 
 - Various stimuli modules (not need for preparation of massive stimuli pictures).
-- Various procedure-controlling modules (instruction, alert, rest-stage, etc.)
+- Various procedure-controlling modules (instruction, tip, rest-stage, etc.)
 - Convenient for stimuli loading and responses recording.
-- Getting participants' response data (from keyboard, mouse, or joystick) by one function.
+- Convenient for getting participants' response data (from keyboard, mouse, or joystick).
 - Sending triggers easily.
 - Easy pause or exit from the program.
 
-**limitation**:
+**Limitation**:
 
 - Not good at drawing complex shape (e.g.,grating) as stimuli (however, you could draw them as loaded pictures).
 
