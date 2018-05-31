@@ -129,7 +129,7 @@ def getInput(pre_text, out_time=0, font=shared.default_font, size='normal_font_s
     clear()
     return input_text
 
-def getSubjectID(pre_text):
+def getSubjectID(pre_text='Please enter the subject ID:'):
     '''
     Get subject's ID.
 

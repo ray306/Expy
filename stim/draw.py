@@ -36,10 +36,13 @@ def getPos(x=shared.win_width // 2, y=shared.win_height // 2, w=0, h=0, anchor_x
 
     '''
     if type(x) is float:
-        x, y = (0.5 + x / 2) * \
-            shared.win_width, (0.5 + y / 2) * shared.win_height
+        x = (0.5 + x / 2) * shared.win_width
+    if type(y) is float:
+        y = (0.5 + y / 2) * shared.win_height
     if w < 1:
-        w, h = w * shared.win_width, h * shared.win_height
+        w = w * shared.win_width
+    if h < 1:
+        h = h * shared.win_height
 
     if anchor_x == 'center':
         x = x - w / 2

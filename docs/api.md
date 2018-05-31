@@ -929,7 +929,7 @@ If stim is not None, the stimuli data would attach to the response result.
 Parameters
 ----------
 resp: list
-    The list of response data
+    The list of response data (dict hasn't been supported)
 block_tag: str (default:''), or int
     The tag of current block
 columns: list
@@ -1066,7 +1066,7 @@ input_text: str
 ```
 
 
-- **getSubjectID(pre_text)**
+- **getSubjectID(pre_text='Please enter the subject ID:')**
 
 
 ```

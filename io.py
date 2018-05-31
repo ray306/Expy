@@ -150,7 +150,7 @@ def saveResult(resp, block_tag='', columns=['respKey', 'RT'], stim=None, stim_co
     Parameters
     ----------
     resp: list
-        The list of response data
+        The list of response data (dict hasn't been supported)
     block_tag: str (default:''), or int
         The tag of current block
     columns: list
@@ -169,9 +169,10 @@ def saveResult(resp, block_tag='', columns=['respKey', 'RT'], stim=None, stim_co
     if not os.path.exists('result'):
         os.mkdir('result')
 
-    # if len(resp[0]) != columns:
-    #     columns = [str(i) for i in range(len(resp[0]))]
-    #     print('Columns count not matches the result!')
+    columns_count = len(resp[0]) if isinstance(resp[0], (list, tuple)) else 1
+    if columns_count != len(columns):
+        columns = [f'resp{i+1}' for i in range(columns_count)]
+        print('Columns count setting doesn\'t match the result!')
 
     result = pd.DataFrame(resp, columns=columns)
     if not stim is None:

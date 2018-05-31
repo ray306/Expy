@@ -5,6 +5,10 @@
 - Format text draw method
 - abstract every methods in the beginning - to speed up the startup 
 
+# 0.9.13.7
+- Now the parameter `w`,`h`,`x`,`y` in `getPos()` can be set as int or float indepently.
+- Set the default text 'Please enter the subject ID:' for `getSubjectID()`
+
 # 0.9.13.6
 - Fixed an issue that `clean_screen=False` doesn't work in `show()`
 
