@@ -1,6 +1,6 @@
 # coding:utf-8
 import sys
-sys.path = ['../']+sys.path
+sys.path = ['../../']+sys.path
 
 from expy import *  # Import the needed functions
 start(mouse_visible=True)  # Initiate the experiment environment
@@ -46,7 +46,11 @@ drawText('请按下键盘上的K或J，并过一会再松开')  # Draw text on t
 key, (RT, pressed_time) = waitForResponse([key_.K, key_.J], action_while_pressing=(print,0))
 alertAndGo('您刚刚按下了%d，按键前用时: %fs，按键用时%fs' % (key, RT, pressed_time))  # Display the keypress
 
-drawText('请用鼠标左键点击方块',y=-0.5)  # Draw text on the canvas and display it
-drawRect(w =0.1, h=0.1, color=C_white) # Draw a button
-(button, (x, y)), rt = waitForResponse(allowed_clicks=ClickRange((-0.1,0.1),(-0.1,0.1),mouse_.LEFT))  # Waiting for mouse click and get the click
+
+# x, y, w, h = drawRect(w=0.1, h=0.1, color=C_red,
+#                       show_now=False)  # Draw a button
+# drawText('点击')  # Draw text on the canvas and display it
+# (button, (x, y)), rt = waitForResponse(allowed_clicks=ClickRange((x,x+w),(y,y+h),mouse_.LEFT))  # Waiting for mouse click and get the click
+x, y, rt, button = button(text='点击', w=0.1, h=0.1,
+                          x=0.0, y=0.0, color=C_maroon)
 alertAndGo('您刚刚在（X=%d，Y=%d）处按下了%d，用时: %fs' % (x, y, button, rt))  # Display the event

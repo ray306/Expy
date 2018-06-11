@@ -231,7 +231,6 @@ def drawRect(w, h, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='ce
     else:
         shared.need_update = True
 
-
 def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='center', anchor_y='center', show_now=True, display=True, timeit=False, trigger=None):
     '''
     Draw circle on the canvas.
@@ -313,7 +312,6 @@ def drawCircle(r, x=0.0, y=0.0, fill=True, color=C_white, width=1, anchor_x='cen
         shared.need_update = False
     else:
         shared.need_update = True
-
 
 def drawPoints(points, color=C_white, size=1, show_now=True, display=True, timeit=False, trigger=None):
     '''

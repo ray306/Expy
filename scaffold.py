@@ -32,6 +32,52 @@ def timing(name):
     else:
         return np.random.randint(int(val[0]*1000), int(val[1]*1000))/1000
 
+def button(text='Click', w=0.1, h=0.1, x=0.0, y=0.0, color=C_maroon, font_size='stim_font_size', font_color=C_white):
+    '''
+    Draw a clicked rectangle button with text.
+
+    Parameters
+    ----------
+    text: str
+        The text on the button.
+    w: float or int (default: 0.1)
+        The width of rectangle.
+        If w is float, it represents the width scale on screen,
+        if int, it represents the width in pixel.
+    h: float or int (default: 0.1)
+        The height of rectangle.
+        Similar with x. 
+    x: int, or float (default: 0.0)
+        The x coordinate of text. If x is int, the coordinate would be pixel number to the left margin of screen; If x is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    y: int, or float (default: 0.0)
+        The y coordinate of text. If y is int, the coordinate would be pixel number to the upper margin of screen; If y is float (-1~1), the coordinate would be percentage of half screen to the screen center.
+    color: RGB tuple, or pre-defined variable (default:'C_maroon')
+        The font color of text, you can either use an RGB value or a pre-defined color name. 
+        The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+    font_size: int, or str (default: 'stim_font_size')
+        The font size of text, you can either use a number or a pre-defined number name.
+    font_color: RGB tuple, or pre-defined variable (default:'C_white')
+        The font color of text, you can either use an RGB value or a pre-defined color name. 
+        The pre-defined colors include C_black, C_white, C_red, C_lime, C_blue, C_yellow, C_aqua, C_fuchsia, C_silver, C_gray, C_maroon, C_olive, C_green, C_purple, C_teal, C_navy.
+        
+    Return
+    ---------
+    x: int
+        X value of clicked position
+    y: int
+        Y value of clicked position 
+    rt: int
+        The second count since the function starts.
+    button: int
+        The id of clicked mouse button
+    '''
+    drawRect(w, h, x, y, color=color, show_now=False)  # Draw a button
+    # Draw text on the canvas and display it
+    drawText(text, size=font_size, color=font_color)
+    (button, (x, y)), rt = waitForResponse(allowed_clicks=ClickRange(
+        (x-w/2, x+w/2), (y-h/2, y+h/2), shared.mouse_.LEFT))  # Waiting for mouse click and get the click
+    return x, y, rt, button
+
 def textSlide(text, font=shared.default_font, size='normal_font_size', color=C_white, rotation=0, x=0.0, y=0.0, anchor_x='center', anchor_y='center', background_image=None):
     '''
     Display a new text slide right now.

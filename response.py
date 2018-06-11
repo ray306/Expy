@@ -43,7 +43,7 @@ class ClickRange():
     def __init__(self, x, y, button):
         def toPixelRange(a, b, ref):
             if type(a) is float:
-                a, b = (0.5 + a / 2) * ref, (0.5 + b / 2) * ref
+                a, b = (0.5 + a) * ref, (0.5 + b) * ref
                 return range(int(a),int(b))
             elif type(a) is int:
                 return range(a,b)
@@ -78,11 +78,11 @@ def setClickMapping(allowed_clicks):
     keys = allowed_clicks
     mapping = allowed_clicks
 
-    if type(allowed_clicks) == dict:  # eg. allowed_clicks = {key_.F: 'T', key_.J: 'F'}
+    if type(allowed_clicks) == dict:  # eg. allowed_clicks = C1
         keys = list(allowed_clicks.keys())
-    elif type(allowed_clicks) == list:  # eg. allowed_clicks = [key_.F, key_.J]
+    elif type(allowed_clicks) == list:  # eg. allowed_clicks = [C1, C2])
         mapping = {k: k for k in allowed_clicks}
-    elif type(allowed_clicks) == ClickRange:  # eg. allowed_clicks = key_.ENTER
+    elif type(allowed_clicks) == ClickRange:  # eg. {C1:'F',C2:'J'})
         keys = [allowed_clicks]
         mapping = {allowed_clicks: allowed_clicks}
 
