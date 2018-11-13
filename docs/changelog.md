@@ -1,9 +1,11 @@
 # Todo
-- the program won;t quit automatically at the end (but alertAndQuit works)
 - auto check the working port
 - two screen or online report : flask server html ajax
 - Format text draw method
 - abstract every methods in the beginning - to speed up the startup 
+
+# 0.9.13.9
+- Fixed an important issue that sleeping interval in `waitForResponse()` is 0.1s so that the result could be strongly biased!
 
 # 0.9.13.8
 - Added method `button()`

@@ -136,7 +136,7 @@ def wait(out_time):
                 return e['key'], e['time']- shared.start_tp
             elif e['type']=='mouse_press':
                 return (e['button'], e['pos']), e['time']- shared.start_tp
-        shared.time.sleep(0.1)
+        shared.time.sleep(0.001)
 
 def whilePressing(job, *param):
     while not shared.figure_released:
